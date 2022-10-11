@@ -4,7 +4,7 @@ const cors = require('cors');
 const HTTP_PORT = 8500;
 const fs = require('fs');
 const exec = require('child_process').exec;
-const pathModel = "/Users/bi004042/Documents/CodeDocuments/projetos2/tag-customizer/etiquetaApi/modelo/ModeloEtiquetaProduto.txt"
+const pathModel = "/Users/bi004042/Documents/CodeDocuments/projetos2/LabelCustomizer_StockProject/etiquetaApi/modelo/ModeloEtiquetaProduto.txt"
 
 app.use(express.json());
 app.use(cors());
@@ -19,7 +19,7 @@ app.post('/procces', function (req, res) {
     let campoCod = req.body.campoCod
     let campoDesc1 = req.body.campoDesc1
     let campoDesc2 = req.body.campoDesc2
-    const pathSave = "/Users/bi004042/Documents/CodeDocuments/projetos2/tag-customizer/etiquetaApi/modelo/"+campoCod+".zpl"
+    const pathSave = "/Users/bi004042/Documents/CodeDocuments/projetos2/LabelCustomizer_StockProject/etiquetaApi/modelo/"+campoCod+".zpl"
 
     //Read the zebra file and then, change some variables and finally save a new archieve
     fs.readFile(pathModel, 'utf8', function(err, data){
