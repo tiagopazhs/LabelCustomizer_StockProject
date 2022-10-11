@@ -1,0 +1,52 @@
+*{
+  background-color: black;
+  color: white;
+}
+
+.cssContainer{
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  width: 300;
+  border: 1px solid #000;
+}
+
+.cssBottoes{
+  flex-direction: row;
+  flex-wrap: wrap
+}
+
+.cssTela{
+  display: flex;
+  padding-left: 20;
+  padding-right: 20;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: #444;
+  flex-direction: column;
+  width: 260
+}
+
+
+.cssTelaOper{
+  font-size: 25;
+  color: #fff;
+  height: 20
+}
+
+.cssTelaRes{
+  font-size: 50;
+  color: #fff
+}
+
+.cssBtn{
+  font-size:30;
+  height:75;
+  width:74;
+  padding:20;
+  background-color: #000;
+  color: #fff;
+  border-color: #000;
+  text-align: center;
+  outline: none;
+} 
