@@ -1,0 +1,11 @@
+.Fazer Backup no git Hub
+
+.Montar o componente das duas divs grandonas
+    .Fazer as subNavBars
+
+.Organizar componentes
+
+.Montr lista suspensa loja do Galo, InterStore e MRV
+
+
+. diminuir uns 20% a navBar
