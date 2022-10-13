@@ -4,10 +4,9 @@
 
 .printerPage{
   background-color: #F5F6FB;
-  color: #F07839;
   font-family: Inter,Arial,Helvetica,sans-serif;
   margin: 0px;
-  height: 620px;
+  height: 700px;
 }
 
 /* Navbar  */
@@ -82,18 +81,125 @@
 
 /* Body */
 
+/* NavBar Body */
+
+.navBarPrinter{
+  display: flex;
+}
+
+.storeOptions{
+  display: flex;
+  width: 50%;
+  justify-content: start;
+  align-items: center;
+}
+
+.logoCompany{
+  background-color: #FFFFFF;
+  width: 45px;
+  height: 45px;
+  margin-left: 3%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  border-radius: 50%;
+}
+
+.companyName{
+  margin-left: 2%;
+  margin-right: 2%;
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+
+#isIcon{
+  width: 95%;
+  height: 21%;
+}
+
+#setaBaixoIcon{
+  width: 20px;
+}
+
+.navBarActions{
+  display: flex;
+  width: 50%;
+  justify-content: end;
+  align-items: center;
+}
+
+#searchLabels{
+  height: 30%;
+  border: 0px;
+  padding: 0px;
+  height: 50%;
+  width: 43%;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px 0px 0px 6px;
+  color: #bfc0ca;
+}
+
+.divSearchIcon{
+  margin-right: 3%;
+  height: 50%;
+  width: 6%;
+  background-color:white;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  border-radius: 0px 6px 6px 0px;
+}
+
+#searchIcon{
+  height: 65%;
+}
+
+#searchIcon:hover {
+  cursor: pointer;
+}
+
+#btnNewPrinter{
+  margin-right: 3%;
+  width: 28%;
+  border: 0px;
+  color: #F07839;
+  height: 50%;
+  background-color: #FFFFFF;
+  border-radius: 6px;
+}
+
+#btnNewPrinter:hover {
+  cursor: pointer;
+  background-color: #faf0e4;
+}
+
+#optionIcon{
+  width: 4%;
+  height: 50%;
+  margin-right: 3%;
+}
+
+#optionIcon:hover {
+  cursor: pointer;
+}
+
+/* Printer Bar */
+
 .body{
   display: flex;
   width: 100%;
   height: 100%;
-  height: 470px;
+  height: 650px;
 }
 
 /* Body left */
 
 .navBarPrinter{
   background-color: #F07839;
-  height: 12%;
+  height: 10%;
   border-radius: 9px 9px 0px 0px;
 }
 
@@ -106,21 +212,29 @@
 }
 
 .midLane{
-  height: 71%;
+  height: 77%;
   display: flex;
 }
 
 .stageInput{
-  height: 50%;
+  width: 50%;
+  display: flex;
 }
 
 .stagePrinter {
-  height: 50%;
-  background-color: red;
+  width: 50%;
+  border-left: 1px solid #c3c3c359;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+#stagePrinterIcon{
+  width: 30%;
 }
 
 .footerBarPrinter{
-  height: 17%;
+  height: 13%;
   border-radius: 0px 0px 9px 9px;
 }
 
@@ -132,6 +246,22 @@
   margin: 1%;
   margin-left: 0;
   border-radius: 11px;
+}
+
+.navBarDash{
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  width: 100%;
+}
+
+#setaLeftIcon{
+  width: 12%;
+  height: 28%;
+}
+
+#setaLeftIcon:hover {
+  cursor: pointer;
 }
 
 

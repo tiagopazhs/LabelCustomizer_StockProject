@@ -1,17 +1,9 @@
-.Organizar componentes
+. Fazer container Right
+. Fazer container Left
 
-. Fazer as nav bares
-                        img InterStore  
-                        INTER STORE
-                        icon lista suspensa
-                        input fazer busca
-                        icone pesquisar
-                        botao nova impressao
-                        icone três pontinhos
+. Fazer footer
 
-
-                        icone seta expandir
-
+.Fazer lista de histórico de pedidos impressos
 
 .Montr lista suspensa loja do Galo, InterStore e MRV
 
