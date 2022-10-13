@@ -123,58 +123,58 @@ function Printer() {
                     <div className="midLane"> 
                         <div className="stageInput">
                             <div className="stageInputLeft">
-                                <div id="box1">
+                                <div className="divInput" id="box1">
                                     <p>Código do produto</p>
-                                    <input
+                                    <input className="inputTyped"
                                         id="input1"
                                         ref={firstInput} //referenciate a fiels for focus use
                                         value={codePrinter}
                                         onChange={e => setCodePrinter(e.target.value)} //save the type data in a variable
-                                        size="40"
                                         maxLength="14"
                                         onKeyDown={moveToSecondInput} //event executed when press enter
                                     />
                                 </div>
-                                <div id="box2">
+                                <div className="divInput" id="box2">
                                     <p>Descrição superior</p>
-                                    <input
+                                    <input className="inputTyped"
                                         id="input2"
                                         ref={secondInput} //referenciate a fiels for focus use
                                         value={descOnePrinter}
                                         onChange={e => setDescOnePrinter(e.target.value)} //save the type data in a variable
                                         type="text"
-                                        size="40" 
                                         onKeyDown={moveToThirdInput} //event executed when press enter
                                     />
                                 </div>
-                                <div id="box3">
+                                <div className="divInput" id="box3">
                                     <p>Descrição inferior</p>
-                                    <input
+                                    <input className="inputTyped"
                                         id="input3"
                                         ref={thirdInput} //referenciate a fiels for focus use
                                         value={descTwoPrinter}
                                         onChange={e => setDescTwoPrinter(e.target.value)} //save the type data in a variable
                                         type="text"
-                                        size="40"
                                         onKeyDown={handleKeyDown} //event executed when press enter
                                     />
                                 </div>
                             </div>
                             <div className="stageInputRight">
-                                <p>Pré-visualização</p>
-                                <img className="navBarIcons" id="landscapeIcon" src={landscape} alt="visualização de paisagem simbolizando campo vazio." />
-                                <p>Quantidade</p>
-                                <button>-</button>
-                                <input></input>
-                                <button>+</button>
-                                <button
-                                    id="btnInsert"
-                                    onClick={() => {
-                                        stageOfValidation()
-                                    }}
-                                    >inserir
-                                </button>
-                            </div>
+                               
+                                    <p>Pré-visualização</p>
+                                    <img id="landscapeIcon" src={landscape} alt="visualização de paisagem simbolizando campo vazio." />
+                                    <div className="qty">
+                                        <p>Quantidade</p>
+                                        <button>-</button>
+                                        <input></input>
+                                        <button>+</button>
+                                        <button
+                                            id="btnInsert"
+                                            onClick={() => {
+                                                stageOfValidation()
+                                            }}
+                                            >inserir
+                                        </button> 
+                                    </div>
+                              </div>
                         </div>                           
                         <div className="stagePrinter">
                             <img id="stagePrinterIcon" src={stagePrinter} alt="imagem de impressora." />
@@ -211,32 +211,32 @@ function Printer() {
                         <div className="labelHistory">
                             <p>Produto</p>
                             <p>100068</p>
-                            <img className="navBarIcons" id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
+                            <img id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
                         </div>
                         <div className="labelHistory">
                             <p>Produto</p>
                             <p>100068</p>
-                        <img className="navBarIcons" id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
+                        <img id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
                         </div>
                         <div className="labelHistory">
                             <p>Produto</p>
                             <p>100068</p>
-                        <img className="navBarIcons" id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
+                        <img id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
                         </div>
                         <div className="labelHistory">
                             <p>Produto</p>
                             <p>10002</p>
-                        <img className="navBarIcons" id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
+                        <img id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
                         </div>
                         <div className="labelHistory">
                             <p>Produto</p>
                             <p>10002</p>
-                        <img className="navBarIcons" id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
+                        <img id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
                         </div>
                         <div className="labelHistory">
                             <p>Produto</p>
                             <p>10002</p>
-                        <img className="navBarIcons" id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
+                        <img id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
                         </div>
                     </div>
                     <div className="footerBarPrinter" style={{boxShadow: '0px 0px 6px rgba(73, 87, 105, .24'}}>

@@ -1,5 +1,6 @@
 *{
   margin: 0px;
+  color: #495769;
 }
 
 .printerPage{
@@ -13,7 +14,6 @@
 
 .navBar{
   background-color: #FFFFFF;
-  color: #151515;
   display: flex;
   width: 100%;
   height: 50px;
@@ -48,6 +48,7 @@
   justify-content: center;
   display: flex;
   font-family: 'Sora';
+  font-weight: bold;
 }
 
 .divMidNavBar a{
@@ -66,7 +67,7 @@
   justify-content: right;
   display: flex;
   margin-right: 15px;
-  box-Shadow: 1000px 3000px 1000px #000000;
+  box-Shadow: 1000px 3000px 1000px #151515;
 }
 
 .navBarIcons{
@@ -110,6 +111,8 @@
   margin-right: 2%;
   font-weight: bold;
   color: #FFFFFF;
+  font-family: 'Sora';
+  font-size: 12pt;
 }
 
 
@@ -219,6 +222,61 @@
 .stageInput{
   width: 50%;
   display: flex;
+  
+}
+
+.stageInputLeft{
+  display: grid;
+  align-items: center;
+  width: 50%;
+  margin: 10% 0% 15% 0%;
+}
+
+.divInput{
+  margin: 0% 10% 0% 20%;
+  align-items: center ;
+  height: 100%;
+}
+
+.divInput p{
+  font-size: 14px;
+  margin-bottom: 3px;
+  font-family: 'sans-serif';
+  font-weight: bold;
+}
+
+.inputTyped{
+  height: 32%;
+  width: 100%;
+  border: 1px solid #c3c3c359;
+  border-radius: 3%;
+}
+
+.stageInputRight{
+  width: 50%;
+  margin: 6% 0% 15% 0%;
+}
+
+.stageInputRight  p{
+  font-size: 14px;
+  margin-bottom: 3px;
+  font-family: 'sans-serif';
+  font-weight: bold;
+  margin: 0% 20% 3px 10%;
+}
+
+
+#landscapeIcon{
+  width: 35%;
+  height: 21%;
+  padding: 50px 50px 50px 50px;
+  border: 1px solid #c3c3c359;
+  border-radius: 5px;
+  margin: 0% 20% 8% 10%;
+}
+
+.qty{
+  margin: 0% 20% 8% 10%;
 }
 
 .stagePrinter {
