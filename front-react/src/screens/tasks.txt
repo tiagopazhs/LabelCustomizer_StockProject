@@ -1,11 +1,23 @@
-.Fazer Backup no git Hub
-
-.Montar o componente das duas divs grandonas
-    .Fazer as subNavBars
-
 .Organizar componentes
+
+. Fazer as nav bares
+                        img InterStore  
+                        INTER STORE
+                        icon lista suspensa
+                        input fazer busca
+                        icone pesquisar
+                        botao nova impressao
+                        icone três pontinhos
+
+
+                        icone seta expandir
+
 
 .Montr lista suspensa loja do Galo, InterStore e MRV
 
 
 . diminuir uns 20% a navBar
+
+. Fazer funcionalidade de carregamento da tela
+
+. Corrigir hover dos icones a direita da main nav bar: Ou mudar para icone laranja ou somente corrigir mesmo

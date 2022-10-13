@@ -90,73 +90,87 @@ function Printer() {
                     <img className="navBarIcons" id="signInIcon" src={signIn} alt="desc" />
                 </span>
             </div>
-            <div className="mainPrinter">
-                {/* <p id="loading">carregando...</p> */}
-                <div className="midLane">                            
-                    <div id="box1">
-                        <p>Codigo de barras</p>
-                        <input
-                            id="input1"
-                            ref={firstInput} //referenciate a fiels for focus use
-                            value={codePrinter}
-                            onChange={e => setCodePrinter(e.target.value)} //save the type data in a variable
-                            size="40"
-                            maxLength="14"
-                            onKeyDown={moveToSecondInput} //event executed when press enter
-                        />
+
+            <div className="body">
+                <div className="mainPrinter">
+                    <div className="navBarPrinter">
                     </div>
-                    <div id="box2">
-                        <p>descrição 1</p>
-                        <input
-                            id="input2"
-                            ref={secondInput} //referenciate a fiels for focus use
-                            value={descOnePrinter}
-                            onChange={e => setDescOnePrinter(e.target.value)} //save the type data in a variable
-                            type="text"
-                            size="40" 
-                            onKeyDown={moveToThirdInput} //event executed when press enter
-                        />
+                    <div className="midLane"> 
+                        <div className="stageInput">
+                            <div id="box1">
+                                <p>Codigo de barras</p>
+                                <input
+                                    id="input1"
+                                    ref={firstInput} //referenciate a fiels for focus use
+                                    value={codePrinter}
+                                    onChange={e => setCodePrinter(e.target.value)} //save the type data in a variable
+                                    size="40"
+                                    maxLength="14"
+                                    onKeyDown={moveToSecondInput} //event executed when press enter
+                                />
+                            </div>
+                            <div id="box2">
+                                <p>descrição 1</p>
+                                <input
+                                    id="input2"
+                                    ref={secondInput} //referenciate a fiels for focus use
+                                    value={descOnePrinter}
+                                    onChange={e => setDescOnePrinter(e.target.value)} //save the type data in a variable
+                                    type="text"
+                                    size="40" 
+                                    onKeyDown={moveToThirdInput} //event executed when press enter
+                                />
+                            </div>
+                            <div id="box3">
+                                <p>descrição 2</p>
+                                <input
+                                    id="input3"
+                                    ref={thirdInput} //referenciate a fiels for focus use
+                                    value={descTwoPrinter}
+                                    onChange={e => setDescTwoPrinter(e.target.value)} //save the type data in a variable
+                                    type="text"
+                                    size="40"
+                                    onKeyDown={handleKeyDown} //event executed when press enter
+                                />
+                            </div>
+                            <button
+                                id="btnInsert"
+                                onClick={() => {
+                                    stageOfValidation()
+                                }}
+                                >inserir
+                            </button>
+                        </div>                           
+                        <div className="stagePrinter" >
+                            Aqui esta a estage printer
+                        </div>
                     </div>
-                    <div id="box3">
-                        <p>descrição 2</p>
-                        <input
-                            id="input3"
-                            ref={thirdInput} //referenciate a fiels for focus use
-                            value={descTwoPrinter}
-                            onChange={e => setDescTwoPrinter(e.target.value)} //save the type data in a variable
-                            type="text"
-                            size="40"
-                            onKeyDown={handleKeyDown} //event executed when press enter
-                        />
+                    <div className="footerBarPrinter" style={{boxShadow: '0px 0px 6px rgba(73, 87, 105, .24'}}>
+                        <button // clean input fields
+                            id="btnReset" 
+                            onClick={() => cleanFields()}
+                            >Reiniciar
+                        </button>
+                        <button // Call the post function. parameters: url that server is running, requisition type, data to post & clean input fields
+                                id="btnEnter" 
+                                onClick={() => {
+                                postTrigger(`${url}/procces`, "POST", {
+                                    "campoCod": codePrinter,
+                                    "campoDesc1": descOnePrinter,
+                                    "campoDesc2": descTwoPrinter});
+                                cleanFields()}}
+                                >Imprimir
+                            </button>
                     </div>
                 </div>
-                <div className="bottomLane" >
-                     <button // clean input fields
-                        id="btnReset" 
-                        onClick={() => cleanFields()}
-                        >Reiniciar
-                    </button>
-                    <button
-                        id="btnInsert"
-                        onClick={() => {
-                            stageOfValidation()
-                        }}
-                        >inserir
-                    </button>
-                    <button // Call the post function. parameters: url that server is running, requisition type, data to post & clean input fields
-                        id="btnEnter" 
-                        onClick={() => {
-                        postTrigger(`${url}/procces`, "POST", {
-                            "campoCod": codePrinter,
-                            "campoDesc1": descOnePrinter,
-                            "campoDesc2": descTwoPrinter});
-                        cleanFields()}}
-                        >Imprimir
-                    </button>
+                <div className="labelDash">
+                    <div className="navBarPrinter">
+                    </div>
+                    <div className="midLane"> 
+                    </div>
+                    <div className="footerBarPrinter" style={{boxShadow: '0px 0px 6px rgba(73, 87, 105, .24'}}>
+                    </div>
                 </div>
-            </div>
-            <div className="labelDash">
-                Aqui está o label dash
             </div>
         </div>
     )

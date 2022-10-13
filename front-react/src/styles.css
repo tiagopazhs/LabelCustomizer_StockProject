@@ -2,15 +2,12 @@
   margin: 0px;
 }
 
-/* .printerPage{
-  display: flex;
-} */
-
 .printerPage{
   background-color: #F5F6FB;
   color: #F07839;
   font-family: Inter,Arial,Helvetica,sans-serif;
   margin: 0px;
+  height: 620px;
 }
 
 /* Navbar  */
@@ -51,6 +48,7 @@
   align-items: center;
   justify-content: center;
   display: flex;
+  font-family: 'Sora';
 }
 
 .divMidNavBar a{
@@ -81,6 +79,62 @@
   width: 22px;
   cursor: pointer;
 }
+
+/* Body */
+
+.body{
+  display: flex;
+  width: 100%;
+  height: 100%;
+  height: 470px;
+}
+
+/* Body left */
+
+.navBarPrinter{
+  background-color: #F07839;
+  height: 12%;
+  border-radius: 9px 9px 0px 0px;
+}
+
+
+.mainPrinter{
+  background-color: white;
+  width: 85%;
+  margin: 1%;
+  border-radius: 9px;
+}
+
+.midLane{
+  height: 71%;
+  display: flex;
+}
+
+.stageInput{
+  height: 50%;
+}
+
+.stagePrinter {
+  height: 50%;
+  background-color: red;
+}
+
+.footerBarPrinter{
+  height: 17%;
+  border-radius: 0px 0px 9px 9px;
+}
+
+/* Body right */
+
+.labelDash{
+  background-color: white;
+  width: 15%;
+  margin: 1%;
+  margin-left: 0;
+  border-radius: 11px;
+}
+
+
 
 /* for headers, user this font-family */
 /* font-family: 'Sora'; */
