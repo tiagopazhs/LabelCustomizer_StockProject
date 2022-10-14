@@ -172,9 +172,11 @@
   height: 50%;
   background-color: #FFFFFF;
   border-radius: 6px;
+  font-weight: bold;
+  font-size: 13px;
 }
 
-#btnNewPrinter:hover {
+#btnNewPrinter:hover, #btnLess:hover, #btnMost:hover, #btnInsert:hover, #btnReset:hover, #btnEnter {
   cursor: pointer;
   background-color: #faf0e4;
 }
@@ -222,20 +224,19 @@
 .stageInput{
   width: 50%;
   display: flex;
-  
 }
 
 .stageInputLeft{
   display: grid;
   align-items: center;
   width: 50%;
-  margin: 10% 0% 15% 0%;
+  margin: 10% 0% 5% 0%;
 }
 
 .divInput{
-  margin: 0% 10% 0% 20%;
   align-items: center ;
   height: 100%;
+  margin: 0% 10% 0% 20%;
 }
 
 .divInput p{
@@ -246,15 +247,21 @@
 }
 
 .inputTyped{
-  height: 32%;
-  width: 100%;
   border: 1px solid #c3c3c359;
-  border-radius: 3%;
+  width: 100%;
+  height: 23%;
+  background-color: #FFFFFF;
+  border-radius: 6px;
 }
 
 .stageInputRight{
   width: 50%;
-  margin: 6% 0% 15% 0%;
+}
+
+.chooseQty{
+  height: 80%;
+  padding: 20% 20% 0% 10%;
+  /* background-color: yellow; */
 }
 
 .stageInputRight  p{
@@ -262,21 +269,72 @@
   margin-bottom: 3px;
   font-family: 'sans-serif';
   font-weight: bold;
-  margin: 0% 20% 3px 10%;
 }
 
+.divLandsCapeIcon{
+  height: 42.6%;
+  display: flex;
+  border: 1px solid #c3c3c359;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  margin-bottom: 11%
+}
 
 #landscapeIcon{
-  width: 35%;
-  height: 21%;
-  padding: 50px 50px 50px 50px;
-  border: 1px solid #c3c3c359;
+  height: 50%;
   border-radius: 5px;
-  margin: 0% 20% 8% 10%;
 }
 
 .qty{
-  margin: 0% 20% 8% 10%;
+  display: flex;
+  margin-bottom: 11%;
+  height: 8.3%;
+}
+
+#inpQty{
+  height: 30%;
+  border: 1px solid #c3c3c359;
+  padding: 0px;
+  height: 93%;
+  width: 63%;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+#btnMost{
+  width: 28%;
+  color: #F07839;
+  height: 100%;
+  background-color: #FFFFFF;
+  border: 1px solid #F07839;
+  border-radius: 0px 6px 6px 0px;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+#btnLess{
+  width: 28%;
+  color: #F07839;
+  height: 100%;
+  background-color: #FFFFFF;
+  border: 1px solid #F07839;
+  border-radius: 6px 0px 0px 6px;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+#btnInsert{
+  width: 100%;
+  color: #F07839;
+  height: 8.5%;
+  background-color: #FFFFFF;
+  border: 1px solid #F07839;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 13px;
 }
 
 .stagePrinter {
@@ -292,8 +350,34 @@
 }
 
 .footerBarPrinter{
+  display: flex;
   height: 13%;
   border-radius: 0px 0px 9px 9px;
+  align-items: center;
+}
+
+#btnReset{
+  margin-right: 3%;
+  width: 28%;
+  color: #F07839;
+  height: 39%;
+  background-color: #FFFFFF;
+  border: 1px solid #F07839;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+#btnEnter{
+  margin-right: 3%;
+  width: 28%;
+  color: #FFFFFF;
+  height: 39%;
+  background-color:#F07839;
+  border: 1px solid  #F07839;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 13px;
 }
 
 /* Body right */

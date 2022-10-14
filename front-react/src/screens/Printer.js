@@ -158,23 +158,26 @@ function Printer() {
                                 </div>
                             </div>
                             <div className="stageInputRight">
-                               
-                                    <p>Pré-visualização</p>
-                                    <img id="landscapeIcon" src={landscape} alt="visualização de paisagem simbolizando campo vazio." />
-                                    <div className="qty">
-                                        <p>Quantidade</p>
-                                        <button>-</button>
-                                        <input></input>
-                                        <button>+</button>
-                                        <button
-                                            id="btnInsert"
-                                            onClick={() => {
-                                                stageOfValidation()
-                                            }}
-                                            >inserir
-                                        </button> 
+                                <div className="chooseQty" >
+                                    <p  id="qtyVis"  >Pré-visualização</p>
+                                    <div className="divLandsCapeIcon">
+                                        <img id="landscapeIcon" src={landscape} alt="visualização de paisagem simbolizando campo vazio." />
                                     </div>
-                              </div>
+                                    <p>Quantidade</p>
+                                    <div className="qty" style={{display: 'flex'}} >
+                                        <button id="btnLess" >-</button>
+                                        <input  value="0,00" id="inpQty" ></input>
+                                        <button id="btnMost">+</button>
+                                    </div>
+                                    <button
+                                        id="btnInsert"
+                                        onClick={() => {
+                                            stageOfValidation()
+                                        }}
+                                        >inserir
+                                    </button> 
+                                </div>
+                            </div>
                         </div>                           
                         <div className="stagePrinter">
                             <img id="stagePrinterIcon" src={stagePrinter} alt="imagem de impressora." />
@@ -213,31 +216,7 @@ function Printer() {
                             <p>100068</p>
                             <img id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
                         </div>
-                        <div className="labelHistory">
-                            <p>Produto</p>
-                            <p>100068</p>
-                        <img id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
-                        </div>
-                        <div className="labelHistory">
-                            <p>Produto</p>
-                            <p>100068</p>
-                        <img id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
-                        </div>
-                        <div className="labelHistory">
-                            <p>Produto</p>
-                            <p>10002</p>
-                        <img id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
-                        </div>
-                        <div className="labelHistory">
-                            <p>Produto</p>
-                            <p>10002</p>
-                        <img id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
-                        </div>
-                        <div className="labelHistory">
-                            <p>Produto</p>
-                            <p>10002</p>
-                        <img id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
-                        </div>
+                        
                     </div>
                     <div className="footerBarPrinter" style={{boxShadow: '0px 0px 6px rgba(73, 87, 105, .24'}}>
                     </div>
