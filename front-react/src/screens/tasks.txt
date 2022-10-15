@@ -1,14 +1,10 @@
-. Fazer container Right
-. Fazer container Left
+.Montar lista suspensa loja do Galo, InterStore e MRV
 
-. Fazer footer
+.mudar a cor dos inputs ao clicar
 
-.Fazer lista de histórico de pedidos impressos
+.corrigir avisos que estào dando no terminal
 
-.Montr lista suspensa loja do Galo, InterStore e MRV
-
-
-. diminuir uns 20% a navBar
+.Fazer tela 2
 
 . Fazer funcionalidade de carregamento da tela
 

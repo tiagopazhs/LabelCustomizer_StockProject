@@ -176,7 +176,7 @@
   font-size: 13px;
 }
 
-#btnNewPrinter:hover, #btnLess:hover, #btnMost:hover, #btnInsert:hover, #btnReset:hover, #btnEnter {
+#btnNewPrinter:hover, #btnLess:hover, #btnMost:hover, #btnInsert:hover, #btnReset:hover, #btnEnter:hover {
   cursor: pointer;
   background-color: #faf0e4;
 }
@@ -187,7 +187,7 @@
   margin-right: 3%;
 }
 
-#optionIcon:hover {
+#optionIcon:hover, #barCodeHistoryIcon:hover {
   cursor: pointer;
 }
 
@@ -357,8 +357,7 @@
 }
 
 #btnReset{
-  margin-right: 3%;
-  width: 28%;
+  width: 36%;
   color: #F07839;
   height: 39%;
   background-color: #FFFFFF;
@@ -366,11 +365,11 @@
   border-radius: 6px;
   font-weight: bold;
   font-size: 13px;
+  margin-left: 9.8%;
 }
 
 #btnEnter{
-  margin-right: 3%;
-  width: 28%;
+  width: 35%;
   color: #FFFFFF;
   height: 39%;
   background-color:#F07839;
@@ -378,6 +377,32 @@
   border-radius: 6px;
   font-weight: bold;
   font-size: 13px;
+  margin-left: 9.8%;
+}
+
+.sliceFooterPrinter{
+  width: 50%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  height: 100%;
+}
+
+#sliceFooterRigth{
+  justify-content: end;
+  margin-right: 2%;
+  width: 46%;
+}
+
+#font1Footer{
+  font-weight: bold;
+  margin-left: 2%;
+}
+
+#font2Footer{
+  font-weight: bold;
+  font-size: 30px;
+  margin-left: 2%;
 }
 
 /* Body right */
@@ -404,6 +429,60 @@
 
 #setaLeftIcon:hover {
   cursor: pointer;
+}
+
+#midLaneDash{
+  overflow:auto;
+  height: 478px;  
+  width: 100%;
+  display: block;
+  /* background-color: red; */
+  /* height: 80px; */
+  overflow-y: auto;
+  overflow-x: auto;
+  font-size: 18px;
+  /* direction: rtl; */
+}
+
+.labelHistory{
+  border: 1px solid #c3c3c359;
+  height: 23%;
+  margin: 12%;
+  margin-bottom: 0px;
+  /* margin-bottom: 0px; */
+  border-radius: 6px; 
+  align-items: center;
+  justify-content: center;
+}
+
+.divBarCodeDash{
+  border-radius: 50%;
+  background-color: gray;
+  margin: auto;
+  display: flex;
+  width: 50%; 
+  height: 59%;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 3px;
+}
+
+.textLabelHistory{
+  text-align: center;
+  font-size: 14px;
+  margin-top: 3px;
+  font-family: 'sans-serif';
+  font-weight: bold;
+}
+
+#textLabelHistory2{
+  font-weight: normal;
+  margin-bottom: 3px;
+}
+
+#barCodeHistoryIcon{
+  width: 60%;
+  /* margin: 10%; */
 }
 
 

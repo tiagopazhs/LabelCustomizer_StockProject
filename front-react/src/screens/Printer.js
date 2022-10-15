@@ -21,6 +21,35 @@ function Printer() {
     const [descOnePrinter, setDescOnePrinter] = useState('');
     const [descTwoPrinter, setDescTwoPrinter] = useState('');
 
+
+    const [food, setFood] = React.useState('fruit');
+    const [drink, setDrink] = React.useState('water');
+  
+    const handleFoodChange = (event) => {
+      setFood(event.target.value);
+    };
+  
+    const handleDrinkChange = (event) => {
+      setDrink(event.target.value);
+    };
+
+    const Dropdown = ({ label, value, options, onChange }) => {
+  return (
+    <label>
+      {label}
+      <select value={value} onChange={onChange}>
+        {options.map((option) => (
+          <option value={option.value}>{option.label}</option>
+        ))}
+      </select>
+    </label>
+  );
+};
+
+
+
+
+
     // Set variables that will be used in ref to move in fields
     const firstInput = useRef(null);
     const secondInput = useRef(null);
@@ -109,6 +138,36 @@ function Printer() {
                             </div>
                             <p className="companyName">INTER STORE</p>
                             <img id="setaBaixoIcon" src={setaBaixo} alt="icone lista suspensa" />
+
+
+                            <div>
+      <Dropdown
+        label="What do we eat?"
+        options={[
+          { label: 'Fruit', value: 'fruit' },
+          { label: 'Vegetable', value: 'vegetable' },
+          { label: 'Meat', value: 'meat' },
+        ]}
+        value={food}
+        onChange={handleFoodChange}
+      />
+
+      <Dropdown
+        label="What do we drink?"
+        options={[
+          { label: 'Water', value: 'water' },
+          { label: 'Beer', value: 'beer' },
+          { label: 'Wine', value: 'wine' },
+        ]}
+        value={drink}
+        onChange={handleDrinkChange}
+      />
+
+      <p>We eat {food}!</p>
+      <p>We drink {drink}!</p>
+    </div>
+
+
                         </div>
                         <div className="navBarActions" >
                             <input id="searchLabels" value={'Buscar no histórico de impressões'}></input>
@@ -185,23 +244,28 @@ function Printer() {
                     </div>
 
                     <div className="footerBarPrinter" style={{boxShadow: '0px 0px 6px rgba(73, 87, 105, .24'}}>
-                        <button // clean input fields
-                            id="btnReset" 
-                            onClick={() => cleanFields()}
-                            >Reiniciar
-                        </button>
-                        <button // Call the post function. parameters: url that server is running, requisition type, data to post & clean input fields
-                                id="btnEnter" 
-                                onClick={() => {
-                                postTrigger(`${url}/procces`, "POST", {
-                                    "campoCod": codePrinter,
-                                    "campoDesc1": descOnePrinter,
-                                    "campoDesc2": descTwoPrinter});
-                                cleanFields()}}
-                                >Imprimir
-                        </button>
-                        <p>Total</p>
-                        <p>0,00</p>
+                        <div className="sliceFooterPrinter" >
+                            <button // clean input fields
+                                id="btnReset" 
+                                onClick={() => cleanFields()}
+                                >Reiniciar
+                            </button>
+                            <button // Call the post function. parameters: url that server is running, requisition type, data to post & clean input fields
+                                    id="btnEnter" 
+                                    onClick={() => {
+                                    postTrigger(`${url}/procces`, "POST", {
+                                        "campoCod": codePrinter,
+                                        "campoDesc1": descOnePrinter,
+                                        "campoDesc2": descTwoPrinter});
+                                    cleanFields()}}
+                                    >Imprimir
+                            </button>
+                        </div>
+                        <div className="sliceFooterPrinter" id="sliceFooterRigth" >
+                            <p id="font1Footer" >Total</p>
+                            <p id="font2Footer" >0,00</p>
+                        </div>
+                        
                     </div>
                 </div>
                 <div className="labelDash">
@@ -210,13 +274,77 @@ function Printer() {
                             <img id="setaLeftIcon" src={setaLeft} alt="icone de seta." />
                         </div>
                     </div>
-                    <div className="midLane"> 
+                    <div className="midLane" id="midLaneDash"> 
                         <div className="labelHistory">
-                            <p>Produto</p>
-                            <p>100068</p>
-                            <img id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
+                            <p className="textLabelHistory" >Produto</p>
+                            <p className="textLabelHistory" id="textLabelHistory2" >100068</p>
+                            <div className="divBarCodeDash" >
+                                <img id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
+                            </div>
                         </div>
-                        
+                        <div className="labelHistory">
+                            <p className="textLabelHistory" >Produto</p>
+                            <p className="textLabelHistory" id="textLabelHistory2" >60001</p>
+                            <div className="divBarCodeDash" >
+                                <img id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
+                            </div>
+                        </div>
+                        <div className="labelHistory">
+                            <p className="textLabelHistory" >Produto</p>
+                            <p className="textLabelHistory" id="textLabelHistory2" >20036</p>
+                            <div className="divBarCodeDash" >
+                                <img id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
+                            </div>
+                        </div>
+                        <div className="labelHistory">
+                            <p className="textLabelHistory" >Produto</p>
+                            <p className="textLabelHistory" id="textLabelHistory2" >80007</p>
+                            <div className="divBarCodeDash" >
+                                <img id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
+                            </div>
+                        </div>
+                        <div className="labelHistory">
+                            <p className="textLabelHistory" >Produto</p>
+                            <p className="textLabelHistory" id="textLabelHistory2" >80008</p>
+                            <div className="divBarCodeDash" >
+                                <img id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
+                            </div>
+                        </div>
+                        <div className="labelHistory">
+                            <p className="textLabelHistory" >Produto</p>
+                            <p className="textLabelHistory" id="textLabelHistory2" >80009</p>
+                            <div className="divBarCodeDash" >
+                                <img id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
+                            </div>
+                        </div>
+                        <div className="labelHistory">
+                            <p className="textLabelHistory" >Produto</p>
+                            <p className="textLabelHistory" id="textLabelHistory2" >70005</p>
+                            <div className="divBarCodeDash" >
+                                <img id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
+                            </div>
+                        </div>
+                        <div className="labelHistory">
+                            <p className="textLabelHistory" >Produto</p>
+                            <p className="textLabelHistory" id="textLabelHistory2" >108000</p>
+                            <div className="divBarCodeDash" >
+                                <img id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
+                            </div>
+                        </div>
+                        <div className="labelHistory">
+                            <p className="textLabelHistory" >Produto</p>
+                            <p className="textLabelHistory" id="textLabelHistory2" >130009</p>
+                            <div className="divBarCodeDash" >
+                                <img id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
+                            </div>
+                        </div>
+                        <div className="labelHistory">
+                            <p className="textLabelHistory" >Produto</p>
+                            <p className="textLabelHistory" id="textLabelHistory2" >100004</p>
+                            <div className="divBarCodeDash" >
+                                <img id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
+                            </div>
+                        </div>
                     </div>
                     <div className="footerBarPrinter" style={{boxShadow: '0px 0px 6px rgba(73, 87, 105, .24'}}>
                     </div>
