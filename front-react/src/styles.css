@@ -41,6 +41,7 @@
   height: 68%;
 }
 
+
 .divMidNavBar{
   width: 60%;
   display: inline-block;
@@ -51,11 +52,11 @@
   font-weight: bold;
 }
 
-.divMidNavBar a{
+.divMidNavBar p{
   margin-right: 15%;
 }
 
-.divMidNavBar a:hover {
+.divMidNavBar p:hover {
   cursor: pointer;
   color:#F07839;
 }
@@ -91,15 +92,74 @@
 .storeOptions{
   display: flex;
   width: 50%;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
+}
+
+#mainDropDown{
+  display: flex;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  background-color: #F07839;
+}
+
+.css-1n7v3ny-option, .css-tj5bde-Svg path, .css-319lph-ValueContainer, .css-1hb7zxy-IndicatorsContainer, .css-1okebmr-indicatorSeparator, .css-tlfecz-indicatorContainer, .css-1hb7zxy-IndicatorsContainer, .css-1s2u09g-control, .css-1f43avz-a11yText-A11yText, .css-1f43avz-a11yText-A11yText .css-b62m3t-container{
+  border-width: 0px !important;
+  background-color: #F07839 !important;
+  outline:none !important;
+  border-color: #F07839 !important;
+  box-shadow: none !important;
+  margin: 0px !important;
+}
+
+.css-tj5bde-Svg path:hover, .css-319lph-ValueContainer:hover, .css-1hb7zxy-IndicatorsContainer:hover, .css-1okebmr-indicatorSeparator:hover, .css-tlfecz-indicatorContainer:hover, .css-1hb7zxy-IndicatorsContainer:hover, .css-1s2u09g-control:hover, .css-1f43avz-a11yText-A11yText:hover, .css-1f43avz-a11yText-A11yText:hover .css-b62m3t-container:hover{
+  cursor: pointer;
+}
+
+.css-tlfecz-indicatorContainer{
+  padding: 0px !important;
+}
+
+.css-tj5bde-Svg path{
+  color: white !important;
+  width: 100px !important;
+}
+
+.css-319lph-ValueContainer{
+  width: 200px !important;
+  padding: 0px !important;
+}
+
+.css-6j8wv5-Input{
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.css-1pahdxg-control{
+  border-color: #F07839 !important;
+  box-shadow: none !important;
+}
+
+.css-1pahdxg-control:hover{
+  background-color: red !important;
+}
+
+#react-select-3-live-region{
+  background-color: red !important;
+}
+
+#mainDropDownText{
+  margin-left: 12px;
+  width: auto;
+  background-color: #F07839;
 }
 
 .logoCompany{
   background-color: #FFFFFF;
-  width: 45px;
+  width: 50px;
   height: 45px;
-  margin-left: 3%;
+  margin-left: 4%; 
   align-items: center;
   justify-content: center;
   display: flex;
@@ -107,7 +167,7 @@
 }
 
 .companyName{
-  margin-left: 2%;
+  margin-left: 4%;
   margin-right: 2%;
   font-weight: bold;
   color: #FFFFFF;
@@ -128,7 +188,7 @@
 .navBarActions{
   display: flex;
   width: 50%;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
 }
 
@@ -143,6 +203,7 @@
   align-items: center;
   border-radius: 6px 0px 0px 6px;
   color: #bfc0ca;
+  outline:none;
 }
 
 .divSearchIcon{
@@ -151,7 +212,7 @@
   width: 6%;
   background-color:white;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   border-radius: 0px 6px 6px 0px;
 }
@@ -176,10 +237,16 @@
   font-size: 13px;
 }
 
-#btnNewPrinter:hover, #btnLess:hover, #btnMost:hover, #btnInsert:hover, #btnReset:hover, #btnEnter:hover {
+.divBarCodeDash:hover, #btnNewPrinter:hover, #btnLess:hover, #btnMost:hover, #btnInsert:hover, #btnReset:hover{
   cursor: pointer;
   background-color: #faf0e4;
 }
+
+#btnEnter:hover {
+  cursor: pointer;
+  background-color: #faf0e4;
+  color: #F07839;
+} 
 
 #optionIcon{
   width: 4%;
@@ -246,12 +313,16 @@
   font-weight: bold;
 }
 
-.inputTyped{
+.inputTyped{  
   border: 1px solid #c3c3c359;
   width: 100%;
   height: 23%;
   background-color: #FFFFFF;
   border-radius: 6px;
+}
+
+#inpQty:focus, .inputTyped:focus{ 
+  outline: 2px solid #F07839;
 }
 
 .stageInputRight{
@@ -301,7 +372,7 @@
   text-align: center;
   justify-content: center;
   align-items: center;
-  
+  outline:none;
 }
 
 #btnMost{
@@ -383,7 +454,7 @@
 .sliceFooterPrinter{
   width: 50%;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   height: 100%;
 }
@@ -453,6 +524,7 @@
   border-radius: 6px; 
   align-items: center;
   justify-content: center;
+  box-shadow: 1px 1px 9px #CCCDCD
 }
 
 .divBarCodeDash{

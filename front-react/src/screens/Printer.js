@@ -3,61 +3,60 @@ import settings from "../assets/gear.png";
 import signIn from "../assets/signIn.png";
 import sino from "../assets/sino.png";
 import logoIs from "../assets/LogoIS.png";
-import setaBaixo from "../assets/seta-para-baixo.png";
+import logoMRV from "../assets/logo-mrv.png";
 import search from "../assets/search.png";
 import option from "../assets/option.png";
 import landscape from "../assets/landscape.png";
+import barCode from "../assets/barcode.png";
 import stagePrinter from "../assets/computerPrinter.png";
 import setaLeft from "../assets/seta-esquerda.png";
 import barCodeHistory from "../assets/barcodeWhite.png";
 import React,{useState, useRef} from 'react';
 import '../styles.css';
+import Select from 'react-select';
 const url = "http://localhost:8500";
 
 function Printer() {
+
+    // Data that will be used in dropdown list.
+    const data = [
+        {
+            value: 1,
+            text: <p className="companyName">MRV STORE</p>,
+            icon: <div className="logoCompany"><img id="isIcon" src={logoMRV} alt="icone da empresa pesquisada" /></div>,
+        },
+        {
+            value: 2,
+            text: <p className="companyName">INTER STORE</p>,
+            icon: <div className="logoCompany"><img id="isIcon" src={logoIs} alt="icone da empresa pesquisada" /></div>,
+        },
+    ];
+        
+    // Set variable that will be used in dropdown list. *Default value is one of the items
+    const [selectedOption, setSelectedOption] = useState(data[1]);
+    
+    // handle onChange event of the dropdown
+    const handleChange = e => {
+        setSelectedOption(e);
+    };
 
     // Set variables that will be used in input fields
     const [codePrinter, setCodePrinter] = useState('');
     const [descOnePrinter, setDescOnePrinter] = useState('');
     const [descTwoPrinter, setDescTwoPrinter] = useState('');
 
-
-    const [food, setFood] = React.useState('fruit');
-    const [drink, setDrink] = React.useState('water');
-  
-    const handleFoodChange = (event) => {
-      setFood(event.target.value);
-    };
-  
-    const handleDrinkChange = (event) => {
-      setDrink(event.target.value);
-    };
-
-    const Dropdown = ({ label, value, options, onChange }) => {
-  return (
-    <label>
-      {label}
-      <select value={value} onChange={onChange}>
-        {options.map((option) => (
-          <option value={option.value}>{option.label}</option>
-        ))}
-      </select>
-    </label>
-  );
-};
-
-
-
-
-
     // Set variables that will be used in ref to move in fields
     const firstInput = useRef(null);
     const secondInput = useRef(null);
     const thirdInput = useRef(null);
-    
-    // Move from input one to input two
+
+    //Set variable of barcode in stage
+    const [inStage, setInStage] = useState(landscape);
+
+    // Move from input one to input two and call the preview bar
     const moveToSecondInput = (event) => {
         if (event.key === 'Enter') {
+            previewBar()
             secondInput.current.focus();
         }
     }
@@ -75,6 +74,16 @@ function Printer() {
             stageOfValidation()
         }
     }
+
+    // Change the preview img from landscape to a real barCode
+    async function previewBar() {
+        if (codePrinter === '') {
+            setInStage(landscape);
+        } else {
+            setInStage(landscape);
+            setInStage(barCode);
+        }
+    };
 
     // Stage of user data validation in screen
     async function stageOfValidation() {
@@ -116,10 +125,10 @@ function Printer() {
                     <img id="printerIcon" src={printer} alt="icone de impressora" />
                 </span>
                 <span className="divMidNavBar">
-                    <a title="home">Home</a>
-                    <a title="servicos">Serviços</a>
-                    <a title="relatorios">Relatórios</a>
-                    <a title="github">Github</a>
+                    <p title="home">Home</p>
+                    <p title="servicos">Serviços</p>
+                    <p title="relatorios">Relatórios</p>
+                    <p title="github">Github</p>
                 </span>
                 <span className="divRigthNavBar">
                     <img className="navBarIcons" id="sinoIcon" src={sino} alt="desc" />
@@ -129,48 +138,26 @@ function Printer() {
             </div>
 
             <div className="body">
-                <div className="mainPrinter">
+                <div className="mainPrinter" style={{boxShadow: '1px 1px 9px #CCCDCD'}}>
 
-                    <div className="navBarPrinter">
-                        <div className="storeOptions">
-                            <div className="logoCompany">
-                                <img id="isIcon" src={logoIs} alt="icone da empresa pesquisada" />
-                            </div>
-                            <p className="companyName">INTER STORE</p>
-                            <img id="setaBaixoIcon" src={setaBaixo} alt="icone lista suspensa" />
-
-
-                            <div>
-      <Dropdown
-        label="What do we eat?"
-        options={[
-          { label: 'Fruit', value: 'fruit' },
-          { label: 'Vegetable', value: 'vegetable' },
-          { label: 'Meat', value: 'meat' },
-        ]}
-        value={food}
-        onChange={handleFoodChange}
-      />
-
-      <Dropdown
-        label="What do we drink?"
-        options={[
-          { label: 'Water', value: 'water' },
-          { label: 'Beer', value: 'beer' },
-          { label: 'Wine', value: 'wine' },
-        ]}
-        value={drink}
-        onChange={handleDrinkChange}
-      />
-
-      <p>We eat {food}!</p>
-      <p>We drink {drink}!</p>
-    </div>
-
-
+                    <div className="navBarPrinter" >
+                        <div className="storeOptions" >
+                            <Select 
+                                id="dropDownNavBar"
+                                defaultValue={selectedOption}
+                                options={data}
+                                onChange={handleChange}
+                                getOptionLabel={e => (
+                                <div id="mainDropDown"  > 
+                                    {e.icon}
+                                    <span id="mainDropDownText"  >{e.text}</span>
+                                </div>
+                                )}
+                            />
+                            {/* tutorial complete of icon in a dropDown here: https://www.cluemediator.com/how-to-add-an-icon-in-the-react-select-dropdown#ctlftd */}
                         </div>
                         <div className="navBarActions" >
-                            <input id="searchLabels" value={'Buscar no histórico de impressões'}></input>
+                            <input id="searchLabels" defaultValue={'Buscar no histórico de impressões'}></input>
                             <div className="divSearchIcon">
                                 <img id="searchIcon" src={search} alt="icone pesquisar" style={{backgroundColor: 'white'}} />
                             </div>
@@ -202,6 +189,7 @@ function Printer() {
                                         onChange={e => setDescOnePrinter(e.target.value)} //save the type data in a variable
                                         type="text"
                                         onKeyDown={moveToThirdInput} //event executed when press enter
+                                        onFocus={previewBar}
                                     />
                                 </div>
                                 <div className="divInput" id="box3">
@@ -220,12 +208,16 @@ function Printer() {
                                 <div className="chooseQty" >
                                     <p  id="qtyVis"  >Pré-visualização</p>
                                     <div className="divLandsCapeIcon">
-                                        <img id="landscapeIcon" src={landscape} alt="visualização de paisagem simbolizando campo vazio." />
+                                        <img id="landscapeIcon"
+                                            src={inStage}
+                                            alt="visualização de paisagem simbolizando campo vazio."
+                                            onChange={setInStage}
+                                        />
                                     </div>
                                     <p>Quantidade</p>
                                     <div className="qty" style={{display: 'flex'}} >
                                         <button id="btnLess" >-</button>
-                                        <input  value="0,00" id="inpQty" ></input>
+                                        <input  defaultValue="0,00" id="inpQty" ></input>
                                         <button id="btnMost">+</button>
                                     </div>
                                     <button
@@ -251,14 +243,14 @@ function Printer() {
                                 >Reiniciar
                             </button>
                             <button // Call the post function. parameters: url that server is running, requisition type, data to post & clean input fields
-                                    id="btnEnter" 
-                                    onClick={() => {
-                                    postTrigger(`${url}/procces`, "POST", {
-                                        "campoCod": codePrinter,
-                                        "campoDesc1": descOnePrinter,
-                                        "campoDesc2": descTwoPrinter});
-                                    cleanFields()}}
-                                    >Imprimir
+                                id="btnEnter" 
+                                onClick={() => {
+                                postTrigger(`${url}/procces`, "POST", {
+                                    "campoCod": codePrinter,
+                                    "campoDesc1": descOnePrinter,
+                                    "campoDesc2": descTwoPrinter});
+                                cleanFields()}}
+                                >Imprimir
                             </button>
                         </div>
                         <div className="sliceFooterPrinter" id="sliceFooterRigth" >
@@ -268,7 +260,7 @@ function Printer() {
                         
                     </div>
                 </div>
-                <div className="labelDash">
+                <div className="labelDash" style={{boxShadow: '1px 1px 9px #CCCDCD'}}>
                     <div className="navBarPrinter">
                         <div className="navBarDash" >
                             <img id="setaLeftIcon" src={setaLeft} alt="icone de seta." />

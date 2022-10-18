@@ -1,11 +1,23 @@
-.Montar lista suspensa loja do Galo, InterStore e MRV
+. Mudar a cor do backGround da Lista suspensa
+.Colocar hover na lista suspensa toda
 
-.mudar a cor dos inputs ao clicar
+.Create tela de lgin only with userName
+(maybe with an dropDown)
 
-.corrigir avisos que estào dando no terminal
+.Mudar estes defaultValues para o código digitado com a mesma condição do 
+    Produto|100068
+    Qtd= 0,00
+    o Total também
+        .Colocar uma velocidade mais lenta quando mudar a paisagem
 
-.Fazer tela 2
+.Tentar customizar melhor as etiquetas ZPL talvez centralizar:
+    .https://www.usez.com.br/blog/zebra-programming-language
 
-. Fazer funcionalidade de carregamento da tela
+.Save historicIn Data Base (CSV file)
+(Maybe don't save more one archieve for one print, just in csv file) CSV separado por vírgulas e /n
 
-. Corrigir hover dos icones a direita da main nav bar: Ou mudar para icone laranja ou somente corrigir mesmo
+.Fazer funcionalidade de carregamento da tela
+
+.Corrigir hover dos icones a direita da main nav bar: Ou mudar para icone laranja ou somente corrigir mesmo
+
+.expandir menu select quando passar muse em cima
