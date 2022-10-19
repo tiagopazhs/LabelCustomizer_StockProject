@@ -8,12 +8,13 @@ import search from "../assets/search.png";
 import option from "../assets/option.png";
 import landscape from "../assets/landscape.png";
 import barCode from "../assets/barcode.png";
-import stagePrinter from "../assets/computerPrinter.png";
+import stagePrinterImg from "../assets/computerPrinter.png";
 import setaLeft from "../assets/seta-esquerda.png";
 import barCodeHistory from "../assets/barcodeWhite.png";
 import React,{useState, useRef} from 'react';
 import '../styles.css';
 import Select from 'react-select';
+import StagePrinter from "../components/StagePrinter";
 const url = "http://localhost:8500";
 
 function Printer() {
@@ -52,11 +53,19 @@ function Printer() {
 
     //Set variable of barcode in stage
     const [inStage, setInStage] = useState(landscape);
+    const [qtyLabel, setQtyLabel] = useState('0,00');
+    const [firstHistoryLabel, setFirstHistoryLabel] = useState('100068');
+    const [inStagePrinter, setInStagePrinter] = useState('notInStage');
+
+    //Set variable of barcode in insert
+    const [codeInInsert, setCodeInInsert] = useState('');
+    const [descTopInInsert, setDescTopInInsert] = useState('');
+    const [descBottomInInsert, setDescBottomInInsert] = useState('');
 
     // Move from input one to input two and call the preview bar
     const moveToSecondInput = (event) => {
         if (event.key === 'Enter') {
-            previewBar()
+            previewBar();
             secondInput.current.focus();
         }
     }
@@ -79,9 +88,17 @@ function Printer() {
     async function previewBar() {
         if (codePrinter === '') {
             setInStage(landscape);
+            setQtyLabel('0,00');
+            setFirstHistoryLabel('100068');
+            setInStagePrinter('notInStage');
         } else {
-            setInStage(landscape);
             setInStage(barCode);
+            setQtyLabel('3,00');
+            setFirstHistoryLabel(codePrinter);
+            setInStagePrinter('inStage');
+            setCodeInInsert(codePrinter);
+            setDescTopInInsert(setDescOnePrinter);
+            setDescBottomInInsert(setDescTwoPrinter);
         }
     };
 
@@ -147,6 +164,7 @@ function Printer() {
                                 defaultValue={selectedOption}
                                 options={data}
                                 onChange={handleChange}
+                                // menuIsOpen
                                 getOptionLabel={e => (
                                 <div id="mainDropDown"  > 
                                     {e.icon}
@@ -217,7 +235,7 @@ function Printer() {
                                     <p>Quantidade</p>
                                     <div className="qty" style={{display: 'flex'}} >
                                         <button id="btnLess" >-</button>
-                                        <input  defaultValue="0,00" id="inpQty" ></input>
+                                        <input  value={qtyLabel} id="inpQty" onChange={setQtyLabel}></input>
                                         <button id="btnMost">+</button>
                                     </div>
                                     <button
@@ -231,7 +249,16 @@ function Printer() {
                             </div>
                         </div>                           
                         <div className="stagePrinter">
-                            <img id="stagePrinterIcon" src={stagePrinter} alt="imagem de impressora." />
+                            {inStagePrinter === 'notInStage' &&
+                                <img id="stagePrinterIcon" src={stagePrinterImg} alt="imagem de impressora." />
+                            }
+                            {inStagePrinter === 'inStage' &&
+                                <div>
+                                    <h1 className="textLabelHistory">{codeInInsert} </h1>
+                                    <h1 className="textLabelHistory">{descTopInInsert} </h1>
+                                    <h1 className="textLabelHistory">{descBottomInInsert} </h1>
+                                </div>
+                            }
                         </div>
                     </div>
 
@@ -255,7 +282,7 @@ function Printer() {
                         </div>
                         <div className="sliceFooterPrinter" id="sliceFooterRigth" >
                             <p id="font1Footer" >Total</p>
-                            <p id="font2Footer" >0,00</p>
+                            <p id="font2Footer">{qtyLabel} {setQtyLabel}</p>
                         </div>
                         
                     </div>
@@ -269,7 +296,7 @@ function Printer() {
                     <div className="midLane" id="midLaneDash"> 
                         <div className="labelHistory">
                             <p className="textLabelHistory" >Produto</p>
-                            <p className="textLabelHistory" id="textLabelHistory2" >100068</p>
+                            <p className="textLabelHistory" id="textLabelHistory2" >{firstHistoryLabel} {setFirstHistoryLabel} </p>
                             <div className="divBarCodeDash" >
                                 <img id="barCodeHistoryIcon" src={barCodeHistory} alt="icone de seta."/>
                             </div>

@@ -102,10 +102,14 @@
   text-align: center;
   width: 100%;
   background-color: #F07839;
+  /* padding-right: 5px; */
 }
 
-.css-1n7v3ny-option, .css-tj5bde-Svg path, .css-319lph-ValueContainer, .css-1hb7zxy-IndicatorsContainer, .css-1okebmr-indicatorSeparator, .css-tlfecz-indicatorContainer, .css-1hb7zxy-IndicatorsContainer, .css-1s2u09g-control, .css-1f43avz-a11yText-A11yText, .css-1f43avz-a11yText-A11yText .css-b62m3t-container{
+.css-9gakcf-option, .css-26l3qy-menu, .css-1s2u09g-control, .css-tj5bde-Svg path, .css-4ljt47-MenuList, #react-select-3-option-0, .css-1n7v3ny-option, #react-select-3-option-1, .css-1n7v3ny-option, .css-tj5bde-Svg path, .css-319lph-ValueContainer, .css-1hb7zxy-IndicatorsContainer, .css-1okebmr-indicatorSeparator, .css-tlfecz-indicatorContainer, .css-1hb7zxy-IndicatorsContainer, .css-1s2u09g-control, .css-1f43avz-a11yText-A11yText, .css-1f43avz-a11yText-A11yText .css-b62m3t-container{
   border-width: 0px !important;
+  border-color: #F07839 !important;
+  /* padding-right: 5px;
+  padding-bottom: 3px !important; */
   background-color: #F07839 !important;
   outline:none !important;
   border-color: #F07839 !important;
@@ -113,12 +117,17 @@
   margin: 0px !important;
 }
 
-.css-tj5bde-Svg path:hover, .css-319lph-ValueContainer:hover, .css-1hb7zxy-IndicatorsContainer:hover, .css-1okebmr-indicatorSeparator:hover, .css-tlfecz-indicatorContainer:hover, .css-1hb7zxy-IndicatorsContainer:hover, .css-1s2u09g-control:hover, .css-1f43avz-a11yText-A11yText:hover, .css-1f43avz-a11yText-A11yText:hover .css-b62m3t-container:hover{
+.css-9gakcf-option:hover, .css-26l3qy-menu:hover, .css-1s2u09g-control:hover, .css-tj5bde-Svg path:hover, .css-4ljt47-MenuList:hover, #react-select-3-option-0:hover, .css-1n7v3ny-option:hover, #react-select-3-option-1:hover, .css-1n7v3ny-option:hover, .css-tj5bde-Svg path:hover, .css-319lph-ValueContainer:hover, .css-1hb7zxy-IndicatorsContainer:hover, .css-1okebmr-indicatorSeparator:hover, .css-tlfecz-indicatorContainer:hover, .css-1hb7zxy-IndicatorsContainer:hover, .css-1s2u09g-control:hover, .css-1f43avz-a11yText-A11yText:hover, .css-1f43avz-a11yText-A11yText:hover .css-b62m3t-container:hover{
   cursor: pointer;
-}
-
-.css-tlfecz-indicatorContainer{
-  padding: 0px !important;
+  border-width: 0px !important;
+  border-color: #F07839 !important;
+  /* padding: 0px !important; */
+  /* padding-bottom: 3px !important; */
+  background-color: #F07839 !important;
+  outline:none !important;
+  border-color: #F07839 !important; 
+  box-shadow: none !important;
+  margin: 0px !important;
 }
 
 .css-tj5bde-Svg path{
@@ -129,6 +138,7 @@
 .css-319lph-ValueContainer{
   width: 200px !important;
   padding: 0px !important;
+  padding: 100px;
 }
 
 .css-6j8wv5-Input{
@@ -139,14 +149,17 @@
 .css-1pahdxg-control{
   border-color: #F07839 !important;
   box-shadow: none !important;
+  background-color: #F07839 !important;
 }
 
 .css-1pahdxg-control:hover{
-  background-color: red !important;
+  border-color: #F07839 !important;
+  box-shadow: none !important;
+  background-color: #F07839 !important;
 }
 
-#react-select-3-live-region{
-  background-color: red !important;
+#react-select-3-listbox, .css-4ljt47-MenuList{
+  border-radius: 20px !important;  
 }
 
 #mainDropDownText{
@@ -159,7 +172,7 @@
   background-color: #FFFFFF;
   width: 50px;
   height: 45px;
-  margin-left: 4%; 
+  margin-left: 10px; 
   align-items: center;
   justify-content: center;
   display: flex;
@@ -167,8 +180,8 @@
 }
 
 .companyName{
-  margin-left: 4%;
-  margin-right: 2%;
+  margin-left: 5px;
+  /* margin-right: 2%; */
   font-weight: bold;
   color: #FFFFFF;
   font-family: 'Sora';
@@ -179,10 +192,6 @@
 #isIcon{
   width: 95%;
   height: 21%;
-}
-
-#setaBaixoIcon{
-  width: 20px;
 }
 
 .navBarActions{
