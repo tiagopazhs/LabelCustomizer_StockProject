@@ -263,7 +263,7 @@
   margin-right: 3%;
 }
 
-#optionIcon:hover, #barCodeHistoryIcon:hover {
+.screenStagePrinterIcon, #optionIcon:hover, #barCodeHistoryIcon:hover {
   cursor: pointer;
 }
 
@@ -366,6 +366,11 @@
   border-radius: 5px;
 }
 
+#barcodeIcon{
+  height: 75%;
+  border-radius: 5px;
+}
+
 .qty{
   display: flex;
   margin-bottom: 11%;
@@ -417,6 +422,8 @@
   font-size: 13px;
 }
 
+/* stage printer */
+
 .stagePrinter {
   width: 50%;
   border-left: 1px solid #c3c3c359;
@@ -428,6 +435,64 @@
 #stagePrinterIcon{
   width: 30%;
 }
+
+.screenStagePrinter{
+  width: 50%;
+  border-left: 1px solid #c3c3c359;
+}
+
+.stagePrinterHeader{
+  display: flex;
+  border-bottom: 1px solid #c3c3c359;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.stagePrinterHeaderText{
+  font-size: 14px;
+  font-family: 'sans-serif';
+  font-weight: bold;
+  margin-top: 4%;
+  margin-bottom: 3%;
+}
+
+#productBlock{
+  width: 55%;
+}
+
+#qtyBlock{
+  width: 50%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+#actionsBlock{
+  width: 15%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.stagePrinterBody{
+  display: flex;
+  border-bottom: 1px solid #c3c3c359;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.stagePrinterBodyText{
+  font-size: 14px;
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+.screenStagePrinterIcon{
+  width: 14px;
+  margin-left: 5px;
+}
+
+/* Main footer */
 
 .footerBarPrinter{
   display: flex;

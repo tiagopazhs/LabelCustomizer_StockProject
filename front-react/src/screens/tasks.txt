@@ -1,29 +1,26 @@
-
-.Aumentar tamanho do código de barras
-
-.Tentar customizar melhor as etiquetas ZPL talvez centralizar:
-    .https://www.usez.com.br/blog/zebra-programming-language
-
 .Criar back End:
     .Usuario fazer um get do código ao digitar o código
 
 .Save historicIn Data Base (CSV file)
-(Maybe don't save more one archieve for one print, just in csv file) CSV separado por vírgulas e /n
+    (Maybe don't save more one archieve for one print, just in csv file) CSV separado por vírgulas e /n
 
 .Fazer validações de dados: Tamanho da cadeia de caracteres, clocar caracter especial, tamanho minimo, tamanho da cadeia invalido
 
-.Colocar uma velocidade mais lenta quando mudar a paisagem
+.Tentar customizar melhor as etiquetas ZPL talvez centralizar:
+    .https://www.usez.com.br/blog/zebra-programming-language
 
 .Create tela de login only with userName
 
 .Fazer funcionalidade de carregamento da tela
 
-.Corrigir hover dos icones a direita da main nav bar: Ou mudar para icone laranja ou somente corrigir mesmo
+
+LATER:
 
 .expandir menu select quando passar muse em cima
-
 
 . Mudar a cor do backGround da Lista suspensa quando faz um hover:
     .Tentar estilizar a menor quanidade de classes possiveis e nao perder mt tempo.Colocar hover na lista suspensa toda
 
 .Mudar fundo para verde quando mudar para MRV
+
+.Corrigir hover dos icones a direita da main nav bar: Ou mudar para icone laranja ou somente corrigir mesmo

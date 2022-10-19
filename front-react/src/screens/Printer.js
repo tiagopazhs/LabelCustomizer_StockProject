@@ -9,6 +9,9 @@ import option from "../assets/option.png";
 import landscape from "../assets/landscape.png";
 import barCode from "../assets/barcode.png";
 import stagePrinterImg from "../assets/computerPrinter.png";
+import stagePrinter from "../assets/stagePrinter.png";
+import stagePencil from "../assets/stagePencil.png";
+import stageTrash from "../assets/stageTrash.png";
 import setaLeft from "../assets/seta-esquerda.png";
 import barCodeHistory from "../assets/barcodeWhite.png";
 import React,{useState, useRef} from 'react';
@@ -86,27 +89,29 @@ function Printer() {
 
     // Change the preview img from landscape to a real barCode
     async function previewBar() {
-        if (codePrinter === '') {
+        console.log('here', setCodePrinter)
+        if (setCodePrinter === '') {
             setInStage(landscape);
             setQtyLabel('0,00');
             setFirstHistoryLabel('100068');
-            setInStagePrinter('notInStage');
         } else {
             setInStage(barCode);
             setQtyLabel('3,00');
             setFirstHistoryLabel(codePrinter);
-            setInStagePrinter('inStage');
-            setCodeInInsert(codePrinter);
-            setDescTopInInsert(setDescOnePrinter);
-            setDescBottomInInsert(setDescTwoPrinter);
         }
     };
 
-    // Stage of user data validation in screen
+    // Change the printer img from printer to a Stage of user data validation in screen.
     async function stageOfValidation() {
-        console.log('it is working')
-        console.log(codePrinter, descOnePrinter, descTwoPrinter)
-    }
+        if (setCodePrinter === '') {
+            setInStagePrinter('notInStage');
+        } else {
+            setInStagePrinter('inStage');
+            setCodeInInsert(codePrinter);
+            setDescTopInInsert(descOnePrinter);
+            setDescBottomInInsert(descTwoPrinter);
+        }
+    };
 
     // Post requisition and call execute the printer procces in the backEnd
     async function postTrigger(url, type, data) {
@@ -132,6 +137,11 @@ function Printer() {
         setCodePrinter('');
         setDescOnePrinter('');
         setDescTwoPrinter('');
+        setInStagePrinter('notInStage');
+        setCodePrinter('');
+        setInStage(landscape);
+        setQtyLabel('0,00');
+        setFirstHistoryLabel('100068');
         firstInput.current.focus();
     }
 
@@ -148,7 +158,7 @@ function Printer() {
                     <p title="github">Github</p>
                 </span>
                 <span className="divRigthNavBar">
-                    <img className="navBarIcons" id="sinoIcon" src={sino} alt="desc" />
+                    <img className="navBarIcons" id="sinoIcon" src={sino} alt="desc"/>
                     <img className="navBarIcons" id="settingsIcon" src={settings} alt="botão de configurações" />
                     <img className="navBarIcons" id="signInIcon" src={signIn} alt="desc" />
                 </span>
@@ -179,7 +189,7 @@ function Printer() {
                             <div className="divSearchIcon">
                                 <img id="searchIcon" src={search} alt="icone pesquisar" style={{backgroundColor: 'white'}} />
                             </div>
-                            <button id="btnNewPrinter" >Nova impressão</button>
+                            <button id="btnNewPrinter" onClick={() => cleanFields()} >Nova impressão</button>
                             <img id="optionIcon" src={option} alt="icone de opções" />
                         </div>
                     </div>
@@ -226,11 +236,20 @@ function Printer() {
                                 <div className="chooseQty" >
                                     <p  id="qtyVis"  >Pré-visualização</p>
                                     <div className="divLandsCapeIcon">
-                                        <img id="landscapeIcon"
-                                            src={inStage}
-                                            alt="visualização de paisagem simbolizando campo vazio."
-                                            onChange={setInStage}
-                                        />
+                                        {inStage === landscape &&
+                                            <img id="landscapeIcon"
+                                                src={inStage}
+                                                alt="visualização de paisagem simbolizando campo vazio."
+                                                onChange={setInStage}
+                                            />
+                                        }
+                                        {inStage === barCode &&
+                                            <img id="barcodeIcon"
+                                                src={inStage}
+                                                alt="visualização de paisagem simbolizando campo vazio."
+                                                onChange={setInStage}
+                                            />
+                                        }
                                     </div>
                                     <p>Quantidade</p>
                                     <div className="qty" style={{display: 'flex'}} >
@@ -248,18 +267,38 @@ function Printer() {
                                 </div>
                             </div>
                         </div>                           
-                        <div className="stagePrinter">
                             {inStagePrinter === 'notInStage' &&
-                                <img id="stagePrinterIcon" src={stagePrinterImg} alt="imagem de impressora." />
-                            }
-                            {inStagePrinter === 'inStage' &&
-                                <div>
-                                    <h1 className="textLabelHistory">{codeInInsert} </h1>
-                                    <h1 className="textLabelHistory">{descTopInInsert} </h1>
-                                    <h1 className="textLabelHistory">{descBottomInInsert} </h1>
+                                <div className="stagePrinter">
+                                    <img id="stagePrinterIcon" src={stagePrinterImg} alt="imagem de impressora." />
                                 </div>
                             }
-                        </div>
+                            {inStagePrinter === 'inStage' &&
+                                <div className="screenStagePrinter" >
+                                    <div className="stagePrinterHeader">
+                                        <p className="stagePrinterHeaderText" id="productBlock" > Produto </p>
+                                        <p className="stagePrinterHeaderText" id="qtyBlock" > Quantidade </p>
+                                        <p className="stagePrinterHeaderText" id="actionsBlock" style={{marginRight: '5px'}} >Ações </p>
+                                    </div>
+                                    <div className="stagePrinterBody">
+                                        <p className="stagePrinterBodyText" id="productBlock"  >{codeInInsert} - {descTopInInsert} - {descBottomInInsert} </p>
+                                        <p className="stagePrinterBodyText" id="qtyBlock" >3,00</p>
+                                        <p className="stagePrinterBodyText" id="actionsBlock"  >
+                                            <img className="screenStagePrinterIcon"
+                                                src={stagePrinter} alt="icone de impressora" 
+                                                onClick={() => {
+                                                    postTrigger(`${url}/procces`, "POST", {
+                                                        "campoCod": codePrinter,
+                                                        "campoDesc1": descOnePrinter,
+                                                        "campoDesc2": descTwoPrinter});
+                                                    cleanFields()}
+                                                }
+                                            />
+                                            <img className="screenStagePrinterIcon" src={stagePencil} alt="icone de lápis" onClick={() => firstInput.current.focus()} />
+                                            <img className="screenStagePrinterIcon" src={stageTrash} alt="icone de lixeira" onClick={() => cleanFields()} />
+                                        </p>
+                                    </div>
+                                </div>
+                            }
                     </div>
 
                     <div className="footerBarPrinter" style={{boxShadow: '0px 0px 6px rgba(73, 87, 105, .24'}}>
