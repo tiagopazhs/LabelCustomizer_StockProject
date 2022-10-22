@@ -1,5 +1,13 @@
-.Criar back End:
-    .Usuario fazer um get do código ao digitar o código
+.Usuario fazer um get do código ao digitar o código:        
+
+.Formataçao de data e hora
+const date = new Date()
+        console.log('here is my dia test', ("00" + date.getDate()).slice(-2))
+        console.log('here is my mes test', date.getMonth())
+        console.log('here is my ano test', date.getFullYear())
+        console.log('here is my hora test', date.getHours())
+        console.log('here is my minuto test', date.getMinutes())
+        console.log('here is my minuto test', date.getSeconds())
 
 .Save historicIn Data Base (CSV file)
     (Maybe don't save more one archieve for one print, just in csv file) CSV separado por vírgulas e /n
@@ -16,6 +24,8 @@
 
 LATER:
 
+.COlocar funcionalidade nos botoes que ainda nao tem. Por exemplo botao home
+
 .expandir menu select quando passar muse em cima
 
 . Mudar a cor do backGround da Lista suspensa quando faz um hover:
@@ -24,3 +34,5 @@ LATER:
 .Mudar fundo para verde quando mudar para MRV
 
 .Corrigir hover dos icones a direita da main nav bar: Ou mudar para icone laranja ou somente corrigir mesmo
+
+.Fazer uma rendereização na pagina mesmo que seja basica

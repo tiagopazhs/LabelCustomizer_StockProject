@@ -17,7 +17,6 @@ import barCodeHistory from "../assets/barcodeWhite.png";
 import React,{useState, useRef} from 'react';
 import '../styles.css';
 import Select from 'react-select';
-import StagePrinter from "../components/StagePrinter";
 const url = "http://localhost:8500";
 
 function Printer() {
@@ -67,6 +66,8 @@ function Printer() {
 
     // Move from input one to input two and call the preview bar
     const moveToSecondInput = (event) => {
+        console.log('here is my test', 'hi')
+
         if (event.key === 'Enter') {
             previewBar();
             secondInput.current.focus();
@@ -89,7 +90,6 @@ function Printer() {
 
     // Change the preview img from landscape to a real barCode
     async function previewBar() {
-        console.log('here', setCodePrinter)
         if (setCodePrinter === '') {
             setInStage(landscape);
             setQtyLabel('0,00');
