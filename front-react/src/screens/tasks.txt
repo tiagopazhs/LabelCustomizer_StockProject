@@ -1,29 +1,10 @@
-.GET E POST
-
-    .Usuario fazer um get do código ao digitar o código:        
-
-    .Formataçao de data e hora
-    const date = new Date()
-            console.log('here is my dia test', ("00" + date.getDate()).slice(-2))
-            console.log('here is my mes test', date.getMonth())
-            console.log('here is my ano test', date.getFullYear())
-            console.log('here is my hora test', date.getHours())
-            console.log('here is my minuto test', date.getMinutes())
-            console.log('here is my minuto test', date.getSeconds())
-
-
-    .Usuario fazer um post
-    .Usuario fazer um put
-
-    .Botao quantidade verificar se vale a pena fazer de uma vez
-
-.Usuario acessar a aplicação que está rodando na porta de outro usuário
-
 .Fazer validações de dados: Tamanho da cadeia de caracteres, clocar caracter especial, tamanho minimo, tamanho da cadeia invalido
-.Fazer toastify
 
 .Tentar customizar melhor as etiquetas ZPL talvez centralizar:
     .https://www.usez.com.br/blog/zebra-programming-language
+
+
+LATER:
 
 .Create tela de login only with userName
 
@@ -31,10 +12,7 @@
 
 .Fazer tela de relatório
 
-
-LATER:
-
-.COlocar funcionalidade nos botoes que ainda nao tem. Por exemplo botao home
+.Fazer toastify
 
 .expandir menu select quando passar muse em cima
 
@@ -52,3 +30,5 @@ LATER:
     .Muda pra input 2
     .volta e deleta dados input 1
     .Muda direto para input 3
+
+.Botao quantidade verificar se vale a pena fazer de uma vez

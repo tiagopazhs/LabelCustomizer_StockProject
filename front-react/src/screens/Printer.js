@@ -18,6 +18,15 @@ import React,{useState, useRef} from 'react';
 import '../styles.css';
 import Select from 'react-select';
 const url = "http://localhost:8500";
+let date = new Date();
+let day = ("00" + date.getDate()).slice(-2);
+let month = ("00" + (date.getMonth()+1)).slice(-2);
+let year = date.getFullYear();
+let hour = ("00" + date.getHours()).slice(-2);
+let minute = ("00" + date.getMinutes()).slice(-2);
+let second = ("00" + date.getSeconds()).slice(-2);
+let currentData = `${day}/${month}/${year}`;
+let currentTime = `${hour}:${minute}:${second}`;
 
 function Printer() {
 
@@ -127,20 +136,30 @@ function Printer() {
         else {
             console.log('i am here')
             setRegistered('got')
-            setMethodReq("PUT")
             setDescOnePrinter(labelData.campoDesc1)
             setDescTwoPrinter(labelData.campoDesc2)
+            setMethodReq("PUT")
         }
         return labelData    
     }
 
     // Post requisition and call execute the printer procces in the backEnd
     async function postTrigger(url, type, data) {
+
         if (type === "POST") {
-            return fetch(url, {
-            method: type,
-            headers: {'Content-type': 'application/json'},
-            body: JSON.stringify(data)
+            return (
+                //save data in the historic of label
+                fetch(`http://localhost:8500/historic`, {
+                method: "POST",
+                headers: {'Content-type': 'application/json'},
+                body: JSON.stringify({
+                    "usuario":"defaultUser",
+                    "data":currentData,
+                    "horario":currentTime,
+                    "quantidade":3,
+                    "campoCod": codePrinter,
+                    "campoDesc1": descOnePrinter,
+                    "campoDesc2": descTwoPrinter})
             })
             .then(res => {
                 if (res.ok) { console.log("HTTP request successful", data) }
@@ -149,32 +168,63 @@ function Printer() {
             })
             .then(res => res.json())
             .then(data => data)
-            .catch(error => error)
+            .catch(error => error),
+                //edit data in procces label
+            fetch(url, {
+                    method: type,
+                    headers: {'Content-type': 'application/json'},
+                    body: JSON.stringify(data)
+                })
+                .then(res => {
+                    if (res.ok) { console.log("HTTP request successful", data) }
+                    else { console.log("HTTP request unsuccessful") }
+                    return res
+                })
+                .then(res => res.json())
+                .then(data => data)
+                .catch(error => error)
+            )
         }
+
         if (type === "PUT") {
-            return fetch(url, {
-            method: type,
-            headers: {'Content-type': 'application/json'},
-            body: JSON.stringify(data)
-            })
-            .then(res => {
-                if (res.ok) { console.log("HTTP request successful", data) }
-                else { console.log("HTTP request unsuccessful") }
-                return res
-            })
-            .then(res => res.json())
-            .then(data => data)
-            .catch(error => error)
+            return (
+                //save data in the historic of label
+                fetch(`http://localhost:8500/historic`, {
+                    method: "POST",
+                    headers: {'Content-type': 'application/json'},
+                    body: JSON.stringify({
+                        "usuario":"defaultUser",
+                        "data":currentData,
+                        "horario":currentTime,
+                        "quantidade":3,
+                        "campoCod": codePrinter,
+                        "campoDesc1": descOnePrinter,
+                        "campoDesc2": descTwoPrinter})
+                })
+                .then(res => {
+                    if (res.ok) { console.log("HTTP request successful", data) }
+                    else { console.log("HTTP request unsuccessful") }
+                    return res
+                })
+                .then(res => res.json())
+                .then(data => data)
+                .catch(error => error),
+                //edit data in procces label
+                fetch(`${url}/:${codePrinter}`, {
+                    method: type,
+                    headers: {'Content-type': 'application/json'},
+                    body: JSON.stringify(data)
+                })
+                .then(res => {
+                    if (res.ok) { console.log("HTTP request successful", data) }
+                    else { console.log("HTTP request unsuccessful") }
+                    return res
+                })
+                .then(res => res.json())
+                .then(data => data)
+                .catch(error => error)
+            )
         }
-        // getPut(`${url}/${campoPedido}`, "PUT", {
-        //     "_id": vId,
-        //     "pedido": vPedido,
-        //     "item": vItem,
-        //     "ean": vEan,
-        //     "serial": vSerial,
-        //     "verificado": true,
-        //     "__v": vV
-        // });
     }
     
     // clean the input field's to reset the validation of data
@@ -188,6 +238,7 @@ function Printer() {
         setQtyLabel('0,00');
         setFirstHistoryLabel('100068');
         firstInput.current.focus();
+        setMethodReq("POST");
     }
 
     return(
@@ -334,7 +385,7 @@ function Printer() {
                                                     postTrigger(`${url}/procces`, methodReq, {
                                                         "campoCod": codePrinter,
                                                         "campoDesc1": descOnePrinter,
-                                                        "campoDesc2": descTwoPrinter});
+                                                        "campoDesc2": descTwoPrinter,});
                                                     cleanFields()}
                                                 }
                                             />

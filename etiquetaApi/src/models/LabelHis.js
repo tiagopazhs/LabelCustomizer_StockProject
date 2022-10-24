@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 const LabelHis = mongoose.model('LabelHis', {
     usuario: String,
-    data: Number,
-    horario: Number,
+    data: String,
+    horario: String,
     quantidade: Number,
     campoCod: Number,
     campoDesc1: String,
