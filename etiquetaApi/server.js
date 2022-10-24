@@ -1,6 +1,7 @@
 const express = require('express');
 const router = require("express").Router();
 const app = express();
+const appHis = express();
 const cors = require('cors');
 const HTTP_PORT = 8500;
 const fs = require('fs');
@@ -14,6 +15,8 @@ const LabelHis = require('./src/models/LabelHis');
 require('dotenv').config();
 app.use(express.json());
 app.use(cors());
+appHis.use(express.json());
+appHis.use(cors());
 
 
 //print using Zebra file
@@ -46,11 +49,21 @@ async function callZebraPrinter(res, campoCod, campoDesc1, campoDesc2){
   });
 };
 
-//Get requisiton, it is working just to test the aplication.
+//Get requisiton, it can be get this table: just the prymary key label.
 app.get('/procces', async (req, res) => {
   try{
-    const dataLabelHis = await LabelHis.find()
     const dataLabelCode = await LabelCode.find()
+    res.status(200).json(dataLabelCode)
+
+  }catch (error) {
+    res.status(500).json({ error: error })
+  }
+})
+
+//Get requisiton, it can be get this table: historyLabel.
+appHis.get('/historic', async (req, res) => {
+  try{
+    const dataLabelHis = await LabelHis.find()
     res.status(200).json(dataLabelCode)
 
   }catch (error) {
@@ -60,6 +73,37 @@ app.get('/procces', async (req, res) => {
 
 //Post requisition, it change the printer variables from the post requisition from Front End
 app.post('/procces', function (req, res) {
+
+  let campoCod = req.body.campoCod
+  let campoDesc1 = req.body.campoDesc1
+  let campoDesc2 = req.body.campoDesc2
+
+  // Test if there are a field code
+  if(!campoCod) {
+    res.status(422).json({error: 'o codigo do produto e obrigatorio!'})
+    return 
+  }
+
+  const labelExecCode = {
+    campoCod,
+    campoDesc1,
+    campoDesc2
+  }
+
+  try {
+    LabelCode.create(labelExecCode)
+    // Call function that will print labels
+    callZebraPrinter(res, campoCod, campoDesc1, campoDesc2);  
+    //To open the unprinter mode, coment the top line and discoment de bottom line
+    // return res.json({msg: "post executed, data below:", campoCod, campoDesc1, campoDesc2})
+
+  }catch(error) {
+    res.status(500).json({error: error})
+  }
+})
+
+//Post requisition, it change the printer variables from the post requisition from Front End
+appHis.post('/historic', function (req, res) {
 
   let usuario = req.body.usuario
   let data = req.body.data
@@ -71,7 +115,7 @@ app.post('/procces', function (req, res) {
 
   // Test if there are a field code
   if(!campoCod) {
-    res.status(422).json({error: 'o pedido e obrigatorio!'})
+    res.status(422).json({error: 'o codigo do produto e obrigatorio!'})
     return 
   }
 
@@ -83,21 +127,10 @@ app.post('/procces', function (req, res) {
     campoCod,
     campoDesc1,
     campoDesc2
-  }  
-
-  const labelExecCode = {
-    campoCod,
-    campoDesc1,
-    campoDesc2
   }
 
   try {
     LabelHis.create(labelHistory)
-    LabelCode.create(labelExecCode)
-    // Call function that will print labels
-    // callZebraPrinter(res, campoCod, campoDesc1, campoDesc2);  
-    //To open the unprinter mode, coment the top line and discoment de bottom line
-    return res.json({msg: "post executed, data below:", campoCod, campoDesc1, campoDesc2})
 
   }catch(error) {
     res.status(500).json({error: error})

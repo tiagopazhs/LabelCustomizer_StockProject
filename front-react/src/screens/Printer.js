@@ -43,6 +43,10 @@ function Printer() {
         setSelectedOption(e);
     };
 
+    // Set variables that will be used to comunicate with API
+    const [registered, setRegistered] = useState('');
+    const [methodReq, setMethodReq] = useState("POST");
+
     // Set variables that will be used in input fields
     const [codePrinter, setCodePrinter] = useState('');
     const [descOnePrinter, setDescOnePrinter] = useState('');
@@ -66,10 +70,8 @@ function Printer() {
 
     // Move from input one to input two and call the preview bar
     const moveToSecondInput = (event) => {
-        console.log('here is my test', 'hi')
-
         if (event.key === 'Enter') {
-            previewBar();
+            // previewBar();
             secondInput.current.focus();
         }
     }
@@ -90,7 +92,7 @@ function Printer() {
 
     // Change the preview img from landscape to a real barCode
     async function previewBar() {
-        if (setCodePrinter === '') {
+        if (codePrinter === '') {
             setInStage(landscape);
             setQtyLabel('0,00');
             setFirstHistoryLabel('100068');
@@ -98,6 +100,7 @@ function Printer() {
             setInStage(barCode);
             setQtyLabel('3,00');
             setFirstHistoryLabel(codePrinter);
+            getProduto();
         }
     };
 
@@ -113,9 +116,27 @@ function Printer() {
         }
     };
 
+    // Get requisition and return data label printed before
+    async function getProduto() {  
+        const responseGet = await fetch(`${url}/procces/${codePrinter}`);
+        const labelData = await responseGet.json();
+
+        if (labelData === null) {
+            setRegistered('')
+        }
+        else {
+            console.log('i am here')
+            setRegistered('got')
+            setMethodReq("PUT")
+            setDescOnePrinter(labelData.campoDesc1)
+            setDescTwoPrinter(labelData.campoDesc2)
+        }
+        return labelData    
+    }
+
     // Post requisition and call execute the printer procces in the backEnd
     async function postTrigger(url, type, data) {
-        if (type === "POST" | type === "PUT") {
+        if (type === "POST") {
             return fetch(url, {
             method: type,
             headers: {'Content-type': 'application/json'},
@@ -130,6 +151,30 @@ function Printer() {
             .then(data => data)
             .catch(error => error)
         }
+        if (type === "PUT") {
+            return fetch(url, {
+            method: type,
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify(data)
+            })
+            .then(res => {
+                if (res.ok) { console.log("HTTP request successful", data) }
+                else { console.log("HTTP request unsuccessful") }
+                return res
+            })
+            .then(res => res.json())
+            .then(data => data)
+            .catch(error => error)
+        }
+        // getPut(`${url}/${campoPedido}`, "PUT", {
+        //     "_id": vId,
+        //     "pedido": vPedido,
+        //     "item": vItem,
+        //     "ean": vEan,
+        //     "serial": vSerial,
+        //     "verificado": true,
+        //     "__v": vV
+        // });
     }
     
     // clean the input field's to reset the validation of data
@@ -286,7 +331,7 @@ function Printer() {
                                             <img className="screenStagePrinterIcon"
                                                 src={stagePrinter} alt="icone de impressora" 
                                                 onClick={() => {
-                                                    postTrigger(`${url}/procces`, "POST", {
+                                                    postTrigger(`${url}/procces`, methodReq, {
                                                         "campoCod": codePrinter,
                                                         "campoDesc1": descOnePrinter,
                                                         "campoDesc2": descTwoPrinter});
@@ -311,7 +356,7 @@ function Printer() {
                             <button // Call the post function. parameters: url that server is running, requisition type, data to post & clean input fields
                                 id="btnEnter" 
                                 onClick={() => {
-                                postTrigger(`${url}/procces`, "POST", {
+                                postTrigger(`${url}/procces`, methodReq, {
                                     "campoCod": codePrinter,
                                     "campoDesc1": descOnePrinter,
                                     "campoDesc2": descTwoPrinter});
