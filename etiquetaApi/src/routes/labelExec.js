@@ -2,12 +2,16 @@ const router = require("express").Router();
 const LabelCode = require('../models/LabelCode');
 const fs = require('fs');
 const exec = require('child_process').exec;
-const pathModel = "/Users/bi004042/Documents/CodeDocuments/projetos2/LabelCustomizer_StockProject/etiquetaApi/modelo/ModeloEtiquetaProduto.txt"
+const { parse } = require("csv-parse");
+// const pathModel = "../config/ModeloEtiquetaProduto.txt";
+// const pathModel = require('../config/ModeloEtiquetaProduto.txt');
+const pathModel = "/Users/bi004042/Documents/CodeDocuments/projetos2/LabelCustomizer_StockProject/etiquetaApi/src/config/ModeloEtiquetaProduto.txt"
+// const pathScript = "/Users/bi004042/Documents/CodeDocuments/projetos2/LabelCustomizer_StockProject/etiquetaApi/src/config/clusterPost.csv"
 
 //print using Zebra file
 async function callZebraPrinter(res, campoCod, campoDesc1, campoDesc2){
 
-    const pathSave = "/Users/bi004042/Documents/CodeDocuments/projetos2/LabelCustomizer_StockProject/etiquetaApi/modelo/"+campoCod+".zpl"
+    const pathSave = "/Users/bi004042/Documents/CodeDocuments/projetos2/LabelCustomizer_StockProject/etiquetaApi/src/config/"+campoCod+".zpl"
   
     //Read the zebra file and then, change some variables and finally save a new archieve
     fs.readFile(pathModel, 'utf8', function(err, data){
@@ -34,6 +38,29 @@ async function callZebraPrinter(res, campoCod, campoDesc1, campoDesc2){
     });
 };
   
+// //function to call the script of clusters
+// async function callReaderData(){
+
+//   fs.createReadStream(pathScript)
+//   .pipe(parse({ delimiter: ",", from_line: 2 }))
+//   .on("data", function (row) {
+//     console.log(row);
+//   })
+  
+// };
+
+//Get requisiton, it can be get this methof: printerInCsvMode.
+// router.get('/csvPrinter', async (req, res) => {
+//   try{
+//     console.log('new route is ok')
+//     callReaderData()
+//     res.status(200).json({})
+    
+//   }catch (error) {
+//     res.status(500).json({ error: error })
+//   }
+// })
+
 //Get requisiton, it can be get this table: just the prymary key label.
 router.get('/', async (req, res) => {
     try{
@@ -44,7 +71,6 @@ router.get('/', async (req, res) => {
       res.status(500).json({ error: error })
     }
 })
-  
 
 //Post requisition, it change the printer variables from the post requisition from Front End
 router.post('/', function (req, res) {
@@ -71,7 +97,7 @@ router.post('/', function (req, res) {
       callZebraPrinter(res, campoCod, campoDesc1, campoDesc2);  
       //To open the unprinter mode, coment the top line and discoment de bottom line
       // return res.json({msg: "post executed, data below:", campoCod, campoDesc1, campoDesc2})
-  
+
     }catch(error) {
       res.status(500).json({error: error})
     }
@@ -90,6 +116,8 @@ router.get('/:campoCod', async (req, res) => {
         res.status(422).json({message: 'O produto nao foi encontrado'})
         return
       }
+
+      callReaderData()
   
       res.status(200).json(currentLabelCode)
   

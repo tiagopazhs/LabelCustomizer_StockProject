@@ -32,3 +32,5 @@ LATER:
     .Muda direto para input 3
 
 .Botao quantidade verificar se vale a pena fazer de uma vez
+
+.Fazer funcionalidades para os botoes da NavBar principal
