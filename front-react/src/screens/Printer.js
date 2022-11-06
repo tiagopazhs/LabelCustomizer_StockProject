@@ -18,10 +18,6 @@ import React,{useState, useRef} from 'react';
 import '../styles.css';
 import Select from 'react-select';
 const url = "http://localhost:8500";
-const pathScript = "/Users/bi004042/Documents/CodeDocuments/projetos2/LabelCustomizer_StockProject/etiquetaApi/src/config/clusterPost.csv"
-const fs = require('fs');
-const exec = require('child_process').exec;
-const { parse } = require("csv-parse");
 let date = new Date();
 let day = ("00" + date.getDate()).slice(-2);
 let month = ("00" + (date.getMonth()+1)).slice(-2);
@@ -57,9 +53,8 @@ function Printer() {
     };
 
     // Set variables that will be used to comunicate with API
-    const [registered, setRegistered] = useState('');
+    // const [registered, setRegistered] = useState('');
     const [methodReq, setMethodReq] = useState("POST");
-    const [firstToMove, setFirstToMove] = useState('');
 
     // Set variables that will be used in input fields
     const [codePrinter, setCodePrinter] = useState('');
@@ -137,11 +132,11 @@ function Printer() {
         const labelData = await responseGet.json();
 
         if (labelData === null) {
-            setRegistered('')
+            // setRegistered('')
             cleanFieldsWithCode()
         }
         else {
-            setRegistered('got');
+            // setRegistered('got');
             setDescOnePrinter(labelData.campoDesc1);
             setDescTwoPrinter(labelData.campoDesc2);
             setMethodReq("PUT");
@@ -233,17 +228,6 @@ function Printer() {
             )
         }
     }
-
-    async function callCsvPrinter(){
-
-        fs.createReadStream(pathScript)
-        .pipe(parse({ delimiter: ",", from_line: 2 }))
-        .on("data", function (row) {
-          console.log(row);
-        })
-        
-    };
-  
     
     // clean the input field's to reset the validation of data
     async function cleanFields(){
@@ -310,7 +294,7 @@ function Printer() {
                             <div className="divSearchIcon">
                                 <img id="searchIcon" src={search} alt="icone pesquisar" style={{backgroundColor: 'white'}} />
                             </div>
-                            <button id="btnNewPrinter" onClick={() => {callCsvPrinter()}} >Imprimir CSV</button>
+                            <button id="btnNewPrinter" onClick={() => {cleanFieldsWithCode()}} >Nova impressao</button>
                             <img id="optionIcon" src={option} alt="icone de opções" />
                         </div>
                     </div>

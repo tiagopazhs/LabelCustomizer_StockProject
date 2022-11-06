@@ -1,0 +1,36 @@
+.Fazer validações de dados: Tamanho da cadeia de caracteres, clocar caracter especial, tamanho minimo, tamanho da cadeia invalido
+
+.Tentar customizar melhor as etiquetas ZPL talvez centralizar:
+    .https://www.usez.com.br/blog/zebra-programming-language
+
+
+LATER:
+
+.Create tela de login only with userName
+
+.Fazer funcionalidade de carregamento da tela
+
+.Fazer tela de relatório
+
+.Fazer toastify
+
+.expandir menu select quando passar muse em cima
+
+. Mudar a cor do backGround da Lista suspensa quando faz um hover:
+    .Tentar estilizar a menor quanidade de classes possiveis e nao perder mt tempo.Colocar hover na lista suspensa toda
+
+.Mudar fundo para verde quando mudar para MRV
+
+.Corrigir hover dos icones a direita da main nav bar: Ou mudar para icone laranja ou somente corrigir mesmo
+
+.Fazer uma rendereização na pagina mesmo que seja basica
+
+.Quando segue os passos deveria limpar a preview bar
+    .Adiciona dados input 1
+    .Muda pra input 2
+    .volta e deleta dados input 1
+    .Muda direto para input 3
+
+.Botao quantidade verificar se vale a pena fazer de uma vez
+
+.Fazer funcionalidades para os botoes da NavBar principal
