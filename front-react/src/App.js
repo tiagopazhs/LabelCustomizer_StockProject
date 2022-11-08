@@ -7,7 +7,7 @@ export default function App() {
   return (
     <>
       <Printer />
-      <Dash />
+      {/* <Dash /> */}
     </>
   )
 }

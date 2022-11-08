@@ -140,7 +140,7 @@ function Printer() {
             setDescOnePrinter(labelData.campoDesc1);
             setDescTwoPrinter(labelData.campoDesc2);
             setMethodReq("PUT");
-            btnToPrinter.current.focus()
+            // btnToPrinter.current.focus()
         }
         return labelData    
     }
@@ -259,8 +259,8 @@ function Printer() {
                 <span className="divMidNavBar">
                     <p title="home">Home</p>
                     <p title="servicos">Serviços</p>
-                    <p title="relatorios">Relatórios</p>
-                    <p title="github">Github</p>
+                    <p title="relatorios">Dashboard</p>
+                    <p title="github">Relatórios</p>
                 </span>
                 <span className="divRigthNavBar">
                     <img className="navBarIcons" id="sinoIcon" src={sino} alt="desc"/>
@@ -294,7 +294,7 @@ function Printer() {
                             <div className="divSearchIcon">
                                 <img id="searchIcon" src={search} alt="icone pesquisar" style={{backgroundColor: 'white'}} />
                             </div>
-                            <button id="btnNewPrinter" onClick={() => {cleanFieldsWithCode()}} >Nova impressao</button>
+                            <button id="btnNewPrinter" onClick={() => {cleanFieldsWithCode()}} >Impressão com BIP</button>
                             <img id="optionIcon" src={option} alt="icone de opções" />
                         </div>
                     </div>
