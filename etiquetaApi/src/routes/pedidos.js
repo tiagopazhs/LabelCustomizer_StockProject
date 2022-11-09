@@ -32,19 +32,21 @@ router.get('/', async (req, res) => {
     let numberPage = 1
     const {data} =  await axios.get(`${url}/Api/v2/pedidos/page=${numberPage}/json?apikey=${apiKey}&filters=dataEmissao[01/11/2022TO30/11/2022]`);
     let listapedidos = []
+    let teste = []
 
     let pedidosResult = data.retorno.pedidos
-    console.log('esse é o objeto',pedidosResult)
-
     let i = 0;
-    while (i < 2500000) {
-      console.log('Rodada: ', i)
-      console.log(listapedidos)
-      listapedidos += pedidosResult+"," ;
+    while (i < 30) {
+      // console.log('concatenar isso: ',[pedidosResult])
+      teste = listapedidos.concat(pedidosResult)
+      listapedidos = teste
+      // listapedidos += [pedidosResult]+"," ;
+      console.log('Rodada: ', i);
       numberPage++;
-      console.log(listapedidos)
       i++;
+      // console.log(len(listapedidos))
     }
+    // res.json(listapedidos.length)
     res.json(listapedidos)
   }
   catch(err){

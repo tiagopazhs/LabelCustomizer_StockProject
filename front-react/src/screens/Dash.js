@@ -5,8 +5,8 @@ function Dash() {
 
     async function getPedido() {  
         const responseGet = await fetch(`${url}/pedidos`);
-        const labelData = await responseGet.json();
-        console.log(labelData)
+        const orders = await responseGet.json();
+        console.log(orders)
     }
 
     return(
