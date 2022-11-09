@@ -15,11 +15,7 @@ app.use(cors());
 
 const labelHis = require('./src/routes/labelHis')
 const labelExec = require('./src/routes/labelExec')
-
-const https = require('https')
-const axios = require('axios')
-const url = "https://bling.com.br/b"
-const apiKey = "31504fef3824785bc4c7baabbf332d8d146b533eb7a517632ec18573ae351d3964353a70"
+const pedidos = require('./src/routes/pedidos')
 
 // forma de ler JSON / middlewares
 app.use(express.urlencoded({
@@ -29,36 +25,16 @@ app.use(express.urlencoded({
 
 app.use('/historic', labelHis)
 app.use('/procces', labelExec)
-
-const instance = axios.create({
-  httpsAgent: new https.Agent({  
-    rejectUnauthorized: false,
-      withCredentials: false,
-      headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-          'Access-Control-Allow-Headers': 'Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-  })
-});
+app.use('/pedidos', pedidos)
 
 //End point: initial route
-app.get('/teste', async (req, res) => {
-
+app.get('/', async (req, res) => {
   try{
-    const {data:pedidos} =  await axios.get(`${url}/Api/v2/pedidos/page=1/json?apikey=${apiKey}`);
-      // console.log(pedidos,' pedidos')
-    console.log(pedidos)
-      // res.json({message: 'we are on end point!'})
-      res.json(pedidos)
-    }
-  catch(err){
-    console.log(err)
-    res.json({err})
+    res.json({msg: 'Rota inicial'})
+  }catch(error) {
+    res.status(500).json({error: error})
   }
-  })
+})
 
 
 //conect to mongoDB

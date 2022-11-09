@@ -1,0 +1,14 @@
+Protótipo Final, em que o protótipo é o mais fiel possível ao resultado buscado, não sendo necessários testes e possibilitando o lançamento do protótipo diretamente ao mercado para todos os usuários de um dado produto. 
+
+Vantagem: exclui completamente a necessidade de realização de testes com os usuários, trazendo maior agilidade para o lançamento de um produto.
+
+É um processo de desenvolvimento cíclico, que busca acelerar o processo de aprendizagem sobre um produto, permitindo sua melhoria a cada nova rodada.
+
+Criar protótipos somente ao final do projeto, para serem testados somente nos últimos momentos de projeto antes do seu lançamento para o mercado
+
+Evitar realizar testes contextualmente, pois, apesar de serem mais próximos do contexto final de uso do produto, tendem a não ter as condições ideais de interação (ex.: telas grandes, locais silenciosos, etc.).
+
+Desvantagem: Chance de verificação de erros de projeto, que pode gerar frustração da equipe, sendo melhor adiar ao máximo a etapa de teste com usuários.
+
+Compartilhar somente os achados que são favoráveis aos argumentos que queremos defender, evitando apresentar resultados de pesquisa que, mesmo que verdadeiros, vão contra a visão dos diretores da empresa ou equipe de desenvolvimento.
+
