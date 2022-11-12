@@ -37,29 +37,6 @@ async function callZebraPrinter(res, campoCod, campoDesc1, campoDesc2){
       });
     });
 };
-  
-// //function to call the script of clusters
-// async function callReaderData(){
-
-//   fs.createReadStream(pathScript)
-//   .pipe(parse({ delimiter: ",", from_line: 2 }))
-//   .on("data", function (row) {
-//     console.log(row);
-//   })
-  
-// };
-
-//Get requisiton, it can be get this methof: printerInCsvMode.
-// router.get('/csvPrinter', async (req, res) => {
-//   try{
-//     console.log('new route is ok')
-//     callReaderData()
-//     res.status(200).json({})
-    
-//   }catch (error) {
-//     res.status(500).json({ error: error })
-//   }
-// })
 
 //Get requisiton, it can be get this table: just the prymary key label.
 router.get('/', async (req, res) => {
