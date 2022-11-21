@@ -26,22 +26,11 @@ const instance = axios.create({
       },
   })
 });
- 
 
-async function myGreeting(){
-  console.log('myGreeting')
-  console.log('testando')
-  console.log('testa dnv')
-}
 
-async function timeout() {
-  setTimeout(function () {
-    console.log('io')
-      // Do Something Here
-      // Then recall the parent function to
-      // create a recursive loop.
-      timeout();
-  }, 400);
+//interval to use between get requisitions. Limit of Bling: 3 requsitionts for second ad 120.000 for day.
+function timeout(i) {
+  setTimeout(()=>{console.log(i)}, 2000);
 }
 
 //Get requisiton, of all orders.
@@ -61,13 +50,9 @@ router.get('/', async (req, res) => {
     let daysTotalAtendidos = 0
     let daysTotalEmAberto = 0
 
-    // console.log('chegou')
-    // window.setTimeout(myGreeting(), 20000);
-    // console.log('passou')
-
     //Concat all orders requisions
-    while (run) {
-      const {data} = await axios.get(`${url}/Api/v2/pedidos/page=${numberPage}/json?apikey=${apiKey}&filters=dataEmissao[09/11/2022TO09/11/2022]`); //&filters=dataEmissao[01/11/2022TO03/11/2022];idSituacao[9]
+    while(run) {
+      const {data} = await axios.get(`${url}/Api/v2/pedidos/page=${numberPage}/json?apikey=${apiKey}&filters=dataEmissao[14/11/2022TO14/11/2022]`); //&filters=dataEmissao[01/11/2022TO03/11/2022];idSituacao[9]
       let ordersData = data.retorno.pedidos;
       ordersList = ordersList.concat(ordersData);
       numberPage++;
@@ -75,8 +60,9 @@ router.get('/', async (req, res) => {
       if(ordersData.length<100){
         run = false
       }
-      // setTimeout(() => {console.log("Delayed for 5 second.")}, 25000)
-      await timeout()
+      if (i > 0) {
+        timeout(i)
+      }
     }
 
     let orderOutOfTime = 0

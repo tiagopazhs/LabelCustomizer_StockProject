@@ -1,5 +1,0 @@
-const url = "http://localhost:3000/person"
-const urlBling = "https://bling.com.br/Api/v2"
-const apiKey_ = "31504fef3824785bc4c7baabbf332d8d146b533eb7a517632ec18573ae351d3964353a70"
-const id = 140052
-const urlCompleta = `${urlBling}/pedido/${id}/json/?apikey=${apiKey_}`;
