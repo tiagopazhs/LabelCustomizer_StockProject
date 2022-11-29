@@ -8,34 +8,32 @@ const url = "https://bling.com.br/b"
 const apiKey = "31504fef3824785bc4c7baabbf332d8d146b533eb7a517632ec18573ae351d3964353a70"
 let date = new Date();
 let day = ("00" + date.getDate()).slice(-2);
-let month = ("00" + (date.getMonth()+1)).slice(-2);
+let month = ("00" + (date.getMonth() + 1)).slice(-2);
 let year = date.getFullYear();
 let currentDate = `${year}-${month}-${day}`;
 
 //create an instane to solve cors problems
 const instance = axios.create({
-  httpsAgent: new https.Agent({  
+  httpsAgent: new https.Agent({
     rejectUnauthorized: false,
-      withCredentials: false,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-        'Access-Control-Allow-Headers': 'Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
+    withCredentials: false,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+      'Access-Control-Allow-Headers': 'Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
   })
 });
 
 
 //interval to use between get requisitions. Limit of Bling: 3 requsitionts for second ad 120.000 for day.
-function timeout(i) {
-  setTimeout(()=>{console.log(i)}, 2000);
-}
+
 
 //Get requisiton, of all orders.
 router.get('/', async (req, res) => {
-  try{
+  try {
     // const {data:pedidos} =  await axios.get(`${url}/Api/v2/pedido/174186/json?apikey=${apiKey}`);
     let numberPage = 1
     let ordersList = []
@@ -51,26 +49,25 @@ router.get('/', async (req, res) => {
     let daysTotalEmAberto = 0
 
     //Concat all orders requisions
-    while(run) {
-      const {data} = await axios.get(`${url}/Api/v2/pedidos/page=${numberPage}/json?apikey=${apiKey}&filters=dataEmissao[14/11/2022TO14/11/2022]`); //&filters=dataEmissao[01/11/2022TO03/11/2022];idSituacao[9]
+    while (run) {
+      const { data } = await axios.get(`${url}/Api/v2/pedidos/page=${numberPage}/json?apikey=${apiKey}&filters=dataEmissao[09/11/2022TO09/11/2022]`)//&filters=dataEmissao[01/11/2022TO03/11/2022];idSituacao[9]
       let ordersData = data.retorno.pedidos;
       ordersList = ordersList.concat(ordersData);
       numberPage++;
       i++;
-      if(ordersData.length<100){
+      if (ordersData.length < 100) {
         run = false
-      }
-      if (i > 0) {
-        timeout(i)
       }
     }
 
     let orderOutOfTime = 0
     limit = ordersList.length
     j = 0
-    ordersListFilter = "203619239"
 
-    while (j < limit){
+    //stores id: Loja do galo, Inter Store, MRV and Intertag.
+    ordersListFilter = ["203619239", "203370950", "203994140", "203619241"]
+
+    while (j < limit) {
 
       //variables to deal with ther orders fields
       let orderObject = ordersList[j].pedido
@@ -78,13 +75,13 @@ router.get('/', async (req, res) => {
       let pLoja = ordersList[j].pedido.loja
       let pStatus = ordersList[j].pedido.situacao
       let pDataCriacao = ordersList[j].pedido.data
-      if('nota' in orderObject) {
+      if ('nota' in orderObject) {
         pDataEnvio = ordersList[j].pedido.nota.dataEmissao;
-      }else{
+      } else {
         pDataEnvio = currentDate
       }
-      let pDataEnvioFormat = pDataEnvio.slice(0,10)
-      let pTempoMs = new Date(pDataEnvioFormat) - new Date (pDataCriacao)
+      let pDataEnvioFormat = pDataEnvio.slice(0, 10)
+      let pTempoMs = new Date(pDataEnvioFormat) - new Date(pDataCriacao)
       let pTempo = pTempoMs / (1000 * 60 * 60 * 24)
 
       //order fields
@@ -92,26 +89,26 @@ router.get('/', async (req, res) => {
         pNumero,
         pLoja,
         pStatus,
-        pDataCriacao, 
+        pDataCriacao,
         pDataEnvioFormat,
         pTempo
       }
 
       //verify the order status and group for situation & sum days in i each situation
-      if (pStatus === 'Atendido' && pLoja === ordersListFilter){
+      if (pStatus === 'Atendido' && ordersListFilter.includes(pLoja)) {
         pedidosAtendidos = pedidosAtendidos.concat(pedidoFiltrado);
         daysTotalAtendidos = daysTotalAtendidos + pTempo;
-      }else if(pStatus === 'Cancelado' && pLoja === ordersListFilter){
+      } else if (pStatus === 'Cancelado' &&   ordersListFilter.includes(pLoja)) {
         pedidosCancelados = pedidosCancelados.concat(pedidoFiltrado)
-      }else if(pStatus === 'Devolvido' && pLoja === ordersListFilter){
+      } else if (pStatus === 'Devolvido' && ordersListFilter.includes(pLoja)) {
         PedidosDevolvidos = PedidosDevolvidos.concat(pedidoFiltrado)
-      }else if (pLoja === ordersListFilter){
+      } else if (ordersListFilter.includes(pLoja)) {
         outrosPedidos = outrosPedidos.concat(pedidoFiltrado);
         daysTotalEmAberto = daysTotalEmAberto + pTempo;
       }
 
       //verify how many orders are out of time and have been sended
-      if (pTempo>2 && pStatus === 'Atendido'){
+      if (pTempo > 2 && pStatus === 'Atendido') {
         orderOutOfTime++;
       }
       j++;
@@ -132,7 +129,7 @@ router.get('/', async (req, res) => {
       pedidosCancelados,
       PedidosDevolvidos,
       outrosPedidos,
-      // pedidosAtendidosOutOfTimeList,
+      pedidosAtendidosOutOfTimeList,
       pedidosAtendidosOutOfTime,
       pedidosAtendidosOnTime,
       tempoMedioPedidosAtendido,
@@ -144,9 +141,9 @@ router.get('/', async (req, res) => {
 
     res.json(result) // res.json(ordersList.length)
   }
-  catch(err){
+  catch (err) {
     console.log(err)
-    res.json({err})
+    res.json({ err })
   }
 })
 

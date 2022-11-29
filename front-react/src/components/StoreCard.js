@@ -1,5 +1,3 @@
-import logoMRV from "../assets/logoMRVClollection.png";
-
 export default function StoreCard(props) {
     return (
         <div class="" style={{ height: "15%", width: "20%", marginRight: '4%' }}>
@@ -10,12 +8,12 @@ export default function StoreCard(props) {
                     </div>
                     <div class="me-0 pe-0" style={{ width: "60%" }}>
                         <h7 class="card-text d-flex justify-content-end align-items-center me-3 pt-2">Pedidos enviados no mês</h7>
-                        <h4 class="card-text d-flex justify-content-end align-items-center me-3 pt-2" style={{ fontWeight: "bold" }} >1758</h4>
+                        <h4 class="card-text d-flex justify-content-end align-items-center me-3 pt-2" style={{ fontWeight: "bold" }} onChange={props.atualizarPedidos}>{props.pedidosEnviados}</h4>
                     </div>
                 </div>
                 <div class="card-body">
                     <div className="d-flex" style={{borderStyle: "solid", borderTopColor: "#F1F5FF", borderWidth: "1px", borderLeftColor: "transparent", borderRightColor: "transparent", borderBottomColor: "transparent"  }}>
-                        <small class="text-muted mt-2" style={{ fontWeight: "bold"}}>98%</small>
+                        <small class="text-muted mt-2" style={{ fontWeight: "bold"}} onChange={props.atualizarPrazo}>{props.prazoEnviados}</small>
                         <small class="text-muted mt-2 ms-1">no prazo</small>
                     </div>
                     <div className="d-flex">

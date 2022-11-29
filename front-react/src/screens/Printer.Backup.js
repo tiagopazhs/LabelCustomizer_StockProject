@@ -43,7 +43,7 @@ function Printer() {
             icon: <div className="logoCompany"><img id="isIcon" src={logoIs} alt="icone da empresa pesquisada" /></div>,
         },
     ];
-        
+    
     // Set variable that will be used in dropdown list. *Default value is one of the items
     const [selectedOption, setSelectedOption] = useState(data[1]);
     
@@ -53,7 +53,7 @@ function Printer() {
     };
 
     // Set variables that will be used to comunicate with API
-    const [registered, setRegistered] = useState('');
+    // const [registered, setRegistered] = useState('');
     const [methodReq, setMethodReq] = useState("POST");
 
     // Set variables that will be used in input fields
@@ -65,6 +65,7 @@ function Printer() {
     const firstInput = useRef(null);
     const secondInput = useRef(null);
     const thirdInput = useRef(null);
+    const btnToPrinter = useRef(null);
 
     //Set variable of barcode in stage
     const [inStage, setInStage] = useState(landscape);
@@ -80,7 +81,7 @@ function Printer() {
     // Move from input one to input two and call the preview bar
     const moveToSecondInput = (event) => {
         if (event.key === 'Enter') {
-            // previewBar();
+            previewBar();
             secondInput.current.focus();
         }
     }
@@ -95,7 +96,7 @@ function Printer() {
     // Call the stage of user data same in the button insert
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
-            stageOfValidation()
+            stageOfValidation();
         }
     }
 
@@ -131,14 +132,15 @@ function Printer() {
         const labelData = await responseGet.json();
 
         if (labelData === null) {
-            setRegistered('')
+            // setRegistered('')
+            cleanFieldsWithCode()
         }
         else {
-            console.log('i am here')
-            setRegistered('got')
-            setDescOnePrinter(labelData.campoDesc1)
-            setDescTwoPrinter(labelData.campoDesc2)
-            setMethodReq("PUT")
+            // setRegistered('got');
+            setDescOnePrinter(labelData.campoDesc1);
+            setDescTwoPrinter(labelData.campoDesc2);
+            setMethodReq("PUT");
+            // btnToPrinter.current.focus()
         }
         return labelData    
     }
@@ -233,11 +235,18 @@ function Printer() {
         setDescOnePrinter('');
         setDescTwoPrinter('');
         setInStagePrinter('notInStage');
-        setCodePrinter('');
         setInStage(landscape);
         setQtyLabel('0,00');
         setFirstHistoryLabel('100068');
         firstInput.current.focus();
+        setMethodReq("POST");
+    }
+
+    // clean the input field's to reset the validation of data without clean the code
+    async function cleanFieldsWithCode(){
+        setDescOnePrinter('');
+        setDescTwoPrinter('');
+        setInStagePrinter('notInStage');
         setMethodReq("POST");
     }
 
@@ -250,8 +259,8 @@ function Printer() {
                 <span className="divMidNavBar">
                     <p title="home">Home</p>
                     <p title="servicos">Serviços</p>
-                    <p title="relatorios">Relatórios</p>
-                    <p title="github">Github</p>
+                    <p title="relatorios">Dashboard</p>
+                    <p title="github">Relatórios</p>
                 </span>
                 <span className="divRigthNavBar">
                     <img className="navBarIcons" id="sinoIcon" src={sino} alt="desc"/>
@@ -285,7 +294,7 @@ function Printer() {
                             <div className="divSearchIcon">
                                 <img id="searchIcon" src={search} alt="icone pesquisar" style={{backgroundColor: 'white'}} />
                             </div>
-                            <button id="btnNewPrinter" onClick={() => cleanFields()} >Nova impressão</button>
+                            <button id="btnNewPrinter" onClick={() => {cleanFieldsWithCode()}} >Impressão com BIP</button>
                             <img id="optionIcon" src={option} alt="icone de opções" />
                         </div>
                     </div>
@@ -406,6 +415,7 @@ function Printer() {
                             </button>
                             <button // Call the post function. parameters: url that server is running, requisition type, data to post & clean input fields
                                 id="btnEnter" 
+                                ref={btnToPrinter}
                                 onClick={() => {
                                 postTrigger(`${url}/procces`, methodReq, {
                                     "campoCod": codePrinter,

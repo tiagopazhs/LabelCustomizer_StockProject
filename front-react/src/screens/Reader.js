@@ -28,7 +28,7 @@ let second = ("00" + date.getSeconds()).slice(-2);
 let currentData = `${day}/${month}/${year}`;
 let currentTime = `${hour}:${minute}:${second}`;
 
-function Printer() {
+function Reader() {
 
     // Data that will be used in dropdown list.
     const data = [
@@ -508,4 +508,4 @@ function Printer() {
     )
 };
 
-export default Printer;
+export default Reader;

@@ -3,8 +3,30 @@
   color: #495769;
 }
 
+.tableOrder {
+  /* width: 40vh; */
+  /* white-space: nowrap; */
+  text-align: center;
+  /* height: 2vh; */
+}
+
+.noHeader {
+  background-color: white;
+  border-color: white;
+  border:solid;
+  font-size: 0px;
+}
+
+.classTable{
+  width: 40vh;
+  white-space: nowrap;
+  height: 2vh; 
+  text-align: center;
+}
+
 .printerPage{
-  background-color: #F5F6FB;
+  background-color: transparent;  
+  border-color: transparent;
   font-family: Inter,Arial,Helvetica,sans-serif;
   margin: 0px;
   height: 700px;

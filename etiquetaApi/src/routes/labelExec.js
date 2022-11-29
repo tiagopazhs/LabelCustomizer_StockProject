@@ -93,15 +93,12 @@ router.get('/:campoCod', async (req, res) => {
         res.status(422).json({message: 'O produto nao foi encontrado'})
         return
       }
-
-      callReaderData()
   
       res.status(200).json(currentLabelCode)
   
     } catch (error) {
       res.status(500).json({ error: error })
     }
-  
 })
   
 //Modify label
