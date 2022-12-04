@@ -4,7 +4,6 @@ const cors = require('cors');
 const HTTP_PORT = 8500;
 const mongoose = require('mongoose');
 
-
 //User env file to enter with password
 // const DB_USER = process.env.DB_USER
 // const DB_PASSWORD = encodeURIComponent(process.env.DB_PASSWORD)
@@ -29,10 +28,10 @@ app.use('/pedidos', pedidos)
 
 //End point: initial route
 app.get('/', async (req, res) => {
-  try{
-    res.json({msg: 'Rota inicial'})
-  }catch(error) {
-    res.status(500).json({error: error})
+  try {
+    res.json({ msg: 'Rota inicial' })
+  } catch (error) {
+    res.status(500).json({ error: error })
   }
 })
 
@@ -41,8 +40,8 @@ app.get('/', async (req, res) => {
 mongoose.connect(
   `mongodb://tiagopazhs:Aani0607@ac-xb501ws-shard-00-00.ibx1tea.mongodb.net:27017,ac-xb501ws-shard-00-01.ibx1tea.mongodb.net:27017,ac-xb501ws-shard-00-02.ibx1tea.mongodb.net:27017/?ssl=true&replicaSet=atlas-jxxop3-shard-0&authSource=admin&retryWrites=true&w=majority`
 )
-.then(() => {
-  console.log('MongoDb are connected!')
-  app.listen(HTTP_PORT)
-})
-.catch((err) => console.log(err));
+  .then(() => {
+    console.log('MongoDb are connected!')
+    app.listen(HTTP_PORT)
+  })
+  .catch((err) => console.log(err));

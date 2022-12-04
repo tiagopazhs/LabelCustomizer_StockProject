@@ -1,3 +1,4 @@
+// Variables to use in order requisition
 const express = require('express');
 const app = express();
 const router = require("express").Router();
@@ -6,11 +7,18 @@ const axios = require('axios');
 const { Console } = require('console');
 const url = "https://bling.com.br/b"
 const apiKey = "31504fef3824785bc4c7baabbf332d8d146b533eb7a517632ec18573ae351d3964353a70"
-let date = new Date();
-let day = ("00" + date.getDate()).slice(-2);
-let month = ("00" + (date.getMonth() + 1)).slice(-2);
-let year = date.getFullYear();
-let currentDate = `${year}-${month}-${day}`;
+
+const moment = require('moment')
+moment.locale('pt-br');
+
+//stores id: Loja do galo, Inter Store, MRV and Intertag.
+const storeFilter = ["203619239", "203370950", "203994140", "203619241"]
+
+//set holidays to exclude in deadline
+const holidays = ["2022-10-28", "2022-11-02", "2022-11-15", "2022-12-08", "2022-12-25", "2023-01-01"]
+
+//set items with a special dead line
+const specialDeadLineItems = ["Personalização - Nome", "Personalização - Nome e Número", "Personalização - Número", "PRD00375", "PRD00484", "Personalização - Patchs", "PRD00503", "PRD00193"]
 
 //create an instane to solve cors problems
 const instance = axios.create({
@@ -27,116 +35,129 @@ const instance = axios.create({
   })
 });
 
-
-//interval to use between get requisitions. Limit of Bling: 3 requsitionts for second ad 120.000 for day.
-
-
 //Get requisiton, of all orders.
 router.get('/', async (req, res) => {
   try {
-    // const {data:pedidos} =  await axios.get(`${url}/Api/v2/pedido/174186/json?apikey=${apiKey}`);
-    let numberPage = 1
-    let ordersList = []
-    let i = 0;
-    let run = true
 
+    // arrays to receive the orders 
+    let ordersData = []
+    let ordersList = []
+    let orderObject = []
+    let ordersListFilter = []
+    let ordersResult = []
+
+    // set variables to build the result of the request
+    let pNumero = ""
+    let pLoja = ""
+    let pStatus = ""
+    let pDataCriacao = 0
+    let pDataEnvioFormat = 0
+    let pTempo = 0
+    let pTransportadora = ""
+    let pItens = []
+    let pPrazoEspecial = ""
+
+    //set orders by status
     let pedidosAtendidos = []
     let pedidosCancelados = []
     let PedidosDevolvidos = []
     let outrosPedidos = []
+    let pedidoTratado = []
 
-    let daysTotalAtendidos = 0
-    let daysTotalEmAberto = 0
+    // while aux variables
+    let j = 0
+    let i = 0
+    let k = 0
+    let run = true
+    let aut = true
+    let times = 0
+    let currentSecond = -1
+    let pageNumber = 1
 
     //Concat all orders requisions
     while (run) {
-      const { data } = await axios.get(`${url}/Api/v2/pedidos/page=${numberPage}/json?apikey=${apiKey}&filters=dataEmissao[09/11/2022TO09/11/2022]`)//&filters=dataEmissao[01/11/2022TO03/11/2022];idSituacao[9]
-      let ordersData = data.retorno.pedidos;
-      ordersList = ordersList.concat(ordersData);
-      numberPage++;
-      i++;
-      if (ordersData.length < 100) {
-        run = false
+
+      // Verify if the current second is equal the auxiliar variable. Authorize if it is not equal.
+      if (currentSecond != (new Date().getSeconds())) {
+        currentSecond = (new Date().getSeconds())
+        times = 0
+        aut = true
+      }
+
+      // Authorize the requisition to run just 2 times for second
+      if (aut) {
+        const { data } = await axios.get(`${url}/Api/v2/pedidos/page=${pageNumber}/json?apikey=${apiKey}&filters=dataEmissao[14/11/2022TO20/11/2022]`)//&filters=dataEmissao[01/11/2022TO03/11/2022];idSituacao[9]
+        ordersData = data.retorno.pedidos;
+        ordersList = ordersList.concat(ordersData);
+        pageNumber++;
+        i++;
+        times++
+        if (times > 2) { aut = false }
+        // console.log('requisição pedidos de: ', i - 1, '00  a  ', i, '00. Realizado no segundo: ', currentSecond)
+        if (ordersData.length < 100) { run = false; console.log('requisição completa') }
       }
     }
 
-    let orderOutOfTime = 0
-    limit = ordersList.length
-    j = 0
+    // filter orders by stores
+    while (k < ordersList.length) {
+      if (storeFilter.includes(ordersList[k].pedido.loja))
+        ordersListFilter = ordersListFilter.concat(ordersList[k])
+      k++
+    }
 
-    //stores id: Loja do galo, Inter Store, MRV and Intertag.
-    ordersListFilter = ["203619239", "203370950", "203994140", "203619241"]
+    //variables to deal with orders fields
+    while (j < ordersListFilter.length) {
 
-    while (j < limit) {
+      orderObject = ordersListFilter[j].pedido
 
-      //variables to deal with ther orders fields
-      let orderObject = ordersList[j].pedido
-      let pNumero = ordersList[j].pedido.numero
-      let pLoja = ordersList[j].pedido.loja
-      let pStatus = ordersList[j].pedido.situacao
-      let pDataCriacao = ordersList[j].pedido.data
+      pNumero = ordersListFilter[j].pedido.numero
+      pLoja = ordersListFilter[j].pedido.loja
+      pStatus = ordersListFilter[j].pedido.situacao
+      pDataCriacao = ordersListFilter[j].pedido.data
       if ('nota' in orderObject) {
-        pDataEnvio = ordersList[j].pedido.nota.dataEmissao;
+        pDataEnvio = ordersListFilter[j].pedido.nota.dataEmissao;
       } else {
-        pDataEnvio = currentDate
+        pDataEnvio = moment().format('YYYY-MM-DD')
       }
-      let pDataEnvioFormat = pDataEnvio.slice(0, 10)
-      let pTempoMs = new Date(pDataEnvioFormat) - new Date(pDataCriacao)
-      let pTempo = pTempoMs / (1000 * 60 * 60 * 24)
+      pTempo = workDays(pDataCriacao, pDataEnvio)
+      if (ordersListFilter[j].pedido.transporte.transportadora != undefined) { pTransportadora = ordersListFilter[j].pedido.transporte.transportadora } else { pTransportadora = 'correios' }
+      pItens = ordersListFilter[j].pedido.itens
+      pPrazoEspecial = specialDeadLine(pItens)
 
       //order fields
-      let pedidoFiltrado = {
+      pedidoTratado = {
         pNumero,
         pLoja,
         pStatus,
         pDataCriacao,
         pDataEnvioFormat,
-        pTempo
+        pTempo,
+        pTransportadora,
+        pItens,
+        pPrazoEspecial,
       }
 
-      //verify the order status and group for situation & sum days in i each situation
-      if (pStatus === 'Atendido' && ordersListFilter.includes(pLoja)) {
-        pedidosAtendidos = pedidosAtendidos.concat(pedidoFiltrado);
-        daysTotalAtendidos = daysTotalAtendidos + pTempo;
-      } else if (pStatus === 'Cancelado' &&   ordersListFilter.includes(pLoja)) {
-        pedidosCancelados = pedidosCancelados.concat(pedidoFiltrado)
-      } else if (pStatus === 'Devolvido' && ordersListFilter.includes(pLoja)) {
-        PedidosDevolvidos = PedidosDevolvidos.concat(pedidoFiltrado)
-      } else if (ordersListFilter.includes(pLoja)) {
-        outrosPedidos = outrosPedidos.concat(pedidoFiltrado);
-        daysTotalEmAberto = daysTotalEmAberto + pTempo;
-      }
+      ordersResult = ordersResult.concat(pedidoTratado);
 
-      //verify how many orders are out of time and have been sended
-      if (pTempo > 2 && pStatus === 'Atendido') {
-        orderOutOfTime++;
+      //verify the order status and group for situation & sum days in each situation
+      if (pStatus === 'Atendido') {
+        pedidosAtendidos = pedidosAtendidos.concat(pedidoTratado);
+      } else if (pStatus === 'Cancelado') {
+        pedidosCancelados = pedidosCancelados.concat(pedidoTratado)
+      } else if (pStatus === 'Devolvido') {
+        PedidosDevolvidos = PedidosDevolvidos.concat(pedidoTratado)
+      } else {
+        outrosPedidos = outrosPedidos.concat(pedidoTratado);
       }
       j++;
     }
 
-    let pedidosAtendidosOutOfTimeList = pedidosAtendidos.filter(pedidosAtendidos => pedidosAtendidos.pTempo > 2)
-    let pedidosAtendidosOutOfTime = pedidosAtendidosOutOfTimeList.length
-    let pedidosAtendidosOnTime = pedidosAtendidos.length - pedidosAtendidosOutOfTime
-    let tempoMedioPedidosAtendido = daysTotalAtendidos / pedidosAtendidos.length
-
-    let pedidosEmAbertoOutOfTimeList = outrosPedidos.filter(outrosPedidos => outrosPedidos.pTempo > 2)
-    let pedidosEmAbertoOutOfTime = pedidosEmAbertoOutOfTimeList.length
-    let pedidosEmAbertoOnTime = outrosPedidos.length - pedidosEmAbertoOutOfTime
-    let tempoMedioPedidosEmAberto = daysTotalEmAberto / outrosPedidos.length
-
     result = {
+      ordersResult, 
       pedidosAtendidos,
       pedidosCancelados,
       PedidosDevolvidos,
       outrosPedidos,
-      pedidosAtendidosOutOfTimeList,
-      pedidosAtendidosOutOfTime,
-      pedidosAtendidosOnTime,
-      tempoMedioPedidosAtendido,
-      pedidosEmAbertoOutOfTimeList,
-      pedidosEmAbertoOutOfTime,
-      pedidosEmAbertoOnTime,
-      tempoMedioPedidosEmAberto
     }
 
     res.json(result) // res.json(ordersList.length)
@@ -146,5 +167,52 @@ router.get('/', async (req, res) => {
     res.json({ err })
   }
 })
+
+function specialDeadLine(items) {
+  let special = false
+  let whAux = 0
+  let itemCode = ""
+
+  while (whAux < items.length) {
+    itemCode = items[whAux].item.codigo;
+    if (specialDeadLineItems.indexOf(itemCode) != -1) {
+      special = true
+    }
+    whAux++
+  }
+  return special
+}
+
+function workDays(dInitital, dEnd) {
+  let initial = moment(dInitital)
+  let end = moment(dEnd)
+  let result = 0
+  let numDiaSemana = 0
+  let jobDays = 0
+  let whAux = 0
+
+  result = end.diff(initial, 'days');
+
+  while (whAux < result) {
+    initial = initial.add(1, 'days')
+    numDiaSemana = initial.day()
+    if (numDiaSemana != 0 && numDiaSemana != 6) {
+      jobDays++
+    }
+    whAux++
+  }
+
+  let holiday = ""
+  whAux = 0
+  while (whAux < holidays.length) {
+    holiday = holidays[whAux]
+    if (moment(holiday).isBetween(initial, end)) {
+      jobDays--
+    }
+    whAux++
+  }
+
+  return jobDays
+}
 
 module.exports = router

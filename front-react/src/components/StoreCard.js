@@ -1,4 +1,5 @@
 export default function StoreCard(props) {
+
     return (
         <div class="" style={{ height: "15%", width: "20%", marginRight: '4%' }}>
             <div class="card" style={{ borderRadius: "15px" }}>
@@ -17,7 +18,7 @@ export default function StoreCard(props) {
                         <small class="text-muted mt-2 ms-1">no prazo</small>
                     </div>
                     <div className="d-flex">
-                        <small class="text-muted" style={{ fontWeight: "bold" }}>1,03</small>
+                        <small class="text-muted" style={{ fontWeight: "bold" }} onChange={props.atualizarMedia}>{props.mediaEnviados}</small>
                         <small class="text-muted ms-1">dias em média para envio</small>
                     </div>
                 </div>

@@ -10,28 +10,57 @@ import { Chart } from "react-google-charts";
 
 const url = "http://localhost:8500";
 
+
+let initial = ""
+let end = ""
 function Dash() {
 
-   //function that will be used to get orders scheduled
-   // useEffect(() => {
-   //     const myInterval = window.setInterval(function(){
-   //         getPedido()
-   //       }, 6000000);
-   //     return () => clearInterval(myInterval);
-   //   }, []);
+   const [teste, setTeste] = useState("default");
+   async function testeFunc() {
+   }
 
    // Set variable that will be used to receive  the get orders data.
    const [currentOrdersResult, setCurrentOrdersResult] = useState([]);
 
-   // Set variables that will be used to orders with status: Atendido
+   // Set variables that will be used in store cards
    const [atendidosLdg, setAtendidosLdg] = useState(0);
    const [prazoLdg, setPrazoLdg] = useState(0);
+   const [mediaLdg, setMediaLdg] = useState(0);
    const [atendidosIs, setAtendidosIs] = useState(0);
    const [prazoIs, setPrazoIs] = useState(0);
+   const [mediaIs, setMediaIs] = useState(0);
    const [atendidosMrv, setAtendidosMrv] = useState(0);
    const [prazoMrv, setPrazoMrv] = useState(0);
+   const [mediaMrv, setMediaMrv] = useState(0);
    const [atendidosTag, setAtendidosTag] = useState(0);
    const [prazoTag, setPrazoTag] = useState(0);
+   const [mediaTag, setMediaTag] = useState(0);
+
+   // Set variables to use in deadline orders
+   const [totalOrdersSended, setTotalOrdersSended] = useState(0);
+   const [ordersSendedOnTime, setOrdersSendedOnTime] = useState(0);
+   const [ordersSendedOutOfTime, setOrdersSendedOutOfTime] = useState(0);
+   const [percentOrdersSended, setPercentOrdersSended] = useState(0);
+   const [totalOrdersOpen, setTotalOrdersOpen] = useState(0);
+   const [ordersOpenOnTime, setOrdersOpenOnTime] = useState(0);
+   const [ordersOpenOutOfTime, setOrdersOpenOutOfTime] = useState(0);
+   const [percentOrdersOpen, setPercentOrdersOpen] = useState(0);
+
+   // Set pie transport variables
+   const [transpInterlog, setTranspInterlog] = useState(0);
+   const [transpMeLi, setTranspMeli] = useState(0);
+   const [transpCorreios, setTranspCorreios] = useState(0);
+   const [transpBike, setTranspBike] = useState(0);
+   const [transpLocker, setTranspLocker] = useState(0);
+
+   //function that to get orders scheduled
+   // useEffect(() => {
+   //    const myInterval = window.setInterval(function () {
+   //       getPedido();
+   //       refreshValues()
+   //    }, 60000); // repeat every 60 seconds
+   //    return () => clearInterval(myInterval);
+   // }, []);
 
    //Requisition to get orders
    async function getPedido() {
@@ -41,62 +70,98 @@ function Dash() {
       setCurrentOrdersResult(orders)
    }
 
-   //Teste
-   function onChangeTest() {
+   //Refresh values on the dashboard
+   function refreshValues() {
       let ordersAtendidosTotal = currentOrdersResult.pedidosAtendidos
+      let ordersAbertosTotal = currentOrdersResult.outrosPedidos
 
-      let LDG = ordersAtendidosTotal.filter(ordersAtendidosTotal => {
-         return ordersAtendidosTotal.pLoja === '203619239';
-      });
+      //STORE CARD LOJA DO GALO
+      let LDG = ordersAtendidosTotal.filter(ordersAtendidosTotal => { return ordersAtendidosTotal.pLoja === '203619239' });//total or orders
       let totalLDG = LDG.length
-      setAtendidosLdg(totalLDG);
-      let prazLDG = LDG.filter(LDG => {
-         return LDG.pTempo < 3;
-      });
-      setAtendidosLdg(prazLDG/totalLDG);
-      console.log('finalTeste', setAtendidosLdg)
-      
-      let IS = ordersAtendidosTotal.filter(ordersAtendidosTotal => {
-         return ordersAtendidosTotal.pLoja === '203370950';
-      });
-      setAtendidosIs(IS.length);
-      let MRV = ordersAtendidosTotal.filter(ordersAtendidosTotal => {
-         return ordersAtendidosTotal.pLoja === '203994140';
-      });
-      setAtendidosMrv(MRV.length);
-      let TAG = ordersAtendidosTotal.filter(ordersAtendidosTotal => {
-         return ordersAtendidosTotal.pLoja === '203619241';
-      });
-      setAtendidosTag(TAG.length);
-      console.log('alterou totais')
+      setAtendidosLdg(totalLDG);//ordens on time
+      let prazLDG = LDG.filter(LDG => { return LDG.pTempo < 3 });
+      let totalPrazLDG = prazLDG.length
+      setPrazoLdg(new Intl.NumberFormat('en-IN', { style: 'percent' }).format(totalPrazLDG / totalLDG)); //calculate and format orders lead tie
+      let auxSumOrderTimeLdg = 0 //Variable that will be used in the sum of time orders
+      for (let i = 0; i < LDG.length; i++) { auxSumOrderTimeLdg += LDG[i].pTempo }
+      let averageLdg = auxSumOrderTimeLdg / totalLDG //calculate the average
+      setMediaLdg(averageLdg.toFixed(2))
+
+      //STORE CARD INTER STORE
+      let IS = ordersAtendidosTotal.filter(ordersAtendidosTotal => { return ordersAtendidosTotal.pLoja === '203370950' });//total de ordens
+      let totalIS = IS.length
+      setAtendidosIs(totalIS);//ordens no prazo
+      let prazIS = IS.filter(IS => { return IS.pTempo < 3 });
+      let totalPrazIS = prazIS.length
+      setPrazoIs(new Intl.NumberFormat('en-IN', { style: 'percent' }).format(totalPrazIS / totalIS));//calcula e formata ordens no prazo
+      let auxSumOrderTimeIs = 0 //Variable that will be used in the sum of time orders
+      for (let i = 0; i < IS.length; i++) { auxSumOrderTimeIs += IS[i].pTempo }
+      let averageIs = auxSumOrderTimeIs / totalIS //calculate the average
+      setMediaIs(averageIs.toFixed(2))
+
+      //STORE CARD MRV
+      let MRV = ordersAtendidosTotal.filter(ordersAtendidosTotal => { return ordersAtendidosTotal.pLoja === '203994140' });//total de ordens
+      let totalMRV = MRV.length
+      setAtendidosMrv(totalMRV);//ordens no prazo
+      let prazMRV = MRV.filter(MRV => { return MRV.pTempo < 3 });
+      let totalPrazMRV = prazMRV.length
+      setPrazoMrv(new Intl.NumberFormat('en-IN', { style: 'percent' }).format(totalPrazMRV / totalMRV));//calcula e formata ordens no prazo
+      let auxSumOrderTimeMrv = 0 //Variable that will be used in the sum of time orders
+      for (let i = 0; i < MRV.length; i++) { auxSumOrderTimeMrv += MRV[i].pTempo }
+      let averageMrv = auxSumOrderTimeMrv / totalMRV //calculate the average
+      setMediaMrv(averageMrv.toFixed(2))
+
+      //STORE CARD TAG
+      let TAG = ordersAtendidosTotal.filter(ordersAtendidosTotal => { return ordersAtendidosTotal.pLoja === '203619241' });//total de ordens
+      let totalTAG = TAG.length
+      setAtendidosTag(totalTAG);//ordens no prazo
+      let prazTAG = TAG.filter(TAG => { return TAG.pTempo < 3 });
+      let totalPrazTAG = prazTAG.length
+      setPrazoTag(new Intl.NumberFormat('en-IN', { style: 'percent' }).format(totalPrazTAG / totalTAG));//calcula e formata ordens no prazo
+      let auxSumOrderTimeTag = 0 //Variable that will be used in the sum of time orders
+      for (let i = 0; i < TAG.length; i++) { auxSumOrderTimeTag += TAG[i].pTempo }
+      let averageTag = auxSumOrderTimeTag / totalTAG //calculate the average
+      setMediaTag(averageTag.toFixed(2))
+
+      // ORDERS SENDED
+      let totalTotal = ordersAtendidosTotal.length
+      setTotalOrdersSended(totalTotal)
+      let prazTotal = ordersAtendidosTotal.filter(ordersAtendidosTotal => { return ordersAtendidosTotal.pTempo < 3 });
+      let totalPrazTotal = prazTotal.length
+      setOrdersSendedOnTime(totalPrazTotal)
+      setOrdersSendedOutOfTime(totalTotal - totalPrazTotal)
+      setPercentOrdersSended(new Intl.NumberFormat('en-IN', { style: 'percent' }).format(totalPrazTotal / totalTotal))
+
+      // ORDERS OPEN
+      let openTotal = ordersAbertosTotal.length
+      setTotalOrdersOpen(openTotal)
+      let prazOpenTotal = ordersAbertosTotal.filter(ordersAbertosTotal => { return ordersAbertosTotal.pTempo < 3 });
+      let totalOpenPrazTotal = prazOpenTotal.length
+      setOrdersOpenOnTime(totalOpenPrazTotal)
+      setOrdersOpenOutOfTime(openTotal - totalOpenPrazTotal)
+      setPercentOrdersOpen(new Intl.NumberFormat('en-IN', { style: 'percent' }).format(totalOpenPrazTotal / openTotal))
+
+      // // SENDED MODES
+      let pedidosTranspInterlog = ordersAtendidosTotal.filter(ordersAtendidosTotal => { return ordersAtendidosTotal.pTransportadora === 'Interlog' })
+      setTranspInterlog(pedidosTranspInterlog.length)
+      let pedidosTranspMeli = ordersAtendidosTotal.filter(ordersAtendidosTotal => { return ordersAtendidosTotal.pTransportadora === 'vtex:fob_16dc0f6' })
+      setTranspMeli(pedidosTranspMeli.length)
+      let pedidosTranspCorreios = ordersAtendidosTotal.filter(ordersAtendidosTotal => { return ordersAtendidosTotal.pTransportadora === 'correios' })
+      setTranspCorreios(pedidosTranspCorreios.length)
+      let pedidosTranspBike = ordersAtendidosTotal.filter(ordersAtendidosTotal => { return ordersAtendidosTotal.pTransportadora === 'BIKE' })
+      setTranspBike(pedidosTranspBike.length)
+      let pedidosTranspLocker = ordersAtendidosTotal.filter(ordersAtendidosTotal => { return ordersAtendidosTotal.pTransportadora === 'Clique e retire - Inter' })
+      setTranspLocker(pedidosTranspLocker.length)
    }
 
    //Data charts:
-   const dataPie = [
-      ["Task", "Hours per Day"],
-      ["No prazo", 96],
-      ["Em atraso", 4],
-   ];
-   const optionsPie = {
-      pieHole: 0.7,
-      is3D: false,
-      legend: "none",
-      pieSliceText: "none",
-      width: "30vh",
-      height: "30vh",
-      backgroundColor: "none",
-      slices: {
-         0: { color: "#4EB9C4" },
-         1: { color: "#ED3833" },
-      },
-   };
-   const dataMidPie = [
+   const dataSendedPie = [
       ["Pac Man", "Percentage"],
       ["", 4],
       ["", 20],
       ["", 45],
    ];
-   const optionsMidPie = {
+   const optionsSendedPie = {
       legend: "none",
       pieHole: 0.7,
       pieSliceText: "none",
@@ -113,16 +178,42 @@ function Dash() {
       width: "30vh",
       height: "30vh",
       paddingTop: "150vh",
-
+      backgroundColor: "none",
+   };
+   const dataOpenPie = [
+      ["Pac Man", "Percentage"],
+      ["", 12], // red
+      ["", 20], // white
+      ["", 38], // blue
+   ];
+   const optionsOpenPie = {
+      legend: "none",
+      pieHole: 0.7,
+      pieSliceText: "none",
+      pieStartAngle: 69,
+      // pieStartAngle: 260,
+      // pieStartAngle: 233,
+      // pieStartAngle: 129,
+      tooltip: { trigger: "none" },
+      slices: {
+         0: { color: "#ED3833" },
+         1: { color: "transparent" },
+         2: { color: "#4EB9C4" },
+      },
+      width: "30vh",
+      height: "30vh",
+      paddingTop: "150vh",
       backgroundColor: "none",
    };
    const dataColumn = [
       ["Element", "Density", { role: "style" }],
-      ["Interlog", 140, "#F07839"],
-      ["Correios", 35, "#F07839"],
-      ["Bike", 100, "#F07839"],
-      ["Locker", 50, "#F07839"],
+      ["Interlog", transpInterlog, "#F07839"],
+      ["Mercado livre", transpMeLi, "#F07839"],
+      ["Correios", transpCorreios, "#F07839"],
+      ["Bike", transpBike, "#F07839"],
+      ["Locker", transpLocker, "#F07839"],
    ];
+
    const optionsColumn = {
       allowHtml: 'true',
       legend: "none",
@@ -223,12 +314,7 @@ function Dash() {
 
    return (
       <div className="Dashboard" style={{ backgroundColor: "#F5F6FC" }}>
-
-         <button onClick={() => { getPedido(); onChangeTest() }}>Get
-         </button>
-
-         <input value={atendidosLdg} id="inpQty" onChange={setAtendidosLdg}></input>
-
+         <button onClick={testeFunc} onChange={setTeste}> {teste}</button>
          <NavBar />
          <div id="body" className="" style={{ height: '44.5vw', backgroundColor: "#F5F6FC" }}>{/* "#F5F6FC" */}
             <div id="visaoGeral" className="d-flex" style={{ marginTop: "15px", marginBottom: "15px", }}>
@@ -236,7 +322,7 @@ function Dash() {
                   <div className="card-text ms-5"><h5 className="text-muted">Visão geral</h5></div>
                </span>
                <span className="d-flex" style={{ width: "15%" }}>
-                  <p className="card-text"><small className="text-muted">Atualizado: </small></p>
+                  <p className="card-text"><small className="text-muted" onClick={() => { getPedido(); refreshValues() }} >Atualizado: </small></p>
                   <p className="card-text"><small className="text-muted">19:33</small></p>
                </span>
                <span className="d-flex" style={{ width: "15%" }}>
@@ -247,10 +333,14 @@ function Dash() {
             <div id="lojas" className="" >
                <div className="d-flex mb-4" style={{ display: 'flex', alignItems: "center", justifyContent: "center" }} >
                   <p style={{ marginLeft: '4%' }}></p>
-                  <StoreCard logo={logoLojaGalo} backLogoColor={"#303030"} pedidosEnviados={atendidosLdg} atualizarPedidos={setAtendidosLdg} prazoEnviados={prazoLdg} atualizarPrazo={setPrazoLdg}/>
-                  <StoreCard logo={logoInterStore} backLogoColor={"#F5F6FA"} pedidosEnviados={atendidosIs} atualizarPedidos={setAtendidosIs}/>
-                  <StoreCard logo={logoMRV} backLogoColor={"#4FB385"} pedidosEnviados={atendidosMrv} atualizarPedidos={setAtendidosMrv}/>
-                  <StoreCard logo={logoInterPass} backLogoColor={"#F5F6FA"} pedidosEnviados={atendidosTag} atualizarPedidos={setAtendidosTag}/>
+                  <StoreCard logo={logoLojaGalo} backLogoColor={"#303030"} //update style
+                     pedidosEnviados={atendidosLdg} atualizarPedidos={setAtendidosLdg} //update Qty
+                     prazoEnviados={prazoLdg} atualizarPrazo={setPrazoLdg} //update deadline
+                     mediaEnviados={mediaLdg} atualizarMedia={setMediaLdg} //update average
+                  />
+                  <StoreCard logo={logoInterStore} backLogoColor={"#F5F6FA"} pedidosEnviados={atendidosIs} atualizarPedidos={setAtendidosIs} prazoEnviados={prazoIs} atualizarPrazo={setPrazoIs} mediaEnviados={mediaIs} atualizarMedia={setMediaIs} />
+                  <StoreCard logo={logoMRV} backLogoColor={"#4FB385"} pedidosEnviados={atendidosMrv} atualizarPedidos={setAtendidosMrv} prazoEnviados={prazoMrv} atualizarPrazo={setPrazoMrv} mediaEnviados={mediaMrv} atualizarMedia={setMediaMrv} />
+                  <StoreCard logo={logoInterPass} backLogoColor={"#F5F6FA"} pedidosEnviados={atendidosTag} atualizarPedidos={setAtendidosTag} prazoEnviados={prazoTag} atualizarPrazo={setPrazoTag} mediaEnviados={mediaTag} atualizarMedia={setMediaTag} />
                </div>
             </div>
             <div id="bodyDown" className="d-flex ps-4 pe-4" style={{ height: '72%', width: "100%" }}>
@@ -262,18 +352,18 @@ function Dash() {
                               <h5 className="text-muted ms-5 mt-2" style={{ position: "absolute", textAlign: "center" }}>Pedidos enviados</h5>
                               <Chart
                                  chartType="PieChart"
-                                 data={dataPie}
-                                 options={optionsPie}
+                                 data={dataSendedPie}
+                                 options={optionsSendedPie}
                                  allowHtml="true"
                               />
                            </div>
                         </div>
                         <div className="card ps-3 pt-3 me-3 mb-3 mt-3" style={{ width: "50%", borderRadius: "15px", backgroundColor: "#F2F2F2", height: "85%" }}>
-                           <p className="card-text">Total - 399</p>
-                           <p className="card-text">No prazo - 351</p>
-                           <p className="card-text">Em atraso - 49</p>
+                           <p className="card-text" onChange={setTotalOrdersSended}>Total - {totalOrdersSended}</p>
+                           <p className="card-text" onChange={setOrdersSendedOnTime}>No prazo - {ordersSendedOnTime}</p>
+                           <p className="card-text" onChange={setOrdersSendedOutOfTime}>Em atraso - {ordersSendedOutOfTime}</p>
                            <div id="total" className="d-flex" style={{ alignItems: 'center' }}>
-                              <h3 style={{ fontFamily: "arial", fontWeight: "bold" }} >98% </h3><p className="card-text ps-2 mb-2"> envios no prazo</p>
+                              <h3 style={{ fontFamily: "arial", fontWeight: "bold" }} onChange={setPercentOrdersSended}>{percentOrdersSended}</h3><p className="card-text ps-2 mb-2"> envios no prazo</p>
                            </div>
                         </div>
                      </div>
@@ -283,18 +373,18 @@ function Dash() {
                               <h5 className="text-muted ms-5 mt-2" style={{ position: "absolute", textAlign: "center" }}>Pedidos em aberto</h5>
                               <Chart
                                  chartType="PieChart"
-                                 data={dataMidPie}
-                                 options={optionsMidPie}
+                                 data={dataOpenPie}
+                                 options={optionsOpenPie}
                                  allowHtml='true'
                               />
                            </div>
                         </div>
                         <div className="card ps-3 pt-3 me-3 mb-3 mt-3" style={{ width: "50%", borderRadius: "15px", backgroundColor: "#F2F2F2", height: "85%" }}>
-                           <p className="card-text">Total - 38</p>
-                           <p className="card-text">No prazo - 35</p>
-                           <p className="card-text">Em atraso - 3</p>
+                           <p className="card-text" onChange={setTotalOrdersOpen}>Total - {totalOrdersOpen}</p>
+                           <p className="card-text" onChange={setOrdersOpenOnTime}>No prazo - {ordersOpenOnTime}</p>
+                           <p className="card-text" onChange={setOrdersOpenOutOfTime}>Em atraso - {ordersOpenOutOfTime}</p>
                            <div id="total" className="d-flex" style={{ alignItems: 'center' }}>
-                              <h3 style={{ fontFamily: "arial", fontWeight: "bold" }} >96% </h3><p className="card-text ps-2 mb-2"> pedidos no prazo</p>
+                              <h3 style={{ fontFamily: "arial", fontWeight: "bold" }} onChange={setPercentOrdersOpen}>{percentOrdersOpen}</h3><p className="card-text ps-2 mb-2"> pedidos no prazo</p>
                            </div>
                         </div>
                      </div>
