@@ -7,6 +7,7 @@ import logoInterStore from "../assets/logoInterStore.png";
 import logoMRV from "../assets/logoMRVClollection2.png";
 import logoInterPass from "../assets/logoInterPass.png";
 import { Chart } from "react-google-charts";
+import { dataSendedPie } from "../constants/dashContants";
 
 const moment = require('moment')
 moment.locale('pt-br');
@@ -44,119 +45,7 @@ function Dash() {
 
    const [updatedTime, setUpdatedTime] = useState("00:01")
 
-   //Requisition to get orders
-   async function getPedido() {
-      let responseGet = await fetch(`${url}/pedidos`);
-      let orders = await responseGet.json();
-      setCurrentOrders(orders)
-      console.log('orders: ', orders)
-   }
-
-   //Refresh values on the dashboard
-   function refreshValues() {
-
-      const notOpen = ['Atendido', 'Devolvido', 'Cancelado']
-      setListAtendidos(currentOrders.filter(currentOrders => { return currentOrders.pStatus === 'Atendido' }))
-      setListAbertos(currentOrders.filter(currentOrders => { return notOpen.indexOf(currentOrders.pStatus) === -1 }))
-
-      // Stores values
-      setLdgList(listAtendidos.filter(listAtendidos => { return listAtendidos.pLoja === '203619239' }))
-      setIsList(listAtendidos.filter(listAtendidos => { return listAtendidos.pLoja === '203370950' }))
-      setMrvList(listAtendidos.filter(listAtendidos => { return listAtendidos.pLoja === '203994140' }))
-      setTagList(listAtendidos.filter(listAtendidos => { return listAtendidos.pLoja === '203619241' }))
-
-      // Sended orders
-      let totalTotal = listAtendidos.length
-      setTotalOrdersSended(totalTotal)
-      let prazTotal = listAtendidos.filter(listAtendidos => { return listAtendidos.pTempo < 3 && !(listAtendidos.pPrazoEspecial) || listAtendidos.pTempo < 5 && listAtendidos.pPrazoEspecial });
-      let totalPrazTotal = prazTotal.length
-      setOrdersSendedOnTime(totalPrazTotal)
-      setOrdersSendedOutOfTime(totalTotal - totalPrazTotal)
-      setPercentOrdersSended(new Intl.NumberFormat('en-IN', { style: 'percent' }).format(totalPrazTotal / totalTotal))
-
-      // Open orders
-      let openTotal = listAbertos.length
-      setTotalOrdersOpen(openTotal)
-      let prazOpenTotal = listAbertos.filter(listAbertos => { return listAbertos.pTempo < 3 && !(listAbertos.pPrazoEspecial) || listAbertos.pTempo < 5 && listAbertos.pPrazoEspecial });
-      let totalOpenPrazTotal = prazOpenTotal.length
-      setOrdersOpenOnTime(totalOpenPrazTotal)
-      setOrdersOpenOutOfTime(openTotal - totalOpenPrazTotal)
-      setPercentOrdersOpen(new Intl.NumberFormat('en-IN', { style: 'percent' }).format(totalOpenPrazTotal / openTotal))
-
-      // sended orders by mode
-      let pedidosTranspInterlog = listAtendidos.filter(listAtendidos => { return listAtendidos.pTransportadora === 'Interlog' })
-      setTranspInterlog(pedidosTranspInterlog.length)
-      let pedidosTranspMeli = listAtendidos.filter(listAtendidos => { return listAtendidos.pTransportadora === 'vtex:fob_16dc0f6' })
-      setTranspMeli(pedidosTranspMeli.length)
-      let pedidosTranspCorreios = listAtendidos.filter(listAtendidos => { return listAtendidos.pTransportadora === 'correios' })
-      setTranspCorreios(pedidosTranspCorreios.length)
-      let pedidosTranspBike = listAtendidos.filter(listAtendidos => { return listAtendidos.pTransportadora === 'BIKE' })
-      setTranspBike(pedidosTranspBike.length)
-      let pedidosTranspLocker = listAtendidos.filter(listAtendidos => { return listAtendidos.pTransportadora === 'Clique e retire - Inter' })
-      setTranspLocker(pedidosTranspLocker.length)
-
-      // top 5 best selling products
-      // let listAtendidos = listAbertos
-      let listOfProducts = {"GB3495-G": 3}
-      let z = 0
-      let product = ""
-      let newProduct = ""
-      let newQty = 0
-      let qty = ""
-      let qtyChanges = ""
-      while(z < listAbertos.length){
-         product = listAbertos[z].pItens[0].item.codigo
-         qty = parseInt(listAbertos[z].pItens[0].item.quantidade)
-         newProduct = { [product]: qty }
-         if(product in listOfProducts){
-            console.log("newQty", listOfProducts.product)
-            newQty = qty + listOfProducts.product
-            
-            // newProduct = { [product]: newQty }
-         }else{
-            listOfProducts = {...listOfProducts, ...newProduct}
-         }
-         z++
-      }
-
-      // table of open orders
-      const storesNumbers = ["203619239", "203370950", "203994140", "203619241"]
-      const storesName = ["Loja do Galo", "InterStore", "Loja MRV", "Intertag"]
-      let dataTable = [["Pedido", "Loja", "Cliente", "Data", "dias atraso"]]
-      let dataTableResult = []
-      let storeIndice = -1
-      let aux = 0
-      let currentOrder = []
-      let dataTableAdd = []
-      while (aux < listAbertos.length) {
-         dataTableResult = []
-         currentOrder = listAbertos[aux]
-         storeIndice = storesNumbers.indexOf(currentOrder.pLoja)
-         dataTableAdd = [
-            currentOrder.pNumero,
-            storesName[storeIndice],
-            currentOrder.pCliente,
-            moment(currentOrder.pDataCriacao).format("DD/MM"),
-            currentOrder.pTempoAtraso
-         ]
-         dataTableResult = [...dataTable, [...dataTableAdd]]
-         dataTable = dataTableResult
-         aux++
-      }
-      setDataTableOpen(dataTable)
-
-      // last update time
-      setUpdatedTime(moment().format('hh:mm'))
-
-   }
-
    //Data charts:
-   const dataSendedPie = [
-      ["Pac Man", "Percentage"],
-      ["", 4],
-      ["", 20],
-      ["", 45],
-   ];
    const optionsSendedPie = {
       legend: "none",
       pieHole: 0.7,
@@ -274,14 +163,151 @@ function Dash() {
    const formattersProductTable = [
    ];
 
+
+   //Requisition to get orders
+   async function getPedido() {
+      let responseGet = await fetch(`${url}/pedidos`);
+      let orders = await responseGet.json();
+      setCurrentOrders(orders)
+      console.log('orders: ', orders)
+   }
+
+   //Refresh values on the dashboard
+   function refreshValues() {
+
+      const notOpen = ['Atendido', 'Devolvido', 'Cancelado']
+      setListAtendidos(currentOrders.filter(currentOrders => { return currentOrders.pStatus === 'Atendido' }))
+      setListAbertos(currentOrders.filter(currentOrders => { return notOpen.indexOf(currentOrders.pStatus) === -1 }))
+
+      // Stores values
+      setLdgList(listAtendidos.filter(listAtendidos => { return listAtendidos.pLoja === '203619239' }))
+      setIsList(listAtendidos.filter(listAtendidos => { return listAtendidos.pLoja === '203370950' }))
+      setMrvList(listAtendidos.filter(listAtendidos => { return listAtendidos.pLoja === '203994140' }))
+      setTagList(listAtendidos.filter(listAtendidos => { return listAtendidos.pLoja === '203619241' }))
+
+      // Sended orders
+      let totalTotal = listAtendidos.length
+      setTotalOrdersSended(totalTotal)
+      let prazTotal = listAtendidos.filter(listAtendidos => { return listAtendidos.pTempo < 3 && !(listAtendidos.pPrazoEspecial) || listAtendidos.pTempo < 5 && listAtendidos.pPrazoEspecial });
+      let totalPrazTotal = prazTotal.length
+      setOrdersSendedOnTime(totalPrazTotal)
+      setOrdersSendedOutOfTime(totalTotal - totalPrazTotal)
+      setPercentOrdersSended(new Intl.NumberFormat('en-IN', { style: 'percent' }).format(totalPrazTotal / totalTotal))
+
+      // Open orders
+      let openTotal = listAbertos.length
+      setTotalOrdersOpen(openTotal)
+      let prazOpenTotal = listAbertos.filter(listAbertos => { return listAbertos.pTempo < 3 && !(listAbertos.pPrazoEspecial) || listAbertos.pTempo < 5 && listAbertos.pPrazoEspecial });
+      let totalOpenPrazTotal = prazOpenTotal.length
+      setOrdersOpenOnTime(totalOpenPrazTotal)
+      setOrdersOpenOutOfTime(openTotal - totalOpenPrazTotal)
+      setPercentOrdersOpen(new Intl.NumberFormat('en-IN', { style: 'percent' }).format(totalOpenPrazTotal / openTotal))
+
+      // sended orders by mode
+      let pedidosTranspInterlog = listAtendidos.filter(listAtendidos => { return listAtendidos.pTransportadora === 'Interlog' })
+      setTranspInterlog(pedidosTranspInterlog.length)
+      let pedidosTranspMeli = listAtendidos.filter(listAtendidos => { return listAtendidos.pTransportadora === 'vtex:fob_16dc0f6' })
+      setTranspMeli(pedidosTranspMeli.length)
+      let pedidosTranspCorreios = listAtendidos.filter(listAtendidos => { return listAtendidos.pTransportadora === 'correios' })
+      setTranspCorreios(pedidosTranspCorreios.length)
+      let pedidosTranspBike = listAtendidos.filter(listAtendidos => { return listAtendidos.pTransportadora === 'BIKE' })
+      setTranspBike(pedidosTranspBike.length)
+      let pedidosTranspLocker = listAtendidos.filter(listAtendidos => { return listAtendidos.pTransportadora === 'Clique e retire - Inter' })
+      setTranspLocker(pedidosTranspLocker.length)
+
+      // top 5 best selling products
+      // let listAtendidos = listAbertos
+      let listOfProducts = { "GB3495G": {"qty": 3} , "2346": {"qty": 6}}
+      let z = 0
+      let product = ""
+      let newProduct = ""
+      let newQty = 0
+      let qty = ""
+      let qtyChanges = ""
+      let codeName = ""
+      while (z < listAbertos.length) {
+
+         product = listAbertos[z].pItens[0].item.codigo
+         qty = parseInt(listAbertos[z].pItens[0].item.quantidade)
+
+         newProduct = { [product]: qty }
+
+         if (product in listOfProducts) {
+            productT = product.toString()
+
+            console.log("newQty", listOfProducts.product.toString().qty)
+            // newQty = qty + listOfProducts.GB3495G.qty
+
+            // newProduct = { [product]: newQty }
+         } else {
+            listOfProducts = { ...listOfProducts, ...newProduct }
+         }
+         z++
+      }
+
+      // let listOfProducts = [ {"item": "GB3495G", "qty": 3} , {"item": "2346", "qty": 6} ]
+      // let z = 0
+      // let product = ""
+      // let newProduct = ""
+      // let newQty = 0
+      // let qty = ""
+      // let qtyChanges = ""
+      // let productT = ""
+      // while (z < listAbertos.length) {
+
+      //    product = listAbertos[z].pItens[0].item.codigo
+      //    qty = parseInt(listAbertos[z].pItens[0].item.quantidade)
+
+      //    newProduct = {"item": product, "qty": qty}
+
+      //    if (product in listOfProducts) {
+      //       productT = product.toString()
+
+      //       console.log("productT", productT)
+
+      //       newQty = listOfProducts.[0].item
+
+      //       console.log("newQty", newQty)
+
+      // table of open orders
+      const storesNumbers = ["203619239", "203370950", "203994140", "203619241"]
+      const storesName = ["Loja do Galo", "InterStore", "Loja MRV", "Intertag"]
+      let dataTable = [["Pedido", "Loja", "Cliente", "Data", "dias atraso"]]
+      let dataTableResult = []
+      let storeIndice = -1
+      let aux = 0
+      let currentOrder = []
+      let dataTableAdd = []
+      while (aux < listAbertos.length) {
+         dataTableResult = []
+         currentOrder = listAbertos[aux]
+         storeIndice = storesNumbers.indexOf(currentOrder.pLoja)
+         dataTableAdd = [
+            currentOrder.pNumero,
+            storesName[storeIndice],
+            currentOrder.pCliente,
+            moment(currentOrder.pDataCriacao).format("DD/MM"),
+            currentOrder.pTempoAtraso
+         ]
+         dataTableResult = [...dataTable, [...dataTableAdd]]
+         dataTable = dataTableResult
+         aux++
+      }
+      setDataTableOpen(dataTable)
+
+      // last update time
+      setUpdatedTime(moment().format('hh:mm'))
+
+   }
+
    //function that to get orders scheduled
-      useEffect(() => {
-        const myInterval = window.setInterval(function () {
-           getPedido();
-           refreshValues()
-            }, 180000); // repeat every 180 seconds
-        return () => clearInterval(myInterval);
-   }, []);
+   //    useEffect(() => {
+   //      const myInterval = window.setInterval(function () {
+   //         getPedido();
+   //         refreshValues()
+   //          }, 180000); // repeat every 180 seconds
+   //      return () => clearInterval(myInterval);
+   // }, []);
 
 
    //refresh values when there are something new
