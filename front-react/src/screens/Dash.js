@@ -40,6 +40,7 @@ function Dash() {
    const [transpCorreios, setTranspCorreios] = useState(0);
    const [transpBike, setTranspBike] = useState(0);
    const [transpLocker, setTranspLocker] = useState(0);
+   const [dataTableOpen, setDataTableOpen] = useState([["Pedido", "Loja", "Cliente", "Data", "dias atraso"], ["", "", "", "", ""]]);
 
    const [updatedTime, setUpdatedTime] = useState("00:01")
 
@@ -52,10 +53,11 @@ function Dash() {
    }
 
    //Refresh values on the dashboard
-   function refreshValues() {      
+   function refreshValues() {
 
+      const notOpen = ['Atendido', 'Devolvido', 'Cancelado']
       setListAtendidos(currentOrders.filter(currentOrders => { return currentOrders.pStatus === 'Atendido' }))
-      setListAbertos(currentOrders.filter(currentOrders => { return currentOrders.pStatus != 'Atendido' && currentOrders.pStatus != 'Devolvido' && currentOrders.pStatus != 'Cancelado' }))
+      setListAbertos(currentOrders.filter(currentOrders => { return notOpen.indexOf(currentOrders.pStatus) === -1 }))
 
       // Stores values
       setLdgList(listAtendidos.filter(listAtendidos => { return listAtendidos.pLoja === '203619239' }))
@@ -93,6 +95,57 @@ function Dash() {
       let pedidosTranspLocker = listAtendidos.filter(listAtendidos => { return listAtendidos.pTransportadora === 'Clique e retire - Inter' })
       setTranspLocker(pedidosTranspLocker.length)
 
+      // top 5 best selling products
+      // let listAtendidos = listAbertos
+      let listOfProducts = {"GB3495-G": 3}
+      let z = 0
+      let product = ""
+      let newProduct = ""
+      let newQty = 0
+      let qty = ""
+      let qtyChanges = ""
+      while(z < listAbertos.length){
+         product = listAbertos[z].pItens[0].item.codigo
+         qty = parseInt(listAbertos[z].pItens[0].item.quantidade)
+         newProduct = { [product]: qty }
+         if(product in listOfProducts){
+            console.log("newQty", listOfProducts.product)
+            newQty = qty + listOfProducts.product
+            
+            // newProduct = { [product]: newQty }
+         }else{
+            listOfProducts = {...listOfProducts, ...newProduct}
+         }
+         z++
+      }
+
+      // table of open orders
+      const storesNumbers = ["203619239", "203370950", "203994140", "203619241"]
+      const storesName = ["Loja do Galo", "InterStore", "Loja MRV", "Intertag"]
+      let dataTable = [["Pedido", "Loja", "Cliente", "Data", "dias atraso"]]
+      let dataTableResult = []
+      let storeIndice = -1
+      let aux = 0
+      let currentOrder = []
+      let dataTableAdd = []
+      while (aux < listAbertos.length) {
+         dataTableResult = []
+         currentOrder = listAbertos[aux]
+         storeIndice = storesNumbers.indexOf(currentOrder.pLoja)
+         dataTableAdd = [
+            currentOrder.pNumero,
+            storesName[storeIndice],
+            currentOrder.pCliente,
+            moment(currentOrder.pDataCriacao).format("DD/MM"),
+            currentOrder.pTempoAtraso
+         ]
+         dataTableResult = [...dataTable, [...dataTableAdd]]
+         dataTable = dataTableResult
+         aux++
+      }
+      setDataTableOpen(dataTable)
+
+      // last update time
       setUpdatedTime(moment().format('hh:mm'))
 
    }
@@ -178,41 +231,8 @@ function Dash() {
          gridlines: { count: 0 }
       },
    };
-   const dataTable = [
-      ["Pedido", "Loja", "Cliente", "Data", "dias atraso"],
-      ["175788", "Is", "Tatiane Pimenta Costa atiane Pimenta Costa", "10/07/22", 15],
-      ["176060", "Galo", "Tatiane Pimenta Costa", "10/07/22", 4],
-      ["177070", "Pass", "Tatiane Pimenta Costa", "10/07/22", 3],
-      ["177071", "MRV", "Tatiane Pimenta Costa", "10/07/22", 3],
-      ["175788", "Is", "Tatiane Pimenta Costa", "10/07/22", 2],
-      ["176060", "Galo", "Tatiane Pimenta Costa", "10/07/22", 2],
-      ["177070", "Pass", "Tatiane Pimenta Costa", "10/07/22", 2],
-      ["177071", "MRV", "Tatiane Pimenta Costa", "10/07/22", 2],
-      ["175788", "Is", "Tatiane Pimenta Costa", "10/07/22", 2],
-      ["176060", "Galo", "Tatiane Pimenta Costa", "10/07/22", 2],
-      ["177070", "Pass", "Tatiane Pimenta Costa", "10/07/22", 2],
-      ["177071", "MRV", "Tatiane Pimenta Costa", "10/07/22", 2],
-      ["175788", "Is", "Tatiane Pimenta Costa", "10/07/22", 2],
-      ["176060", "Galo", "Tatiane Pimenta Costa", "10/07/22", 2],
-      ["177070", "Pass", "Tatiane Pimenta Costa", "10/07/22", 0],
-      ["177071", "MRV", "Tatiane Pimenta Costa", "10/07/22", 0],
-      ["175788", "Is", "Tatiane Pimenta Costa", "10/07/22", 0],
-      ["176060", "Galo", "Tatiane Pimenta Costa", "10/07/22", 0],
-      ["177070", "Pass", "Tatiane Pimenta Costa", "10/07/22", 0],
-      ["177071", "MRV", "Tatiane Pimenta Costa", "10/07/22", 0],
-      ["175788", "Is", "Tatiane Pimenta Costa", "10/07/22", 0],
-      ["176060", "Galo", "Tatiane Pimenta Costa", "10/07/22", 0],
-      ["177070", "Pass", "Tatiane Pimenta Costa", "10/07/22", 0],
-      ["177071", "MRV", "Tatiane Pimenta Costa", "10/07/22", 0],
-      ["175788", "Is", "Tatiane Pimenta Costa", "10/07/22", 0],
-      ["176060", "Galo", "Tatiane Pimenta Costa", "10/06/22", 0],
-      ["177070", "Pass", "Tatiane Pimenta Costa", "10/08/22", 0],
-      ["177071", "MRV", "Tatiane Pimenta Costa", "10/07/22", 0],
-      ["175788", "Is", "Tatiane Pimenta Costa", "10/07/22", 0],
-      ["176060", "Galo", "Tatiane Pimenta Costa", "10/07/22", 0],
-      ["177070", "Pass", "Tatiane Pimenta Costa", "10/07/22", 0],
-      ["177071", "MRV", "Tatiane Pimenta Costa", "10/07/22", 0],
-   ];
+
+   let dataTable = dataTableOpen;
 
    const optionsTable = {
       allowHtml: true,
@@ -234,7 +254,7 @@ function Dash() {
          ],
       },
    ];
-   const dataTable2 = [
+   const dataProductTable = [
       ["", "", ""],
       ["img", "Camisa Masculina Adidas Atlético Mineiro II 2022 Tamanho:G", 2],
       ["img", "Interpig - laranja especificação: único", 0],
@@ -243,7 +263,7 @@ function Dash() {
       ["img", "Camisa Masculina Adidas Atlético Mineiro II 2022 Tamanho:G", 3],
    ];
 
-   const optionsTable2 = {
+   const optionsProductTable = {
       allowHtml: true,
       showRowNumber: true,
       allowHtml: true,
@@ -251,22 +271,22 @@ function Dash() {
       height: "20vh",
       cssClassNames: { tableCell: 'classTable', headerCell: 'noHeader' },
    };
-   const formattersTable2 = [
+   const formattersProductTable = [
    ];
 
    //function that to get orders scheduled
-//    useEffect(() => {
-//      const myInterval = window.setInterval(function () {
-//         getPedido();
-//         refreshValues()
-//          }, 60000); // repeat every 60 seconds
-//      return () => clearInterval(myInterval);
-// }, []);
+      useEffect(() => {
+        const myInterval = window.setInterval(function () {
+           getPedido();
+           refreshValues()
+            }, 180000); // repeat every 180 seconds
+        return () => clearInterval(myInterval);
+   }, []);
 
 
    //refresh values when there are something new
    useEffect(() => {
-         refreshValues()
+      refreshValues()
    }, [currentOrders]);
 
    return (
@@ -289,7 +309,7 @@ function Dash() {
             <div id="lojas" className="" >
                <div className="d-flex mb-4" style={{ display: 'flex', alignItems: "center", justifyContent: "center" }} >
                   <p style={{ marginLeft: '4%' }}></p>
-                  <StoreCard logo={logoLojaGalo} backLogoColor={"#303030"} atualizarPedidos={ldgList}/>
+                  <StoreCard logo={logoLojaGalo} backLogoColor={"#303030"} atualizarPedidos={ldgList} />
                   <StoreCard logo={logoInterStore} backLogoColor={"#F5F6FA"} atualizarPedidos={isList} />
                   <StoreCard logo={logoMRV} backLogoColor={"#4FB385"} atualizarPedidos={mrvList} />
                   <StoreCard logo={logoInterPass} backLogoColor={"#F5F6FA"} atualizarPedidos={tagList} />
@@ -353,9 +373,9 @@ function Dash() {
                         <Chart
                            chartType="Table"
                            height="95%"
-                           data={dataTable2}
-                           options={optionsTable2}
-                           formatters={formattersTable2}
+                           data={dataProductTable}
+                           options={optionsProductTable}
+                           formatters={formattersProductTable}
                         />
                      </div>
                   </div>
