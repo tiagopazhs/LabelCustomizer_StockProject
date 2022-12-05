@@ -10,18 +10,13 @@ const url = "https://bling.com.br/b"
 require('dotenv').config();
 const apiKey = process.env.API_KEY
 
-const moment = require('moment')
+const moment = require('moment');
 moment.locale('pt-br');
+
+const { workDays, specialDeadLine } = require('../utils');
 
 //stores id: Loja do galo, Inter Store, MRV and Intertag.
 const storeFilter = ["203619239", "203370950", "203994140", "203619241"]
-const storesName = ["Loja do Galo", "InterStore", "Loja MRV", "Intertag"]
-
-//set holidays to exclude in deadline
-const holidays = ["2022-10-28", "2022-11-02", "2022-11-15", "2022-12-08", "2022-12-25", "2023-01-01"]
-
-//set items with a special dead line
-const specialDeadLineItems = ["Personalização - Nome", "Personalização - Nome e Número", "Personalização - Número", "PRD00375", "PRD00484", "Personalização - Patchs", "PRD00503", "PRD00193"]
 
 //create an instane to solve cors problems
 const instance = axios.create({
@@ -155,52 +150,5 @@ router.get('/', async (req, res) => {
     res.json({ err })
   }
 })
-
-function specialDeadLine(items) {
-  let special = false
-  let whAux = 0
-  let itemCode = ""
-
-  while (whAux < items.length) {
-    itemCode = items[whAux].item.codigo;
-    if (specialDeadLineItems.indexOf(itemCode) != -1) {
-      special = true
-    }
-    whAux++
-  }
-  return special
-}
-
-function workDays(dInitital, dEnd) {
-  let initial = moment(dInitital)
-  let end = moment(dEnd)
-  let result = 0
-  let numDiaSemana = 0
-  let jobDays = 0
-  let whAux = 0
-
-  result = end.diff(initial, 'days');
-
-  while (whAux < result) {
-    initial = initial.add(1, 'days')
-    numDiaSemana = initial.day()
-    if (numDiaSemana != 0 && numDiaSemana != 6) {
-      jobDays++
-    }
-    whAux++
-  }
-
-  let holiday = ""
-  whAux = 0
-  while (whAux < holidays.length) {
-    holiday = holidays[whAux]
-    if (moment(holiday).isBetween(initial, end)) {
-      jobDays--
-    }
-    whAux++
-  }
-
-  return jobDays
-}
 
 module.exports = router

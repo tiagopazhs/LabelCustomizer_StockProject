@@ -1,5 +1,3 @@
-
-
 export const dataSendedPie = [
     ["Pac Man", "Percentage"],
     ["", 4],
@@ -26,12 +24,14 @@ export const dataSendedPie = [
     paddingTop: "150vh",
     backgroundColor: "none",
  };
+
  export const dataOpenPie = [
     ["Pac Man", "Percentage"],
     ["", 12], // red
     ["", 20], // white
     ["", 38], // blue
  ];
+
  export const optionsOpenPie = {
     legend: "none",
     pieHole: 0.7,
@@ -51,14 +51,7 @@ export const dataSendedPie = [
     paddingTop: "150vh",
     backgroundColor: "none",
  };
- export const dataColumn = [
-    ["Element", "Density", { role: "style" }],
-    ["Interlog", transpInterlog, "#F07839"],
-    ["Mercado livre", transpMeLi, "#F07839"],
-    ["Correios", transpCorreios, "#F07839"],
-    ["Bike", transpBike, "#F07839"],
-    ["Locker", transpLocker, "#F07839"],
- ];
+
 
  export const optionsColumn = {
     allowHtml: 'true',
@@ -91,6 +84,7 @@ export const dataSendedPie = [
        tableCell: 'tableOrder'
     },
  };
+
  export const formattersTable = [
     {
        type: "ColorFormat",
@@ -102,6 +96,7 @@ export const dataSendedPie = [
        ],
     },
  ];
+
  export const dataProductTable = [
     ["", "", ""],
     ["img", "Camisa Masculina Adidas Atlético Mineiro II 2022 Tamanho:G", 2],
@@ -119,5 +114,6 @@ export const dataSendedPie = [
     height: "20vh",
     cssClassNames: { tableCell: 'classTable', headerCell: 'noHeader' },
  };
+
  export const formattersProductTable = [
  ];
