@@ -3,10 +3,7 @@ const LabelCode = require('../models/LabelCode');
 const fs = require('fs');
 const exec = require('child_process').exec;
 const { parse } = require("csv-parse");
-// const pathModel = "../config/ModeloEtiquetaProduto.txt";
-// const pathModel = require('../config/ModeloEtiquetaProduto.txt');
 const pathModel = "/Users/bi004042/Documents/CodeDocuments/projetos2/LabelCustomizer_StockProject/etiquetaApi/src/config/ModeloEtiquetaProduto.txt"
-// const pathScript = "/Users/bi004042/Documents/CodeDocuments/projetos2/LabelCustomizer_StockProject/etiquetaApi/src/config/clusterPost.csv"
 
 //print using Zebra file
 async function callZebraPrinter(res, campoCod, campoDesc1, campoDesc2){
