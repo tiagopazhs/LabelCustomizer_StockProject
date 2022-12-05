@@ -5,8 +5,8 @@ const HTTP_PORT = 8500;
 const mongoose = require('mongoose');
 
 //User env file to enter with password
-const DB_USER = env.DB_USER
-const DB_PASSWORD = encodeURIComponent(env.DB_PASSWORD)
+const DB_USER = process.env.DB_USER
+const DB_PASSWORD = encodeURIComponent(process.env.DB_PASSWORD)
 
 require('dotenv').config();
 app.use(express.json());
