@@ -3,7 +3,7 @@ const app = express();
 const cors = require('cors');
 const HTTP_PORT = 8500;
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+
 require('dotenv').config();
 app.use(express.json());
 app.use(cors());

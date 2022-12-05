@@ -1,12 +1,13 @@
 // Variables to use in order requisition
 const express = require('express');
-const dotenv = require('dotenv');
 const app = express();
 const router = require("express").Router();
 const https = require('https')
 const axios = require('axios');
 const { Console } = require('console');
 const url = "https://bling.com.br/b"
+
+require('dotenv').config();
 const apiKey = process.env.API_KEY
 
 const moment = require('moment')
