@@ -1,17 +1,16 @@
 const express = require('express');
-const dotenv = require('dotenv');
 const app = express();
 const cors = require('cors');
 const HTTP_PORT = 8500;
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+require('dotenv').config();
+app.use(express.json());
+app.use(cors());
 
 //User env file to enter with password
 const DB_USER = process.env.DB_USER
 const DB_PASSWORD = encodeURIComponent(process.env.DB_PASSWORD)
-
-require('dotenv').config();
-app.use(express.json());
-app.use(cors());
 
 const labelHis = require('./src/routes/labelHis')
 const labelExec = require('./src/routes/labelExec')
