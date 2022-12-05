@@ -1,5 +1,6 @@
 // Variables to use in order requisition
 const express = require('express');
+const dotenv = require('dotenv');
 const app = express();
 const router = require("express").Router();
 const https = require('https')
