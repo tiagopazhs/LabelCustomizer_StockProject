@@ -6,7 +6,7 @@ const https = require('https')
 const axios = require('axios');
 const { Console } = require('console');
 const url = "https://bling.com.br/b"
-const apiKey = env.apiKey
+const apiKey = process.env.API_KEY
 
 const moment = require('moment')
 moment.locale('pt-br');
