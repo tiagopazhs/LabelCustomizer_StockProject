@@ -8,35 +8,23 @@ import logoMRV from "../assets/logoMRVClollection2.png";
 import logoInterPass from "../assets/logoInterPass.png";
 import { Chart } from "react-google-charts";
 
+const moment = require('moment')
+moment.locale('pt-br');
+
 const url = "http://localhost:8500";
 
-
-let initial = ""
-let end = ""
 function Dash() {
 
-   const [teste, setTeste] = useState("default");
-   async function testeFunc() {
-   }
-
    // Set variable that will be used to receive  the get orders data.
-   const [currentOrdersResult, setCurrentOrdersResult] = useState([]);
+   const [currentOrders, setCurrentOrders] = useState([]);
+   const [listAtendidos, setListAtendidos] = useState([]);
+   const [listAbertos, setListAbertos] = useState([]);
+   const [ldgList, setLdgList] = useState([]);
+   const [isList, setIsList] = useState([]);
+   const [mrvList, setMrvList] = useState([]);
+   const [tagList, setTagList] = useState([]);
 
-   // Set variables that will be used in store cards
-   const [atendidosLdg, setAtendidosLdg] = useState(0);
-   const [prazoLdg, setPrazoLdg] = useState(0);
-   const [mediaLdg, setMediaLdg] = useState(0);
-   const [atendidosIs, setAtendidosIs] = useState(0);
-   const [prazoIs, setPrazoIs] = useState(0);
-   const [mediaIs, setMediaIs] = useState(0);
-   const [atendidosMrv, setAtendidosMrv] = useState(0);
-   const [prazoMrv, setPrazoMrv] = useState(0);
-   const [mediaMrv, setMediaMrv] = useState(0);
-   const [atendidosTag, setAtendidosTag] = useState(0);
-   const [prazoTag, setPrazoTag] = useState(0);
-   const [mediaTag, setMediaTag] = useState(0);
-
-   // Set variables to use in deadline orders
+   // Set deadline variables
    const [totalOrdersSended, setTotalOrdersSended] = useState(0);
    const [ordersSendedOnTime, setOrdersSendedOnTime] = useState(0);
    const [ordersSendedOutOfTime, setOrdersSendedOutOfTime] = useState(0);
@@ -46,112 +34,67 @@ function Dash() {
    const [ordersOpenOutOfTime, setOrdersOpenOutOfTime] = useState(0);
    const [percentOrdersOpen, setPercentOrdersOpen] = useState(0);
 
-   // Set pie transport variables
+   // Set chart transport variables
    const [transpInterlog, setTranspInterlog] = useState(0);
    const [transpMeLi, setTranspMeli] = useState(0);
    const [transpCorreios, setTranspCorreios] = useState(0);
    const [transpBike, setTranspBike] = useState(0);
    const [transpLocker, setTranspLocker] = useState(0);
 
-   //function that to get orders scheduled
-   // useEffect(() => {
-   //    const myInterval = window.setInterval(function () {
-   //       getPedido();
-   //       refreshValues()
-   //    }, 60000); // repeat every 60 seconds
-   //    return () => clearInterval(myInterval);
-   // }, []);
+   const [updatedTime, setUpdatedTime] = useState("00:01")
 
    //Requisition to get orders
    async function getPedido() {
-      const responseGet = await fetch(`${url}/pedidos`);
-      const orders = await responseGet.json();
+      let responseGet = await fetch(`${url}/pedidos`);
+      let orders = await responseGet.json();
+      setCurrentOrders(orders)
       console.log('orders: ', orders)
-      setCurrentOrdersResult(orders)
    }
 
    //Refresh values on the dashboard
-   function refreshValues() {
-      let ordersAtendidosTotal = currentOrdersResult.pedidosAtendidos
-      let ordersAbertosTotal = currentOrdersResult.outrosPedidos
+   function refreshValues() {      
 
-      //STORE CARD LOJA DO GALO
-      let LDG = ordersAtendidosTotal.filter(ordersAtendidosTotal => { return ordersAtendidosTotal.pLoja === '203619239' });//total or orders
-      let totalLDG = LDG.length
-      setAtendidosLdg(totalLDG);//ordens on time
-      let prazLDG = LDG.filter(LDG => { return LDG.pTempo < 3 });
-      let totalPrazLDG = prazLDG.length
-      setPrazoLdg(new Intl.NumberFormat('en-IN', { style: 'percent' }).format(totalPrazLDG / totalLDG)); //calculate and format orders lead tie
-      let auxSumOrderTimeLdg = 0 //Variable that will be used in the sum of time orders
-      for (let i = 0; i < LDG.length; i++) { auxSumOrderTimeLdg += LDG[i].pTempo }
-      let averageLdg = auxSumOrderTimeLdg / totalLDG //calculate the average
-      setMediaLdg(averageLdg.toFixed(2))
+      setListAtendidos(currentOrders.filter(currentOrders => { return currentOrders.pStatus === 'Atendido' }))
+      setListAbertos(currentOrders.filter(currentOrders => { return currentOrders.pStatus != 'Atendido' && currentOrders.pStatus != 'Devolvido' && currentOrders.pStatus != 'Cancelado' }))
 
-      //STORE CARD INTER STORE
-      let IS = ordersAtendidosTotal.filter(ordersAtendidosTotal => { return ordersAtendidosTotal.pLoja === '203370950' });//total de ordens
-      let totalIS = IS.length
-      setAtendidosIs(totalIS);//ordens no prazo
-      let prazIS = IS.filter(IS => { return IS.pTempo < 3 });
-      let totalPrazIS = prazIS.length
-      setPrazoIs(new Intl.NumberFormat('en-IN', { style: 'percent' }).format(totalPrazIS / totalIS));//calcula e formata ordens no prazo
-      let auxSumOrderTimeIs = 0 //Variable that will be used in the sum of time orders
-      for (let i = 0; i < IS.length; i++) { auxSumOrderTimeIs += IS[i].pTempo }
-      let averageIs = auxSumOrderTimeIs / totalIS //calculate the average
-      setMediaIs(averageIs.toFixed(2))
+      // Stores values
+      setLdgList(listAtendidos.filter(listAtendidos => { return listAtendidos.pLoja === '203619239' }))
+      setIsList(listAtendidos.filter(listAtendidos => { return listAtendidos.pLoja === '203370950' }))
+      setMrvList(listAtendidos.filter(listAtendidos => { return listAtendidos.pLoja === '203994140' }))
+      setTagList(listAtendidos.filter(listAtendidos => { return listAtendidos.pLoja === '203619241' }))
 
-      //STORE CARD MRV
-      let MRV = ordersAtendidosTotal.filter(ordersAtendidosTotal => { return ordersAtendidosTotal.pLoja === '203994140' });//total de ordens
-      let totalMRV = MRV.length
-      setAtendidosMrv(totalMRV);//ordens no prazo
-      let prazMRV = MRV.filter(MRV => { return MRV.pTempo < 3 });
-      let totalPrazMRV = prazMRV.length
-      setPrazoMrv(new Intl.NumberFormat('en-IN', { style: 'percent' }).format(totalPrazMRV / totalMRV));//calcula e formata ordens no prazo
-      let auxSumOrderTimeMrv = 0 //Variable that will be used in the sum of time orders
-      for (let i = 0; i < MRV.length; i++) { auxSumOrderTimeMrv += MRV[i].pTempo }
-      let averageMrv = auxSumOrderTimeMrv / totalMRV //calculate the average
-      setMediaMrv(averageMrv.toFixed(2))
-
-      //STORE CARD TAG
-      let TAG = ordersAtendidosTotal.filter(ordersAtendidosTotal => { return ordersAtendidosTotal.pLoja === '203619241' });//total de ordens
-      let totalTAG = TAG.length
-      setAtendidosTag(totalTAG);//ordens no prazo
-      let prazTAG = TAG.filter(TAG => { return TAG.pTempo < 3 });
-      let totalPrazTAG = prazTAG.length
-      setPrazoTag(new Intl.NumberFormat('en-IN', { style: 'percent' }).format(totalPrazTAG / totalTAG));//calcula e formata ordens no prazo
-      let auxSumOrderTimeTag = 0 //Variable that will be used in the sum of time orders
-      for (let i = 0; i < TAG.length; i++) { auxSumOrderTimeTag += TAG[i].pTempo }
-      let averageTag = auxSumOrderTimeTag / totalTAG //calculate the average
-      setMediaTag(averageTag.toFixed(2))
-
-      // ORDERS SENDED
-      let totalTotal = ordersAtendidosTotal.length
+      // Sended orders
+      let totalTotal = listAtendidos.length
       setTotalOrdersSended(totalTotal)
-      let prazTotal = ordersAtendidosTotal.filter(ordersAtendidosTotal => { return ordersAtendidosTotal.pTempo < 3 });
+      let prazTotal = listAtendidos.filter(listAtendidos => { return listAtendidos.pTempo < 3 && !(listAtendidos.pPrazoEspecial) || listAtendidos.pTempo < 5 && listAtendidos.pPrazoEspecial });
       let totalPrazTotal = prazTotal.length
       setOrdersSendedOnTime(totalPrazTotal)
       setOrdersSendedOutOfTime(totalTotal - totalPrazTotal)
       setPercentOrdersSended(new Intl.NumberFormat('en-IN', { style: 'percent' }).format(totalPrazTotal / totalTotal))
 
-      // ORDERS OPEN
-      let openTotal = ordersAbertosTotal.length
+      // Open orders
+      let openTotal = listAbertos.length
       setTotalOrdersOpen(openTotal)
-      let prazOpenTotal = ordersAbertosTotal.filter(ordersAbertosTotal => { return ordersAbertosTotal.pTempo < 3 });
+      let prazOpenTotal = listAbertos.filter(listAbertos => { return listAbertos.pTempo < 3 && !(listAbertos.pPrazoEspecial) || listAbertos.pTempo < 5 && listAbertos.pPrazoEspecial });
       let totalOpenPrazTotal = prazOpenTotal.length
       setOrdersOpenOnTime(totalOpenPrazTotal)
       setOrdersOpenOutOfTime(openTotal - totalOpenPrazTotal)
       setPercentOrdersOpen(new Intl.NumberFormat('en-IN', { style: 'percent' }).format(totalOpenPrazTotal / openTotal))
 
-      // // SENDED MODES
-      let pedidosTranspInterlog = ordersAtendidosTotal.filter(ordersAtendidosTotal => { return ordersAtendidosTotal.pTransportadora === 'Interlog' })
+      // sended orders by mode
+      let pedidosTranspInterlog = listAtendidos.filter(listAtendidos => { return listAtendidos.pTransportadora === 'Interlog' })
       setTranspInterlog(pedidosTranspInterlog.length)
-      let pedidosTranspMeli = ordersAtendidosTotal.filter(ordersAtendidosTotal => { return ordersAtendidosTotal.pTransportadora === 'vtex:fob_16dc0f6' })
+      let pedidosTranspMeli = listAtendidos.filter(listAtendidos => { return listAtendidos.pTransportadora === 'vtex:fob_16dc0f6' })
       setTranspMeli(pedidosTranspMeli.length)
-      let pedidosTranspCorreios = ordersAtendidosTotal.filter(ordersAtendidosTotal => { return ordersAtendidosTotal.pTransportadora === 'correios' })
+      let pedidosTranspCorreios = listAtendidos.filter(listAtendidos => { return listAtendidos.pTransportadora === 'correios' })
       setTranspCorreios(pedidosTranspCorreios.length)
-      let pedidosTranspBike = ordersAtendidosTotal.filter(ordersAtendidosTotal => { return ordersAtendidosTotal.pTransportadora === 'BIKE' })
+      let pedidosTranspBike = listAtendidos.filter(listAtendidos => { return listAtendidos.pTransportadora === 'BIKE' })
       setTranspBike(pedidosTranspBike.length)
-      let pedidosTranspLocker = ordersAtendidosTotal.filter(ordersAtendidosTotal => { return ordersAtendidosTotal.pTransportadora === 'Clique e retire - Inter' })
+      let pedidosTranspLocker = listAtendidos.filter(listAtendidos => { return listAtendidos.pTransportadora === 'Clique e retire - Inter' })
       setTranspLocker(pedidosTranspLocker.length)
+
+      setUpdatedTime(moment().format('hh:mm'))
+
    }
 
    //Data charts:
@@ -311,10 +254,23 @@ function Dash() {
    const formattersTable2 = [
    ];
 
+   //function that to get orders scheduled
+//    useEffect(() => {
+//      const myInterval = window.setInterval(function () {
+//         getPedido();
+//         refreshValues()
+//          }, 60000); // repeat every 60 seconds
+//      return () => clearInterval(myInterval);
+// }, []);
+
+
+   //refresh values when there are something new
+   useEffect(() => {
+         refreshValues()
+   }, [currentOrders]);
 
    return (
       <div className="Dashboard" style={{ backgroundColor: "#F5F6FC" }}>
-         <button onClick={testeFunc} onChange={setTeste}> {teste}</button>
          <NavBar />
          <div id="body" className="" style={{ height: '44.5vw', backgroundColor: "#F5F6FC" }}>{/* "#F5F6FC" */}
             <div id="visaoGeral" className="d-flex" style={{ marginTop: "15px", marginBottom: "15px", }}>
@@ -322,25 +278,21 @@ function Dash() {
                   <div className="card-text ms-5"><h5 className="text-muted">Visão geral</h5></div>
                </span>
                <span className="d-flex" style={{ width: "15%" }}>
-                  <p className="card-text"><small className="text-muted" onClick={() => { getPedido(); refreshValues() }} >Atualizado: </small></p>
-                  <p className="card-text"><small className="text-muted">19:33</small></p>
+                  <p className="card-text"><small className="text-muted" onClick={() => { getPedido() }} >Atualizado: </small></p>
+                  <p className="card-text"><small className="text-muted ms-1" onChange={setUpdatedTime} >{updatedTime}</small></p>
                </span>
                <span className="d-flex" style={{ width: "15%" }}>
                   <p className="card-text"><small className="text-muted">Período:</small></p>
-                  <p className="card-text"><small className="text-muted">Mes Atual ˅</small></p>
+                  <p className="card-text"><small className="text-muted ms-1">Mes Atual</small></p>
                </span>
             </div>
             <div id="lojas" className="" >
                <div className="d-flex mb-4" style={{ display: 'flex', alignItems: "center", justifyContent: "center" }} >
                   <p style={{ marginLeft: '4%' }}></p>
-                  <StoreCard logo={logoLojaGalo} backLogoColor={"#303030"} //update style
-                     pedidosEnviados={atendidosLdg} atualizarPedidos={setAtendidosLdg} //update Qty
-                     prazoEnviados={prazoLdg} atualizarPrazo={setPrazoLdg} //update deadline
-                     mediaEnviados={mediaLdg} atualizarMedia={setMediaLdg} //update average
-                  />
-                  <StoreCard logo={logoInterStore} backLogoColor={"#F5F6FA"} pedidosEnviados={atendidosIs} atualizarPedidos={setAtendidosIs} prazoEnviados={prazoIs} atualizarPrazo={setPrazoIs} mediaEnviados={mediaIs} atualizarMedia={setMediaIs} />
-                  <StoreCard logo={logoMRV} backLogoColor={"#4FB385"} pedidosEnviados={atendidosMrv} atualizarPedidos={setAtendidosMrv} prazoEnviados={prazoMrv} atualizarPrazo={setPrazoMrv} mediaEnviados={mediaMrv} atualizarMedia={setMediaMrv} />
-                  <StoreCard logo={logoInterPass} backLogoColor={"#F5F6FA"} pedidosEnviados={atendidosTag} atualizarPedidos={setAtendidosTag} prazoEnviados={prazoTag} atualizarPrazo={setPrazoTag} mediaEnviados={mediaTag} atualizarMedia={setMediaTag} />
+                  <StoreCard logo={logoLojaGalo} backLogoColor={"#303030"} atualizarPedidos={ldgList}/>
+                  <StoreCard logo={logoInterStore} backLogoColor={"#F5F6FA"} atualizarPedidos={isList} />
+                  <StoreCard logo={logoMRV} backLogoColor={"#4FB385"} atualizarPedidos={mrvList} />
+                  <StoreCard logo={logoInterPass} backLogoColor={"#F5F6FA"} atualizarPedidos={tagList} />
                </div>
             </div>
             <div id="bodyDown" className="d-flex ps-4 pe-4" style={{ height: '72%', width: "100%" }}>

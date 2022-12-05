@@ -86,14 +86,14 @@ router.get('/', async (req, res) => {
 
       // Authorize the requisition to run just 2 times for second
       if (aut) {
-        const { data } = await axios.get(`${url}/Api/v2/pedidos/page=${pageNumber}/json?apikey=${apiKey}&filters=dataEmissao[14/11/2022TO20/11/2022]`)//&filters=dataEmissao[01/11/2022TO03/11/2022];idSituacao[9]
+        const { data } = await axios.get(`${url}/Api/v2/pedidos/page=${pageNumber}/json?apikey=${apiKey}&filters=dataEmissao[14/11/2022TO14/11/2022]`)//&filters=dataEmissao[01/11/2022TO03/11/2022];idSituacao[9]
         ordersData = data.retorno.pedidos;
         ordersList = ordersList.concat(ordersData);
         pageNumber++;
         i++;
         times++
         if (times > 2) { aut = false }
-        // console.log('requisição pedidos de: ', i - 1, '00  a  ', i, '00. Realizado no segundo: ', currentSecond)
+        console.log('requisição pedidos de: ', i - 1, '00  a  ', i, '00. Realizado no segundo: ', currentSecond)
         if (ordersData.length < 100) { run = false; console.log('requisição completa') }
       }
     }
@@ -152,13 +152,7 @@ router.get('/', async (req, res) => {
       j++;
     }
 
-    result = {
-      ordersResult, 
-      pedidosAtendidos,
-      pedidosCancelados,
-      PedidosDevolvidos,
-      outrosPedidos,
-    }
+    result = ordersResult
 
     res.json(result) // res.json(ordersList.length)
   }
