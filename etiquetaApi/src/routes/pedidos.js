@@ -1,37 +1,20 @@
-// Variables to use in order requisition
 const express = require('express');
 const app = express();
-const router = require("express").Router();
-const https = require('https')
-const axios = require('axios');
-const { Console } = require('console');
-const url = "https://bling.com.br/b"
 
-require('dotenv').config();
-const apiKey = process.env.API_KEY
+const router = require("express").Router();
+
+
+
 
 const moment = require('moment');
 moment.locale('pt-br');
 
-const { workDays, specialDeadLine } = require('../utils');
+const { workDays, specialDeadLine, getRequest } = require('../utils');
 
 //stores id: Loja do galo, Inter Store, MRV and Intertag.
 const storeFilter = ["203619239", "203370950", "203994140", "203619241"]
 
-//create an instane to solve cors problems
-const instance = axios.create({
-  httpsAgent: new https.Agent({
-    rejectUnauthorized: false,
-    withCredentials: false,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-      'Access-Control-Allow-Headers': 'Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-  })
-});
+
 
 //Get requisiton, of all orders.
 router.get('/', async (req, res) => {
@@ -60,16 +43,21 @@ router.get('/', async (req, res) => {
 
     // while aux variables
     let j = 0
-    let i = 0
     let k = 0
     let run = true
     let aut = true
     let times = 0
     let currentSecond = -1
-    let pageNumber = 1
     let sub = 0
 
+    // variales to use in the requisition
+    let pageNumber = 1
+    let startReq = "01/12/2022"
+    let endReq = "30/12/2022"
+    let openSituation = false
+
     //Concat all orders requisions
+    console.log('A requisição de pedidos está sendo executada...')
     while (run) {
 
       // Verify if the current second is equal the auxiliar variable. Authorize if it is not equal.
@@ -81,22 +69,44 @@ router.get('/', async (req, res) => {
 
       // Authorize the requisition to run just 2 times for second
       if (aut) {
-        const { data } = await axios.get(`${url}/Api/v2/pedidos/page=${pageNumber}/json?apikey=${apiKey}&filters=dataEmissao[05/12/2022TO30/12/2022]`)//&filters=dataEmissao[01/11/2022TO03/11/2022];idSituacao[9]
-        ordersData = data.retorno.pedidos;
-        ordersList = ordersList.concat(ordersData);
-        pageNumber++;
-        i++;
+        try {
+          ordersData = await getRequest(pageNumber, startReq, endReq, openSituation)
+          ordersList = ordersList.concat(ordersData);
+          pageNumber++
+        }
+        catch (error) {
+          // if (error.response.status === 429) {
+            // console.error(` \n Aviso: Foi atingido o limite de requisições por segundo. (Isto não afeta a execução da aplicação). \n `)
+          // } else if (error.response.status != 429) {
+            console.error(` \n ALERTA DE ERRO: ${error}`)
+          // }
+        }
+
+        //limit of requisition
         times++
         if (times > 2) { aut = false }
-        console.log('requisição pedidos de: ', i - 1, '00  a  ', i, '00. Realizado no segundo: ', currentSecond)
-        if (ordersData.length < 100) { run = false; console.log('requisição completa') }
+
+        //finalize the requisition. It'll run 2 times
+        if (ordersData.length < 100) {
+          if(openSituation){
+            run = false
+            console.log('requisição completa')
+          }else{
+            openSituation = true
+          } 
+        }
       }
     }
 
     // filter orders by stores
     while (k < ordersList.length) {
       if (storeFilter.includes(ordersList[k].pedido.loja))
-        ordersListFilter = ordersListFilter.concat(ordersList[k])
+        if (ordersList[k].pedido.loja === "203619241" && ordersList[k].pedido.itens[0].item.codigo === "intertag01") {
+          ordersListFilter = ordersListFilter.concat(ordersList[k])
+        }
+        else if (ordersList[k].pedido.loja != "203619241") {
+          ordersListFilter = ordersListFilter.concat(ordersList[k])
+        }
       k++
     }
 
@@ -118,10 +128,10 @@ router.get('/', async (req, res) => {
       pItens = ordersListFilter[j].pedido.itens
       pPrazoEspecial = specialDeadLine(pItens)
       pTempo = workDays(pDataCriacao, pDataEnvio)
-      if(pPrazoEspecial){sub = 4}else{sub = 2}
-      if(pTempo - sub < 1 ){pTempoAtraso = 0}else{pTempoAtraso = pTempo - sub}
+      if (pPrazoEspecial) { sub = 4 } else { sub = 2 }
+      if (pTempo - sub < 1) { pTempoAtraso = 0 } else { pTempoAtraso = pTempo - sub }
       if (ordersListFilter[j].pedido.transporte.transportadora != undefined) { pTransportadora = ordersListFilter[j].pedido.transporte.transportadora } else { pTransportadora = 'correios' }
-      
+
       //order fields
       pedidoTratado = {
         pNumero,
@@ -150,5 +160,6 @@ router.get('/', async (req, res) => {
     res.json({ err })
   }
 })
+
 
 module.exports = router

@@ -1,3 +1,25 @@
+DASHBOARD
+
+tabela pedidos em aberto
+    Filtrar por dias em atraso do maior para o menor
+
+produtos com maior saida: construir
+    Pegar link da foto do produto
+
+Parametros no periodo
+
+componentizar gráficos de em aberto e atendidos
+    Ajustar e ver se tem como ficar o incio
+
+rotulo de dados no grafico de barras
+
+Fazer carregamento na tela até a primeira requisição
+
+corrigir erros
+
+
+PRINTER
+
 .Fazer validações de dados: Tamanho da cadeia de caracteres, clocar caracter especial, tamanho minimo, tamanho da cadeia invalido
 
 .Tentar customizar melhor as etiquetas ZPL talvez centralizar:
