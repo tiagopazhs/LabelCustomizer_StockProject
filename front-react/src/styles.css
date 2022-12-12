@@ -3,6 +3,10 @@
   color: #495769;
 }
 
+.columnChart{
+background-color: red;
+}
+
 .tableOrder {
   /* width: 40vh; */
   /* white-space: nowrap; */
@@ -19,7 +23,7 @@
 
 .classTable{
   width: 40vh;
-  white-space: nowrap;
+  /* white-space: nowrap; */
   height: 2vh; 
   text-align: center;
 }

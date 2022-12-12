@@ -7,6 +7,8 @@ import logoLojaGalo from "../assets/LogoLojaDoGalo4.png";
 import logoInterStore from "../assets/logoInterStore.png";
 import logoMRV from "../assets/logoMRVClollection2.png";
 import logoInterPass from "../assets/logoInterPass.png";
+import logoPersona from "../assets/logoPersona.png";
+import garrafaMrvInox from "../assets/garrafaMrvInox.png";
 import landscape from "../assets/landscape.png";
 import { Chart } from "react-google-charts";
 import { dataSendedPie, optionsSendedPie, dataOpenPie, optionsOpenPie, optionsColumn, dataProductTable, optionsProductTable, formattersProductTable, optionsTable, formattersTable, orderListTeste } from "../constants/dashContants";
@@ -18,6 +20,9 @@ moment.locale('pt-br');
 const url = "http://localhost:8500";
 
 function Dash() {
+
+    // Set variable that will be used to receive  the get orders data.
+    const [currentProducts, setCurrentProducts] = useState([]);
 
     // Set variable that will be used to receive  the get orders data.
     const [currentOrders, setCurrentOrders] = useState([]);
@@ -58,25 +63,65 @@ function Dash() {
     const [biggerQty4, setBiggerQty4] = useState("");
     const [biggerQty5, setBiggerQty5] = useState("");
 
-    const [updatedTime, setUpdatedTime] = useState("00:01")
+    // Variables to use in pie chart
+    const [startAngleO, setStartAngleO] = useState(230);
+    const [redColorO, setRedColorO] = useState(50);
+    const [blueColorO, setBlueColorO] = useState(0);
 
+    const [updatedTime, setUpdatedTime] = useState("00:01")
 
     // Data Charts
     let dataTable = dataTableOpen;
+
     let dataColumn = [
-        ["Element", "Density", { role: "style" }],
-        ["Interlog", transpInterlog, "#F07839"],
-        ["Mercado livre", transpMeLi, "#F07839"],
-        ["Correios", transpCorreios, "#F07839"],
-        ["Bike", transpBike, "#F07839"],
-        ["Locker", transpLocker, "#F07839"],
+        ["Element", "Density", { role: "style"}, { role: "annotation"}],
+        ["Interlog", transpInterlog, "#F07839", transpInterlog],
+        ["Mercado livre", transpMeLi, "#F07839", transpMeLi],
+        ["Correios", transpCorreios, "#F07839", transpCorreios],
+        ["Bike", transpBike, "#F07839", transpBike],
+        ["Locker", transpLocker, "#F07839", transpLocker],
     ];
+
+    const dataOpenPie = [
+        ["Pac Man", "Percentage"],
+        ["", redColorO], // red
+        ["", 20], // white
+        ["", blueColorO], // blue
+    ];
+    
+    const optionsOpenPie = {
+        legend: "none",
+        pieHole: 0.7,
+        pieSliceText: "none",
+        pieStartAngle: startAngleO,
+        // pieStartAngle: 260,
+        // pieStartAngle: 233,
+        // pieStartAngle: 129,
+        tooltip: { trigger: "none" },
+        slices: {
+            0: { color: "#ED3833" },
+            1: { color: "transparent" },
+            2: { color: "#4EB9C4" },
+        },
+        width: "30vh",
+        height: "30vh",
+        paddingTop: "150vh",
+        backgroundColor: "none",
+    };
+
+    //Requisition to get products
+    async function getProduto() {
+        let responseProdGet = await fetch(`${url}/produtos`);
+        let products = await responseProdGet.json();
+        setCurrentProducts(products)
+        console.log('Completo! products:', products)
+    }
 
     //Requisition to get orders
     async function getPedido() {
         let responseGet = await fetch(`${url}/pedidos`);
         let orders = await responseGet.json();
-        setCurrentOrders(orders)
+        setCurrentOrders(orders?.sort((a, b) => (a.pTempoAtraso < b.pTempoAtraso) ? 1 : ((b.pTempoAtraso < a.pTempoAtraso) ? -1 : 0)))
         console.log('Completo! orders:', orders)
     }
 
@@ -100,16 +145,20 @@ function Dash() {
         let totalPrazTotal = prazTotal.length
         setOrdersSendedOnTime(totalPrazTotal)
         setOrdersSendedOutOfTime(totalTotal - totalPrazTotal)
-        setPercentOrdersSended(new Intl.NumberFormat('en-IN', { style: 'percent' }).format(totalPrazTotal / totalTotal))
+        setPercentOrdersSended(new Intl.NumberFormat('en-IN', { style: 'percent', maximumFractionDigits: '1', minimumFractionDigits: '1'}).format(totalPrazTotal / totalTotal))
 
         // Open orders
         let openTotal = listAbertos.length
         setTotalOrdersOpen(openTotal)
-        let prazOpenTotal = listAbertos.filter(listAbertos => { return listAbertos.pTempo < 2 && !(listAbertos.pPrazoEspecial) || listAbertos.pTempo < 4 && listAbertos.pPrazoEspecial });
+        let prazOpenTotal = listAbertos.filter(listAbertos => { return listAbertos.pTempoAtraso === 0 });
         let totalOpenPrazTotal = prazOpenTotal.length
         setOrdersOpenOnTime(totalOpenPrazTotal)
         setOrdersOpenOutOfTime(openTotal - totalOpenPrazTotal)
-        setPercentOrdersOpen(new Intl.NumberFormat('en-IN', { style: 'percent' }).format(totalOpenPrazTotal / openTotal))
+        setPercentOrdersOpen(new Intl.NumberFormat('en-IN', { style: 'percent', maximumFractionDigits: '1', minimumFractionDigits: '1' }).format(totalOpenPrazTotal / openTotal))
+        //chart
+        // setBlueColorO((totalOpenPrazTotal / openTotal)*70)
+        // setRedColorO((1-(totalOpenPrazTotal / openTotal))*70)
+        
 
         // sended orders by mode
         let pedidosTranspInterlog = listAtendidos.filter(listAtendidos => { return listAtendidos.pTransportadora === 'Interlog' })
@@ -133,8 +182,7 @@ function Dash() {
         let img = ""
         let desc = ""
         let objIndex = 0
-        let newList = []
-
+        
         while (z < listAtendidos.length) {
             while (y < listAtendidos[z].pItens.length) {
                 product = listAtendidos[z].pItens[y].item.codigo
@@ -153,42 +201,30 @@ function Dash() {
             y = 0
             z++
         }
-        // console.log(listOfProducts)
-        // console.log(findMax(listOfProducts).item)
-        if(findMax(listOfProducts) != null){
-           
+
+        if (findMax(listOfProducts) != null && currentProducts != []) {
+
+            listOfProducts = removeListItem(listOfProducts, "Personalização - Nome e Número") // remove item that are special
             let max1 = findMax(listOfProducts)
-            // newList = removeListItem()
-            // let max2 = findMax(listOfProducts)[0]
-            // let max3 = findMax(listOfProducts)[0]
-            // let max4 = findMax(listOfProducts)[0]
-            // let max5 = findMax(listOfProducts)[0]
-
-            setBigger1(max1.descricao)
-            // setBigger2(findMax(listOfProducts)[0].descricao)
-            // setBigger3(findMax(listOfProducts)[0].descricao)
-            // setBigger4(findMax(listOfProducts)[0].descricao)
-            // setBigger5(findMax(listOfProducts)[0].descricao)
-
+            console.log(currentProducts.filter(x => x.pCode === max1.item))
+            setBigger1(currentProducts.filter(x => x.pCode === max1.item))
             setBiggerQty1(max1.qty)
-            // setBiggerQty2(findMax(listOfProducts)[0].qty)
-            // setBiggerQty3(findMax(listOfProducts)[0].qty)
-            // setBiggerQty4(findMax(listOfProducts)[0].qty)
-            // setBiggerQty5(findMax(listOfProducts)[0].qty)
+
+            listOfProducts = removeListItem(listOfProducts, max1.item) // remove before item to find de second max
+            let max2 = findMax(listOfProducts)
+            setBigger2(currentProducts.filter(x => x.pCode === max2.item))
+            setBiggerQty2(max2.qty)
+
+            listOfProducts = removeListItem(listOfProducts, max2.item) // remove before item to find de third max
+            let max3 = findMax(listOfProducts)
+            setBigger3(currentProducts.filter(x => x.pCode === max3.item))
+            setBiggerQty3(max3.qty)
+  
+            listOfProducts = removeListItem(listOfProducts, max3.item) // remove before item to find de for max
+            let max4 = findMax(listOfProducts)
+            setBigger4(currentProducts.filter(x => x.pCode === max4.item))
+            setBiggerQty4(max4.qty)
         }
-        
-        
-        
-        
-        
-
-
-        // setBigger1(findMax(listOfProducts)[0] != null ? findMax(listOfProducts)[0].descricao : "")
-        // setBigger2(findMax(listOfProducts)[0] != null ? findMax(listOfProducts)[0].descricao : "")
-        // setBigger3(findMax(listOfProducts)[0] != null ? findMax(listOfProducts)[0].descricao : "")
-        // setBigger4(findMax(listOfProducts)[0] != null ? findMax(listOfProducts)[0].descricao : "")
-        // setBigger5(findMax(listOfProducts)[0] != null ? findMax(listOfProducts)[0].descricao : "")
-
 
         // table of open orders
         const storesNumbers = ["203619239", "203370950", "203994140", "203619241"]
@@ -214,7 +250,8 @@ function Dash() {
             dataTable = dataTableResult
             aux++
         }
-        setDataTableOpen(dataTable)
+
+        setDataTableOpen(dataTable.length > 3 ? dataTable.sort((a, b) => b.last_nom - a.last_nom) : [["Pedido", "Loja", "Cliente", "Data", "dias atraso"], ["", "", "", "", ""]])
 
         // last update time
         setUpdatedTime(moment().format('hh:mm'))
@@ -232,16 +269,20 @@ function Dash() {
         return list[objIndex]
     }
 
-    // function removeListItem(list) {
+    function removeListItem(list, itemToRemove) {
 
-    //     let maxNum = 0
-    //     let objIndex = 1
-    //     maxNum = Math.max(...list.map(o => o.qty))
-    //     objIndex = list.findIndex((obj => obj.qty === maxNum));
+        let a = 0
+        let newList = []
 
-    //     // list.splice(objIndex, 1)
-    //     return list[objIndex]
-    // }
+        while( a < list.length ) {
+            if (list[a].item != itemToRemove) {
+                newList = newList.concat(list[a])
+            }
+            a++
+        }
+
+        return newList
+    }
 
     // function that to get orders scheduled
     useEffect(() => {
@@ -252,24 +293,26 @@ function Dash() {
     }, []);
 
     //refresh values when there are something new
-    useEffect(() => {
-        refreshValues();
-    }, [currentOrders]);
+    // useEffect(() => {
+    //     // console.log('entrou aqui pra dar o refresh')
+    //     refreshValues();
+    // }, [currentOrders]);
+
 
     return (
         <div className="Dashboard" style={{ backgroundColor: "#F5F6FC" }}>
             <NavBar />
-            <div id="body" className="" style={{ height: '44.5vw', backgroundColor: "#F5F6FC" }}>{/* "#F5F6FC" */}
+            <div id="body" className="" style={{ height: '44.5vw', backgroundColor: "#F5F6FC" }}>{/* "#F5F6FC" F07939*/}
                 <div id="visaoGeral" className="d-flex" style={{ marginTop: "15px", marginBottom: "15px", }}>
                     <span className="d-flex" style={{ width: "70%" }}>
                         <div className="card-text ms-5"><h5 className="text-muted">Visão geral</h5></div>
                     </span>
                     <span className="d-flex" style={{ width: "15%" }}>
-                        <p className="card-text"><small className="text-muted" onClick={() => { getPedido() }} >Atualizado: </small></p>
-                        <p className="card-text"><small className="text-muted ms-1" onChange={setUpdatedTime} >{updatedTime}</small></p>
+                        <p className="card-text"><small className="text-muted" onClick={() => { refreshValues(); getPedido()}} >Atualizado: </small></p>
+                        <p className="card-text"><small className="text-muted ms-1" >{updatedTime}</small></p>
                     </span>
                     <span className="d-flex" style={{ width: "15%" }}>
-                        <p className="card-text"><small className="text-muted">Período:</small></p>
+                        <p className="card-text"><small className="text-muted" onClick={() => { getProduto()}} >Período:</small></p>
                         <p className="card-text"><small className="text-muted ms-1">Mes Atual</small></p>
                     </span>
                 </div>
@@ -298,11 +341,11 @@ function Dash() {
                                     </div>
                                 </div>
                                 <div className="card ps-3 pt-3 me-3 mb-3 mt-3" style={{ width: "50%", borderRadius: "15px", backgroundColor: "#F2F2F2", height: "85%" }}>
-                                    <p className="card-text" onChange={setTotalOrdersSended}>Total - {totalOrdersSended}</p>
-                                    <p className="card-text" onChange={setOrdersSendedOnTime}>No prazo - {ordersSendedOnTime}</p>
-                                    <p className="card-text" onChange={setOrdersSendedOutOfTime}>Em atraso - {ordersSendedOutOfTime}</p>
+                                    <p className="card-text" >Total - {totalOrdersSended}</p>
+                                    <p className="card-text" >No prazo - {ordersSendedOnTime}</p>
+                                    <p className="card-text" >Em atraso - {ordersSendedOutOfTime}</p>
                                     <div id="total" className="d-flex" style={{ alignItems: 'center' }}>
-                                        <h3 style={{ fontFamily: "arial", fontWeight: "bold" }} onChange={setPercentOrdersSended}>{percentOrdersSended}</h3><p className="card-text ps-2 mb-2"> envios no prazo</p>
+                                        <h3 style={{ fontFamily: "arial", fontWeight: "bold" }}>{percentOrdersSended}</h3><p className="card-text ps-2 mb-2"> envios no prazo</p>
                                     </div>
                                 </div>
                             </div>
@@ -323,29 +366,31 @@ function Dash() {
                                     <p className="card-text" >No prazo - {ordersOpenOnTime}</p>
                                     <p className="card-text" >Em atraso - {ordersOpenOutOfTime}</p>
                                     <div id="total" className="d-flex" style={{ alignItems: 'center' }}>
-                                        <h3 style={{ fontFamily: "arial", fontWeight: "bold" }} onChange={setPercentOrdersOpen}>{percentOrdersOpen}</h3><p className="card-text ps-2 mb-2"> pedidos no prazo</p>
+                                        <h3 style={{ fontFamily: "arial", fontWeight: "bold" }} >{percentOrdersOpen}</h3><p className="card-text ps-2 mb-2"> pedidos no prazo</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div id="pedidosDown" className="" style={{ display: 'flex' }}>
                             <div className="card m-4" style={{ borderRadius: "15px", width: "50%", height: "27.5vh" }}>
-                                <h5 className="text-muted mt-3" style={{ textAlign: "center" }}>Modais de envio</h5>
-                                <div>
-                                    <Chart chartType="ColumnChart" width="100%" height="400px" data={dataColumn} options={optionsColumn} />
+                                <h5 className="text-muted mt-3 mb-0 pb-0" style={{ textAlign: "center" }}>Modais de envio</h5>
+                                <div className="mt-0 pt-0"> 
+                                {/* style={{ backgroundColor: "red" }} */}
+                                    <Chart chartType="ColumnChart" height="395px" data={dataColumn} options={optionsColumn} />
                                 </div>
                             </div>
                             <div className="card m-4" style={{ borderRadius: "15px", width: "50%", height: "27.5vh" }}>
-                                <h5 className="text-muted mt-3" style={{ textAlign: "center" }}>Produtos com maior saída</h5>
-                                <TopProducts refreshValue={setBigger1} value={bigger1} refreshQty={setBiggerQty1} qty={biggerQty1}/>
-                                <TopProducts refreshValue={"Porta Cartão Preto - 3 unidades"} value={"Porta Cartão Preto - 3 unidades"} refreshQty={"5"} qty={"5"}/>
-                                <TopProducts refreshValue={"Bolsa Térmica Inter Black"} value={"Bolsa Térmica Inter Black"} refreshQty={"5"} qty={"5"}/>
+                                <h5 className="text-muted mt-3 mb-0 pb-0" style={{ textAlign: "center" }}>Produtos com maior saída</h5>
+                                <TopProducts details={bigger1} qty={biggerQty1}/>
+                                <TopProducts details={bigger2} qty={biggerQty2}/>
+                                <TopProducts details={bigger3} qty={biggerQty3}/>
+                                <TopProducts details={bigger4} qty={biggerQty4}/>
                             </div>
                         </div>
                     </div>
                     <div id="listaPedidos" className="" style={{ width: "33%" }}>
                         <div className="card m-4" style={{ borderRadius: "15px", height: "60.3vh" }}>
-                            <h5 className="text-muted  mt-3" style={{ textAlign: "center" }}>Pedidos em aberto</h5>
+                            <h5 className="text-muted  mt-3" style={{ textAlign: "center" }}>Lista pedidos em aberto</h5>
                             <Chart
                                 chartType="Table"
                                 data={dataTable}

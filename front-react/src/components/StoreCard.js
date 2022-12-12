@@ -19,7 +19,7 @@ export default function StoreCard(props) {
 
         let prazoLoja = Loja.filter(Loja => { return Loja.pTempo < 3 && !(Loja.pPrazoEspecial) || Loja.pTempo < 5 && Loja.pPrazoEspecial });
         let totalPrazoLoja = prazoLoja.length
-        setPrazoLoja(new Intl.NumberFormat('en-IN', { style: 'percent' }).format(totalPrazoLoja / atendidosLoja))
+        setPrazoLoja(new Intl.NumberFormat('en-IN', { style: 'percent', maximumFractionDigits: '1', minimumFractionDigits: '1' }).format(totalPrazoLoja / atendidosLoja))
 
         setMediaDefault(averageLoja(Loja.filter(Loja => { return !(Loja.pPrazoEspecial) })).toFixed(2))
         setMediaSpecial(averageLoja(Loja.filter(Loja => { return (Loja.pPrazoEspecial) })).toFixed(2))

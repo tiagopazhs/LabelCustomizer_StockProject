@@ -15,6 +15,7 @@ const DB_PASSWORD = encodeURIComponent(process.env.DB_PASSWORD)
 const labelHis = require('./src/routes/labelHis')
 const labelExec = require('./src/routes/labelExec')
 const pedidos = require('./src/routes/pedidos')
+const produtos = require('./src/routes/produtos')
 
 // forma de ler JSON / middlewares
 app.use(express.urlencoded({
@@ -25,6 +26,7 @@ app.use(express.urlencoded({
 app.use('/historic', labelHis)
 app.use('/procces', labelExec)
 app.use('/pedidos', pedidos)
+app.use('/produtos', produtos)
 
 //End point: initial route
 app.get('/', async (req, res) => {

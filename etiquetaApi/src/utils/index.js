@@ -32,21 +32,33 @@ const instance = axios.create({
   })
 });
 
-async function getRequest(page, start, end, openSituation) {
+// It make 3 types of request: Orders in the specif time, order open eny time and products.
+async function getRequest(page, startF, endF, openSituationF, productsF) {
 
+  // The default request without ifs is: Orders in the specif time
   let situation = ""
+  let type = "pedidos"
+  let filterFinal = ""
   
-  if (openSituation) {
-    start = new Date (start.slice(6, 10), start.slice(3, 5) - 1, start.slice(0, 2))
+  // The second type of request is open order in a time before the user specifitations
+  if (openSituationF) {
+    startF = new Date (startF.slice(6, 10), startF.slice(3, 5) - 1, startF.slice(0, 2))
     situation = ";idSituacao[6,15,21,24,36574,37454,40594,40595,40870,48366]"
-    end = moment(start).subtract(1, 'days').format('DD/MM/YYYY')
-    start = "01/01/2022"
+    endF = moment(startF).subtract(1, 'days').format('DD/MM/YYYY')
+    startF = "01/01/2022"
   }
 
-  
-  const { data } = await axios.get(`${url}/Api/v2/pedidos/page=${page}/json?apikey=${apiKey}&filters=dataEmissao[${start}TO${end}]${situation}`)
+  filterFinal = `dataEmissao[${startF}TO${endF}]${situation}`// it'll be used just to orders request
 
-  return data.retorno.pedidos;
+  // The third request is of products.
+  if (productsF) {
+    type = "produtos"
+    filterFinal = "situacao[A]"
+  }
+
+  const { data } = await axios.get(`${url}/Api/v2/${type}/page=${page}/json?apikey=${apiKey}&filters=${filterFinal}`)
+
+  return data.retorno;
 
 }
 

@@ -55,6 +55,7 @@ router.get('/', async (req, res) => {
     let startReq = "01/12/2022"
     let endReq = "30/12/2022"
     let openSituation = false
+    let productsRequisition = false
 
     //Concat all orders requisions
     console.log('A requisição de pedidos está sendo executada...')
@@ -70,16 +71,12 @@ router.get('/', async (req, res) => {
       // Authorize the requisition to run just 2 times for second
       if (aut) {
         try {
-          ordersData = await getRequest(pageNumber, startReq, endReq, openSituation)
-          ordersList = ordersList.concat(ordersData);
+          ordersData = await getRequest(pageNumber, startReq, endReq, openSituation, productsRequisition)
+          if(ordersData.pedidos) ordersList = ordersList.concat(ordersData.pedidos);
           pageNumber++
         }
         catch (error) {
-          // if (error.response.status === 429) {
-            // console.error(` \n Aviso: Foi atingido o limite de requisições por segundo. (Isto não afeta a execução da aplicação). \n `)
-          // } else if (error.response.status != 429) {
-            console.error(` \n ALERTA DE ERRO: ${error}`)
-          // }
+          console.error(` \n ALERTA DE ERRO: ${error}`)
         }
 
         //limit of requisition
@@ -87,13 +84,15 @@ router.get('/', async (req, res) => {
         if (times > 2) { aut = false }
 
         //finalize the requisition. It'll run 2 times
-        if (ordersData.length < 100) {
-          if(openSituation){
+        if (!ordersData.pedidos || ordersData.pedidos.length < 100) {
+          if (openSituation) {
+            console.log('requisição completa! tamanho:', ordersList.length)
             run = false
-            console.log('requisição completa')
-          }else{
+          } else {
             openSituation = true
-          } 
+            // run = false // just to teste
+            // console.log('requisição completa! tamanho:', ordersList.length)// just to teste
+          }
         }
       }
     }
@@ -101,11 +100,12 @@ router.get('/', async (req, res) => {
     // filter orders by stores
     while (k < ordersList.length) {
       if (storeFilter.includes(ordersList[k].pedido.loja))
-        if (ordersList[k].pedido.loja === "203619241" && ordersList[k].pedido.itens[0].item.codigo === "intertag01") {
-          ordersListFilter = ordersListFilter.concat(ordersList[k])
-        }
+        //remove itens for VtexCafe store that are not the interpass
+        if (ordersList[k].pedido.loja === "203619241" && ordersList[k].pedido.itens[0].item.codigo === "intertag01") ordersListFilter = ordersListFilter.concat(ordersList[k])
+        //keep items diferent of the intercafe store
         else if (ordersList[k].pedido.loja != "203619241") {
-          ordersListFilter = ordersListFilter.concat(ordersList[k])
+          //remove itens that are not sended
+          if (ordersList[k].pedido.transporte.transportadora != "Entrega Local" && ordersList[k].pedido.transporte.transportadora != "Retirar pessoalmente") ordersListFilter = ordersListFilter.concat(ordersList[k])
         }
       k++
     }
@@ -128,9 +128,12 @@ router.get('/', async (req, res) => {
       pItens = ordersListFilter[j].pedido.itens
       pPrazoEspecial = specialDeadLine(pItens)
       pTempo = workDays(pDataCriacao, pDataEnvio)
+
       if (pPrazoEspecial) { sub = 4 } else { sub = 2 }
       if (pTempo - sub < 1) { pTempoAtraso = 0 } else { pTempoAtraso = pTempo - sub }
       if (ordersListFilter[j].pedido.transporte.transportadora != undefined) { pTransportadora = ordersListFilter[j].pedido.transporte.transportadora } else { pTransportadora = 'correios' }
+
+
 
       //order fields
       pedidoTratado = {
@@ -151,9 +154,7 @@ router.get('/', async (req, res) => {
       j++;
     }
 
-    result = ordersResult
-
-    res.json(result) // res.json(ordersList.length)
+    res.json(ordersResult) // res.json(ordersList.length)
   }
   catch (err) {
     console.log(err)
