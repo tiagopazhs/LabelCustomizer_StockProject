@@ -52,7 +52,7 @@ router.get('/', async (req, res) => {
 
     // variales to use in the requisition
     let pageNumber = 1
-    let startReq = "01/12/2022"
+    let startReq = "12/12/2022"
     let endReq = "30/12/2022"
     let openSituation = false
     let productsRequisition = false
@@ -90,8 +90,8 @@ router.get('/', async (req, res) => {
             run = false
           } else {
             openSituation = true
-            // run = false // just to teste
-            // console.log('requisição completa! tamanho:', ordersList.length)// just to teste
+            run = false // just to teste
+            console.log('requisição completa! tamanho:', ordersList.length)// just to teste
           }
         }
       }

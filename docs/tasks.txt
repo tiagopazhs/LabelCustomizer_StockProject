@@ -1,32 +1,16 @@
 DASHBOARD
 
-
-		se for negatio = 360 + o negativo	
-0%	230
-	360
-100%	130
-	
-
-
-		
-1% = 0,7	= 3,6 a mais no ângulo	
-
-rotulo de dados no grafico de barras
-o grafico de barras está muito pra baixo aparentemente
-ver se tem como melhorar a proporção do gráfico também
-
-Setar uma cor laranja para o backGroundColor
-
-Parametros no periodo
-
-componentizar gráficos de em aberto e atendidos
-    Ajustar e ver se tem como fixar o incio
+Ajustar os setTimesOut
 
 Fazer carregamento na tela até a primeira requisição
 
-Ajustar os setTimesOut
-
 corrigir erros
+
+
+
+
+
+
 
 
 PRINTER

@@ -7,11 +7,9 @@ import logoLojaGalo from "../assets/LogoLojaDoGalo4.png";
 import logoInterStore from "../assets/logoInterStore.png";
 import logoMRV from "../assets/logoMRVClollection2.png";
 import logoInterPass from "../assets/logoInterPass.png";
-import logoPersona from "../assets/logoPersona.png";
-import garrafaMrvInox from "../assets/garrafaMrvInox.png";
-import landscape from "../assets/landscape.png";
 import { Chart } from "react-google-charts";
 import { dataSendedPie, optionsSendedPie, dataOpenPie, optionsOpenPie, optionsColumn, dataProductTable, optionsProductTable, formattersProductTable, optionsTable, formattersTable, orderListTeste } from "../constants/dashContants";
+import PieOrder from "../components/PieOrder";
 
 
 const moment = require('moment')
@@ -63,11 +61,6 @@ function Dash() {
     const [biggerQty4, setBiggerQty4] = useState("");
     const [biggerQty5, setBiggerQty5] = useState("");
 
-    // Variables to use in pie chart
-    const [startAngleO, setStartAngleO] = useState(230);
-    const [redColorO, setRedColorO] = useState(50);
-    const [blueColorO, setBlueColorO] = useState(0);
-
     const [updatedTime, setUpdatedTime] = useState("00:01")
 
     // Data Charts
@@ -82,32 +75,32 @@ function Dash() {
         ["Locker", transpLocker, "#F07839", transpLocker],
     ];
 
-    const dataOpenPie = [
-        ["Pac Man", "Percentage"],
-        ["", redColorO], // red
-        ["", 20], // white
-        ["", blueColorO], // blue
-    ];
+    // const dataOpenPie = [
+    //     ["Pac Man", "Percentage"],
+    //     ["", redColorO], // red
+    //     ["", 20], // white
+    //     ["", blueColorO], // blue
+    // ];
     
-    const optionsOpenPie = {
-        legend: "none",
-        pieHole: 0.7,
-        pieSliceText: "none",
-        pieStartAngle: startAngleO,
-        // pieStartAngle: 260,
-        // pieStartAngle: 233,
-        // pieStartAngle: 129,
-        tooltip: { trigger: "none" },
-        slices: {
-            0: { color: "#ED3833" },
-            1: { color: "transparent" },
-            2: { color: "#4EB9C4" },
-        },
-        width: "30vh",
-        height: "30vh",
-        paddingTop: "150vh",
-        backgroundColor: "none",
-    };
+    // const optionsOpenPie = {
+    //     legend: "none",
+    //     pieHole: 0.7,
+    //     pieSliceText: "none",
+    //     pieStartAngle: startAngleO,
+    //     // pieStartAngle: 260,
+    //     // pieStartAngle: 233,
+    //     // pieStartAngle: 129,
+    //     tooltip: { trigger: "none" },
+    //     slices: {
+    //         0: { color: "#ED3833" },
+    //         1: { color: "transparent" },
+    //         2: { color: "#4EB9C4" },
+    //     },
+    //     width: "30vh",
+    //     height: "30vh",
+    //     paddingTop: "150vh",
+    //     backgroundColor: "none",
+    // };
 
     //Requisition to get products
     async function getProduto() {
@@ -148,17 +141,22 @@ function Dash() {
         setPercentOrdersSended(new Intl.NumberFormat('en-IN', { style: 'percent', maximumFractionDigits: '1', minimumFractionDigits: '1'}).format(totalPrazTotal / totalTotal))
 
         // Open orders
-        let openTotal = listAbertos.length
-        setTotalOrdersOpen(openTotal)
-        let prazOpenTotal = listAbertos.filter(listAbertos => { return listAbertos.pTempoAtraso === 0 });
-        let totalOpenPrazTotal = prazOpenTotal.length
-        setOrdersOpenOnTime(totalOpenPrazTotal)
-        setOrdersOpenOutOfTime(openTotal - totalOpenPrazTotal)
-        setPercentOrdersOpen(new Intl.NumberFormat('en-IN', { style: 'percent', maximumFractionDigits: '1', minimumFractionDigits: '1' }).format(totalOpenPrazTotal / openTotal))
-        //chart
-        // setBlueColorO((totalOpenPrazTotal / openTotal)*70)
-        // setRedColorO((1-(totalOpenPrazTotal / openTotal))*70)
-        
+        // let openTotal = listAbertos.length
+        // setTotalOrdersOpen(openTotal)
+        // let prazOpenTotal = listAbertos.filter(listAbertos => { return listAbertos.pTempoAtraso === 0 });
+        // let totalOpenPrazTotal = prazOpenTotal.length
+        // setOrdersOpenOnTime(totalOpenPrazTotal)
+        // setOrdersOpenOutOfTime(openTotal - totalOpenPrazTotal)
+        // let percentOfPrazOrdens = totalOpenPrazTotal / openTotal
+        // let percentOutPrazOrdens = 1 - percentOfPrazOrdens
+        // setPercentOrdersOpen(new Intl.NumberFormat('en-IN', { style: 'percent', maximumFractionDigits: '1', minimumFractionDigits: '1' }).format(percentOfPrazOrdens))
+
+
+        // //chart: multiply to 55 to convert in chart scale and to 4,73 + 230 to discover the start angle (these are empirical values).
+        // setBlueColorO(percentOfPrazOrdens * 55)
+        // setRedColorO(percentOutPrazOrdens * 55)
+        // setStartAngleO(((percentOfPrazOrdens * 55) * 4.73 ) + 230)
+
 
         // sended orders by mode
         let pedidosTranspInterlog = listAtendidos.filter(listAtendidos => { return listAtendidos.pTransportadora === 'Interlog' })
@@ -204,9 +202,10 @@ function Dash() {
 
         if (findMax(listOfProducts) != null && currentProducts != []) {
 
+            console.log(listOfProducts)
+
             listOfProducts = removeListItem(listOfProducts, "Personalização - Nome e Número") // remove item that are special
             let max1 = findMax(listOfProducts)
-            console.log(currentProducts.filter(x => x.pCode === max1.item))
             setBigger1(currentProducts.filter(x => x.pCode === max1.item))
             setBiggerQty1(max1.qty)
 
@@ -285,12 +284,12 @@ function Dash() {
     }
 
     // function that to get orders scheduled
-    useEffect(() => {
-        const myInterval = window.setInterval(function () {
-            getPedido();
-        }, 300000); // repeat every 5 minutes
-        return () => clearInterval(myInterval);
-    }, []);
+    // useEffect(() => {
+    //     const myInterval = window.setInterval(function () {
+    //         getPedido();
+    //     }, 300000); // repeat every 5 minutes
+    //     return () => clearInterval(myInterval);
+    // }, []);
 
     //refresh values when there are something new
     // useEffect(() => {
@@ -328,16 +327,11 @@ function Dash() {
                 <div id="bodyDown" className="d-flex ps-4 pe-4" style={{ height: '72%', width: "100%" }}>
                     <div className="pedidos" style={{ width: "66%" }}>
                         <div id="pedidosUp" className="" style={{ display: 'flex' }}>
-                            <div className="card m-4" style={{ borderRadius: "15px", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", width: "50%", height: "27.5vh" }}>
+                            {/* <div className="card m-4" style={{ borderRadius: "15px", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", width: "50%", height: "27.5vh" }}>
                                 <div className="" style={{ width: "50%" }}>
                                     <div className="mt-5">
                                         <h5 className="text-muted ms-5 mt-2" style={{ position: "absolute", textAlign: "center" }}>Pedidos enviados</h5>
-                                        <Chart
-                                            chartType="PieChart"
-                                            data={dataSendedPie}
-                                            options={optionsSendedPie}
-                                            allowHtml="true"
-                                        />
+                                        
                                     </div>
                                 </div>
                                 <div className="card ps-3 pt-3 me-3 mb-3 mt-3" style={{ width: "50%", borderRadius: "15px", backgroundColor: "#F2F2F2", height: "85%" }}>
@@ -348,8 +342,8 @@ function Dash() {
                                         <h3 style={{ fontFamily: "arial", fontWeight: "bold" }}>{percentOrdersSended}</h3><p className="card-text ps-2 mb-2"> envios no prazo</p>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="card m-4" style={{ borderRadius: "15px", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", width: "50%", height: "27.5vh" }}>
+                            </div> */}
+                            {/* <div className="card m-4" style={{ borderRadius: "15px", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", width: "50%", height: "27.5vh" }}>
                                 <div className="" style={{ width: "50%" }}>
                                     <div className="mt-5">
                                         <h5 className="text-muted ms-5 mt-2" style={{ position: "absolute", textAlign: "center" }}>Pedidos em aberto</h5>
@@ -369,13 +363,14 @@ function Dash() {
                                         <h3 style={{ fontFamily: "arial", fontWeight: "bold" }} >{percentOrdersOpen}</h3><p className="card-text ps-2 mb-2"> pedidos no prazo</p>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
+                            <PieOrder orders={listAtendidos} title={"Pedidos enviados"} desc={"envios no prazo"}/>
+                            <PieOrder orders={listAbertos} title={"Pedidos em aberto"} desc={"pedidos no prazo"}/>
                         </div>
                         <div id="pedidosDown" className="" style={{ display: 'flex' }}>
                             <div className="card m-4" style={{ borderRadius: "15px", width: "50%", height: "27.5vh" }}>
                                 <h5 className="text-muted mt-3 mb-0 pb-0" style={{ textAlign: "center" }}>Modais de envio</h5>
                                 <div className="mt-0 pt-0"> 
-                                {/* style={{ backgroundColor: "red" }} */}
                                     <Chart chartType="ColumnChart" height="395px" data={dataColumn} options={optionsColumn} />
                                 </div>
                             </div>
