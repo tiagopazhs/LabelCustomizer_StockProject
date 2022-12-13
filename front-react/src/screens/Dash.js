@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import {CSVLink, CSVDownload} from 'react-csv';
 import NavBar from "../components/NavBar";
 import StoreCard from "../components/StoreCard";
 import TopProducts from "../components/TopProduct";
@@ -75,33 +76,6 @@ function Dash() {
         ["Locker", transpLocker, "#F07839", transpLocker],
     ];
 
-    // const dataOpenPie = [
-    //     ["Pac Man", "Percentage"],
-    //     ["", redColorO], // red
-    //     ["", 20], // white
-    //     ["", blueColorO], // blue
-    // ];
-    
-    // const optionsOpenPie = {
-    //     legend: "none",
-    //     pieHole: 0.7,
-    //     pieSliceText: "none",
-    //     pieStartAngle: startAngleO,
-    //     // pieStartAngle: 260,
-    //     // pieStartAngle: 233,
-    //     // pieStartAngle: 129,
-    //     tooltip: { trigger: "none" },
-    //     slices: {
-    //         0: { color: "#ED3833" },
-    //         1: { color: "transparent" },
-    //         2: { color: "#4EB9C4" },
-    //     },
-    //     width: "30vh",
-    //     height: "30vh",
-    //     paddingTop: "150vh",
-    //     backgroundColor: "none",
-    // };
-
     //Requisition to get products
     async function getProduto() {
         let responseProdGet = await fetch(`${url}/produtos`);
@@ -139,24 +113,6 @@ function Dash() {
         setOrdersSendedOnTime(totalPrazTotal)
         setOrdersSendedOutOfTime(totalTotal - totalPrazTotal)
         setPercentOrdersSended(new Intl.NumberFormat('en-IN', { style: 'percent', maximumFractionDigits: '1', minimumFractionDigits: '1'}).format(totalPrazTotal / totalTotal))
-
-        // Open orders
-        // let openTotal = listAbertos.length
-        // setTotalOrdersOpen(openTotal)
-        // let prazOpenTotal = listAbertos.filter(listAbertos => { return listAbertos.pTempoAtraso === 0 });
-        // let totalOpenPrazTotal = prazOpenTotal.length
-        // setOrdersOpenOnTime(totalOpenPrazTotal)
-        // setOrdersOpenOutOfTime(openTotal - totalOpenPrazTotal)
-        // let percentOfPrazOrdens = totalOpenPrazTotal / openTotal
-        // let percentOutPrazOrdens = 1 - percentOfPrazOrdens
-        // setPercentOrdersOpen(new Intl.NumberFormat('en-IN', { style: 'percent', maximumFractionDigits: '1', minimumFractionDigits: '1' }).format(percentOfPrazOrdens))
-
-
-        // //chart: multiply to 55 to convert in chart scale and to 4,73 + 230 to discover the start angle (these are empirical values).
-        // setBlueColorO(percentOfPrazOrdens * 55)
-        // setRedColorO(percentOutPrazOrdens * 55)
-        // setStartAngleO(((percentOfPrazOrdens * 55) * 4.73 ) + 230)
-
 
         // sended orders by mode
         let pedidosTranspInterlog = listAtendidos.filter(listAtendidos => { return listAtendidos.pTransportadora === 'Interlog' })
@@ -284,18 +240,23 @@ function Dash() {
     }
 
     // function that to get orders scheduled
-    // useEffect(() => {
-    //     const myInterval = window.setInterval(function () {
-    //         getPedido();
-    //     }, 300000); // repeat every 5 minutes
-    //     return () => clearInterval(myInterval);
-    // }, []);
+    useEffect(() => {
+        const myInterval = window.setInterval(function () {
+            getPedido();
+        }, 500000); // repeat every 5 minutes
+        return () => clearInterval(myInterval);
+    }, []);
 
-    //refresh values when there are something new
-    // useEffect(() => {
-    //     // console.log('entrou aqui pra dar o refresh')
-    //     refreshValues();
-    // }, [currentOrders]);
+    // get products descriptions before to get started
+    useEffect(() => {
+        getProduto();
+        getPedido();
+    }, []);
+
+    // refresh values when there are something new
+    useEffect(() => {
+        refreshValues();
+    }, [currentOrders]);
 
 
     return (
@@ -394,6 +355,7 @@ function Dash() {
                             />
                         </div>
                     </div>
+                    <CSVLink data={currentOrders} >Download me</CSVLink>
                 </div>
             </div>
         </div>

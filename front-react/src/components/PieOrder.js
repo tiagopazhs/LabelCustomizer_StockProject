@@ -51,14 +51,16 @@ export default function PieOrder(props) {
         let percentOnTime = qtyOnTime / total
         let percentOutTime = 1 - percentOnTime
         setPercentOrders(new Intl.NumberFormat('en-IN', { style: 'percent', maximumFractionDigits: '1', minimumFractionDigits: '1' }).format(percentOnTime))
+
+        //chart: multiply to 55 to convert in chart scale and to 4,73 + 230 to discover the start angle (these are empirical values).
         setBlueColor(percentOnTime * 55)
         setRedColor(percentOutTime * 55)
         setStartAngle(((percentOnTime * 55) * 4.73) + 230)
     }
 
     useEffect(() => {
-        refreshValues();
-    }, []);
+        refreshValues()
+    }, [props.orders]);
 
     return (
         <>
