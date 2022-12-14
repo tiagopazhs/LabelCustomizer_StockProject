@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import {CSVLink, CSVDownload} from 'react-csv';
+import { CSVLink, CSVDownload } from 'react-csv';
 import NavBar from "../components/NavBar";
 import StoreCard from "../components/StoreCard";
 import TopProducts from "../components/TopProduct";
@@ -68,7 +68,7 @@ function Dash() {
     let dataTable = dataTableOpen;
 
     let dataColumn = [
-        ["Element", "Density", { role: "style"}, { role: "annotation"}],
+        ["Element", "Density", { role: "style" }, { role: "annotation" }],
         ["Interlog", transpInterlog, "#F07839", transpInterlog],
         ["Mercado livre", transpMeLi, "#F07839", transpMeLi],
         ["Correios", transpCorreios, "#F07839", transpCorreios],
@@ -112,7 +112,7 @@ function Dash() {
         let totalPrazTotal = prazTotal.length
         setOrdersSendedOnTime(totalPrazTotal)
         setOrdersSendedOutOfTime(totalTotal - totalPrazTotal)
-        setPercentOrdersSended(new Intl.NumberFormat('en-IN', { style: 'percent', maximumFractionDigits: '1', minimumFractionDigits: '1'}).format(totalPrazTotal / totalTotal))
+        setPercentOrdersSended(new Intl.NumberFormat('en-IN', { style: 'percent', maximumFractionDigits: '1', minimumFractionDigits: '1' }).format(totalPrazTotal / totalTotal))
 
         // sended orders by mode
         let pedidosTranspInterlog = listAtendidos.filter(listAtendidos => { return listAtendidos.pTransportadora === 'Interlog' })
@@ -136,7 +136,7 @@ function Dash() {
         let img = ""
         let desc = ""
         let objIndex = 0
-        
+
         while (z < listAtendidos.length) {
             while (y < listAtendidos[z].pItens.length) {
                 product = listAtendidos[z].pItens[y].item.codigo
@@ -174,7 +174,7 @@ function Dash() {
             let max3 = findMax(listOfProducts)
             setBigger3(currentProducts.filter(x => x.pCode === max3.item))
             setBiggerQty3(max3.qty)
-  
+
             listOfProducts = removeListItem(listOfProducts, max3.item) // remove before item to find de for max
             let max4 = findMax(listOfProducts)
             setBigger4(currentProducts.filter(x => x.pCode === max4.item))
@@ -229,7 +229,7 @@ function Dash() {
         let a = 0
         let newList = []
 
-        while( a < list.length ) {
+        while (a < list.length) {
             if (list[a].item != itemToRemove) {
                 newList = newList.concat(list[a])
             }
@@ -250,8 +250,12 @@ function Dash() {
     // get products descriptions before to get started
     useEffect(() => {
         getProduto();
-        getPedido();
     }, []);
+
+    // refresh values when there are something new
+    useEffect(() => {
+        getPedido();
+    }, [currentProducts]);
 
     // refresh values when there are something new
     useEffect(() => {
@@ -268,11 +272,11 @@ function Dash() {
                         <div className="card-text ms-5"><h5 className="text-muted">Visão geral</h5></div>
                     </span>
                     <span className="d-flex" style={{ width: "15%" }}>
-                        <p className="card-text"><small className="text-muted" onClick={() => { refreshValues(); getPedido()}} >Atualizado: </small></p>
+                        <p className="card-text"><small className="text-muted" onClick={() => { refreshValues(); getPedido() }} >Atualizado: </small></p>
                         <p className="card-text"><small className="text-muted ms-1" >{updatedTime}</small></p>
                     </span>
                     <span className="d-flex" style={{ width: "15%" }}>
-                        <p className="card-text"><small className="text-muted" onClick={() => { getProduto()}} >Período:</small></p>
+                        <p className="card-text"><small className="text-muted" onClick={() => { getProduto() }} >Período:</small></p>
                         <p className="card-text"><small className="text-muted ms-1">Mes Atual</small></p>
                     </span>
                 </div>
@@ -325,22 +329,22 @@ function Dash() {
                                     </div>
                                 </div>
                             </div> */}
-                            <PieOrder orders={listAtendidos} title={"Pedidos enviados"} desc={"envios no prazo"}/>
-                            <PieOrder orders={listAbertos} title={"Pedidos em aberto"} desc={"pedidos no prazo"}/>
+                            <PieOrder orders={listAtendidos} title={"Pedidos enviados"} desc={"envios no prazo"} />
+                            <PieOrder orders={listAbertos} title={"Pedidos em aberto"} desc={"pedidos no prazo"} />
                         </div>
                         <div id="pedidosDown" className="" style={{ display: 'flex' }}>
                             <div className="card m-4" style={{ borderRadius: "15px", width: "50%", height: "27.5vh" }}>
                                 <h5 className="text-muted mt-3 mb-0 pb-0" style={{ textAlign: "center" }}>Modais de envio</h5>
-                                <div className="mt-0 pt-0"> 
+                                <div className="mt-0 pt-0">
                                     <Chart chartType="ColumnChart" height="395px" data={dataColumn} options={optionsColumn} />
                                 </div>
                             </div>
                             <div className="card m-4" style={{ borderRadius: "15px", width: "50%", height: "27.5vh" }}>
                                 <h5 className="text-muted mt-3 mb-0 pb-0" style={{ textAlign: "center" }}>Produtos com maior saída</h5>
-                                <TopProducts details={bigger1} qty={biggerQty1}/>
-                                <TopProducts details={bigger2} qty={biggerQty2}/>
-                                <TopProducts details={bigger3} qty={biggerQty3}/>
-                                <TopProducts details={bigger4} qty={biggerQty4}/>
+                                <TopProducts details={bigger1} qty={biggerQty1} />
+                                <TopProducts details={bigger2} qty={biggerQty2} />
+                                <TopProducts details={bigger3} qty={biggerQty3} />
+                                <TopProducts details={bigger4} qty={biggerQty4} />
                             </div>
                         </div>
                     </div>
@@ -355,7 +359,7 @@ function Dash() {
                             />
                         </div>
                     </div>
-                    <CSVLink data={currentOrders} >Download me</CSVLink>
+                    {/* <CSVLink data={currentOrders} >Download me</CSVLink> */}
                 </div>
             </div>
         </div>
