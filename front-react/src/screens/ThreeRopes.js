@@ -1,9 +1,9 @@
 import NavBar from "../components/NavBar";
 
-function Reader(){
+function ThreeRopes(){
     return(
         <NavBar />
     )
 }
 
-export default Reader;
+export default ThreeRopes;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Chart } from "react-google-charts";
 
 export default function PieOrder(props) {
@@ -40,6 +40,7 @@ export default function PieOrder(props) {
         backgroundColor: "none",
     };
 
+    //Refresh values of the chart
     function refreshValues() {
         let ordersConfig = props.orders
         let total = ordersConfig.length

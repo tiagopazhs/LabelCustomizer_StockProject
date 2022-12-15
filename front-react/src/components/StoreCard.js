@@ -3,24 +3,21 @@ import { averageLoja } from "../utils/index.js";
 
 export default function StoreCard(props) {
 
-
+    //set variables to use in the store card
     const [atendidosLoja, setAtendidosLoja] = useState(0);
     const [prazoLoja, setPrazoLoja] = useState(0);
     const [mediaDefault, setMediaDefault] = useState(0);
     const [mediaSpecial, setMediaSpecial] = useState(0);
 
-
+    //Refresh values on the store cards dashboard
     function refreshFieldsValues() {
 
-
         let Loja = props.atualizarPedidos
-
         setAtendidosLoja(Loja.length)
-
         let prazoLoja = Loja.filter(Loja => { return Loja.pTempo < 3 && !(Loja.pPrazoEspecial) || Loja.pTempo < 5 && Loja.pPrazoEspecial });
         let totalPrazoLoja = prazoLoja.length
-        setPrazoLoja(new Intl.NumberFormat('en-IN', { style: 'percent', maximumFractionDigits: '1', minimumFractionDigits: '1' }).format(totalPrazoLoja / atendidosLoja))
 
+        setPrazoLoja(new Intl.NumberFormat('en-IN', { style: 'percent', maximumFractionDigits: '1', minimumFractionDigits: '1' }).format(totalPrazoLoja / atendidosLoja))
         setMediaDefault(averageLoja(Loja.filter(Loja => { return !(Loja.pPrazoEspecial) })).toFixed(2))
         setMediaSpecial(averageLoja(Loja.filter(Loja => { return (Loja.pPrazoEspecial) })).toFixed(2))
     }

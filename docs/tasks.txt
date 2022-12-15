@@ -1,14 +1,12 @@
 DASHBOARD
 
-Ajustar os setTimesOut
-
 Fazer carregamento na tela até a primeira requisição
 
 corrigir erros
 
 
 
-
+simple login: https://github.com/ilyaszm/react-login-register-page/blob/master/src/components/pages/LoginPage.js
 
 
 

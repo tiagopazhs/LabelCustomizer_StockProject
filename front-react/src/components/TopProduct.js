@@ -6,9 +6,11 @@ export default function TopProducts(props) {
     let dataImg = landscape
     let dataDesc = 'loading...'
 
+    //verify if there are data in the requisition
     if(!props.details){
         return
     }
+    //verfy if it is a null item
     else if(Array.isArray(props.details)){
         data = props.details
         if(data.length > 0) {dataImg = props.details[0].pImg; dataDesc = props.details[0].pDesc}

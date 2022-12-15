@@ -3,6 +3,82 @@
   color: #495769;
 }
 
+
+/* Login page */
+
+/***    General     ***/
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif
+}
+
+.m-5-auto {
+  margin: 5rem auto
+}
+
+h2 {
+  font-weight: 300
+}
+
+.largeFont {
+  font-size: 75px;
+  color: #f3f3f3;
+}
+
+form {
+  display: inline-block;
+  background: #f3f3f3;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  padding: 2rem;
+  margin: 2rem 0 1rem 0
+}
+
+form label {
+  float: left;
+  font-size: .9rem;
+  margin: 0;
+  padding: 0
+}
+
+.right-label {
+  float: right;
+  cursor: pointer
+}
+
+input {
+  width: 15rem;
+  padding: .3rem;
+  border-radius: 5px;
+  outline: none;
+  border: none
+}
+
+#sub_btn {
+  display: block;
+  width: 100%;
+  padding: .3rem;
+  border: none;
+  background: #F07839;
+  color: #fff;
+  border-radius: 3px;
+}
+
+#sub_btn:hover {
+  background: #333;
+  transition: all .5s
+}
+
+footer p {
+  margin: 0;
+  font-size: .9rem
+}
+
+/* Chart style */
+
+
 .columnChart{
 background-color: red;
 }
@@ -68,38 +144,32 @@ background-color: red;
 }
 
 
-.divMidNavBar{
+.midNavBar{
   width: 60%;
-  display: inline-block;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   display: flex;
+  margin-right: 10%;
   font-family: 'Sora';
   font-weight: bold;
 }
 
-.divMidNavBar p{
-  margin-right: 15%;
-}
-
-.divMidNavBar p:hover {
+.midNavBar p:hover {
   cursor: pointer;
   color:#F07839;
 }
 
 .divRigthNavBar{
-  width: 40%;
+  width: 25%;
   display: inline-block;
   align-items: center;
-  justify-content: right;
   display: flex;
-  margin-right: 15px;
+  justify-content: space-around;
   box-Shadow: 1000px 3000px 1000px #151515;
 }
 
 .navBarIcons{
   width: 19px;
-  margin-left: 10%;
 }
 
 .navBarIcons:hover{

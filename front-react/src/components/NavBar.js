@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import printer from "../assets/computer-printer.png";
 import settings from "../assets/gear.png";
 import signIn from "../assets/signIn.png";
@@ -11,11 +12,12 @@ export default function NavBar() {
             <span className="divPrinterIcon">
                 <img id="printerIcon" src={printer} alt="icone de impressora" />
             </span>
-            <span className="divMidNavBar">
-                <p title="home">Home</p>
-                <p title="servicos">Serviços</p>
-                <p title="relatorios">Dashboard</p>
-                <p title="github">Relatórios</p>
+            <span className="midNavBar mt-3" >
+                <Link style={{textDecoration: "none"}} to="/" ><p title="home">Home</p></Link>
+                <Link style={{textDecoration: "none"}} to="/Printer-Customizer" ><p title="servicos">Impressora</p></Link>
+                <Link style={{textDecoration: "none"}} to="/Validation-Order" ><p title="Reader">Ordens Verificação</p></Link>
+                <Link style={{textDecoration: "none"}} to="/Three-Ropes" ><p title="ThreeRopes">Leitura Nº Serie</p></Link>
+                <Link style={{textDecoration: "none"}} to="/Orders-Dashboard" ><p title="Dashboard">Dashboard</p></Link>
             </span>
             <span className="divRigthNavBar">
                 <img className="navBarIcons" id="sinoIcon" src={sino} alt="desc" />

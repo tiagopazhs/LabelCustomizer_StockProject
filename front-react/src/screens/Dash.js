@@ -1,17 +1,16 @@
-import React, { useEffect, useState, useRef } from "react";
-import { CSVLink, CSVDownload } from 'react-csv';
+import React, { useEffect, useState} from "react";
+import { Chart } from "react-google-charts";
 import NavBar from "../components/NavBar";
 import StoreCard from "../components/StoreCard";
 import TopProducts from "../components/TopProduct";
+import PieOrder from "../components/PieOrder";
 import '../styles.css';
 import logoLojaGalo from "../assets/LogoLojaDoGalo4.png";
 import logoInterStore from "../assets/logoInterStore.png";
 import logoMRV from "../assets/logoMRVClollection2.png";
 import logoInterPass from "../assets/logoInterPass.png";
-import { Chart } from "react-google-charts";
-import { dataSendedPie, optionsSendedPie, dataOpenPie, optionsOpenPie, optionsColumn, dataProductTable, optionsProductTable, formattersProductTable, optionsTable, formattersTable, orderListTeste } from "../constants/dashContants";
-import PieOrder from "../components/PieOrder";
-
+import { optionsColumn, optionsTable, formattersTable} from "../constants/dashContants";
+import { findMax, removeListItem } from "../utils";
 
 const moment = require('moment')
 moment.locale('pt-br');
@@ -32,16 +31,6 @@ function Dash() {
     const [mrvList, setMrvList] = useState([]);
     const [tagList, setTagList] = useState([]);
 
-    // Set deadline variables
-    const [totalOrdersSended, setTotalOrdersSended] = useState(0);
-    const [ordersSendedOnTime, setOrdersSendedOnTime] = useState(0);
-    const [ordersSendedOutOfTime, setOrdersSendedOutOfTime] = useState(0);
-    const [percentOrdersSended, setPercentOrdersSended] = useState(0);
-    const [totalOrdersOpen, setTotalOrdersOpen] = useState(0);
-    const [ordersOpenOnTime, setOrdersOpenOnTime] = useState(0);
-    const [ordersOpenOutOfTime, setOrdersOpenOutOfTime] = useState(0);
-    const [percentOrdersOpen, setPercentOrdersOpen] = useState(0);
-
     // Set chart transport variables
     const [transpInterlog, setTranspInterlog] = useState(0);
     const [transpMeLi, setTranspMeli] = useState(0);
@@ -55,18 +44,15 @@ function Dash() {
     const [bigger2, setBigger2] = useState("");
     const [bigger3, setBigger3] = useState("");
     const [bigger4, setBigger4] = useState("");
-    const [bigger5, setBigger5] = useState("");
     const [biggerQty1, setBiggerQty1] = useState("");
     const [biggerQty2, setBiggerQty2] = useState("");
     const [biggerQty3, setBiggerQty3] = useState("");
     const [biggerQty4, setBiggerQty4] = useState("");
-    const [biggerQty5, setBiggerQty5] = useState("");
 
+    // variable to update the updated time 
     const [updatedTime, setUpdatedTime] = useState("00:01")
 
-    // Data Charts
-    let dataTable = dataTableOpen;
-
+   //update modal data chart
     let dataColumn = [
         ["Element", "Density", { role: "style" }, { role: "annotation" }],
         ["Interlog", transpInterlog, "#F07839", transpInterlog],
@@ -95,6 +81,7 @@ function Dash() {
     //Refresh values on the dashboard
     function refreshValues() {
 
+        //filter orders that are not open 
         const notOpen = ['Atendido', 'Devolvido', 'Cancelado']
         setListAtendidos(Array.isArray(currentOrders) ? currentOrders.filter(currentOrders => { return currentOrders.pStatus === 'Atendido' }) : [])
         setListAbertos(Array.isArray(currentOrders) ? currentOrders.filter(currentOrders => { return notOpen.indexOf(currentOrders.pStatus) === -1 }) : [])
@@ -104,15 +91,6 @@ function Dash() {
         setIsList(Array.isArray(listAtendidos) ? listAtendidos.filter(listAtendidos => { return listAtendidos.pLoja === '203370950' }) : [])
         setMrvList(Array.isArray(listAtendidos) ? listAtendidos.filter(listAtendidos => { return listAtendidos.pLoja === '203994140' }) : [])
         setTagList(Array.isArray(listAtendidos) ? listAtendidos.filter(listAtendidos => { return listAtendidos.pLoja === '203619241' }) : [])
-
-        // Sended orders
-        let totalTotal = listAtendidos.length
-        setTotalOrdersSended(totalTotal)
-        let prazTotal = listAtendidos.filter(listAtendidos => { return listAtendidos.pTempo < 3 && !(listAtendidos.pPrazoEspecial) || listAtendidos.pTempo < 5 && listAtendidos.pPrazoEspecial });
-        let totalPrazTotal = prazTotal.length
-        setOrdersSendedOnTime(totalPrazTotal)
-        setOrdersSendedOutOfTime(totalTotal - totalPrazTotal)
-        setPercentOrdersSended(new Intl.NumberFormat('en-IN', { style: 'percent', maximumFractionDigits: '1', minimumFractionDigits: '1' }).format(totalPrazTotal / totalTotal))
 
         // sended orders by mode
         let pedidosTranspInterlog = listAtendidos.filter(listAtendidos => { return listAtendidos.pTransportadora === 'Interlog' })
@@ -137,6 +115,7 @@ function Dash() {
         let desc = ""
         let objIndex = 0
 
+        //Create the products data to sort by top 4 best sellers
         while (z < listAtendidos.length) {
             while (y < listAtendidos[z].pItens.length) {
                 product = listAtendidos[z].pItens[y].item.codigo
@@ -156,9 +135,8 @@ function Dash() {
             z++
         }
 
+        // refresh products data
         if (findMax(listOfProducts) != null && currentProducts != []) {
-
-            console.log(listOfProducts)
 
             listOfProducts = removeListItem(listOfProducts, "Personalização - Nome e Número") // remove item that are special
             let max1 = findMax(listOfProducts)
@@ -213,37 +191,11 @@ function Dash() {
 
     }
 
-    function findMax(list) {
-
-        let maxNum = 0
-        let objIndex = 1
-        maxNum = Math.max(...list.map(o => o.qty))
-        objIndex = list.findIndex((obj => obj.qty === maxNum));
-
-        // list.splice(objIndex, 1)
-        return list[objIndex]
-    }
-
-    function removeListItem(list, itemToRemove) {
-
-        let a = 0
-        let newList = []
-
-        while (a < list.length) {
-            if (list[a].item != itemToRemove) {
-                newList = newList.concat(list[a])
-            }
-            a++
-        }
-
-        return newList
-    }
-
     // function that to get orders scheduled
     useEffect(() => {
         const myInterval = window.setInterval(function () {
             getPedido();
-        }, 500000); // repeat every 5 minutes
+        }, 1500000); // repeat every 15 minutes
         return () => clearInterval(myInterval);
     }, []);
 
@@ -252,16 +204,15 @@ function Dash() {
         getProduto();
     }, []);
 
-    // refresh values when there are something new
+    // refresh orders values after the get order requisition
     useEffect(() => {
         getPedido();
     }, [currentProducts]);
 
-    // refresh values when there are something new
+    // refresh values when there are something new in the get order requisition
     useEffect(() => {
         refreshValues();
     }, [currentOrders]);
-
 
     return (
         <div className="Dashboard" style={{ backgroundColor: "#F5F6FC" }}>
@@ -292,43 +243,6 @@ function Dash() {
                 <div id="bodyDown" className="d-flex ps-4 pe-4" style={{ height: '72%', width: "100%" }}>
                     <div className="pedidos" style={{ width: "66%" }}>
                         <div id="pedidosUp" className="" style={{ display: 'flex' }}>
-                            {/* <div className="card m-4" style={{ borderRadius: "15px", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", width: "50%", height: "27.5vh" }}>
-                                <div className="" style={{ width: "50%" }}>
-                                    <div className="mt-5">
-                                        <h5 className="text-muted ms-5 mt-2" style={{ position: "absolute", textAlign: "center" }}>Pedidos enviados</h5>
-                                        
-                                    </div>
-                                </div>
-                                <div className="card ps-3 pt-3 me-3 mb-3 mt-3" style={{ width: "50%", borderRadius: "15px", backgroundColor: "#F2F2F2", height: "85%" }}>
-                                    <p className="card-text" >Total - {totalOrdersSended}</p>
-                                    <p className="card-text" >No prazo - {ordersSendedOnTime}</p>
-                                    <p className="card-text" >Em atraso - {ordersSendedOutOfTime}</p>
-                                    <div id="total" className="d-flex" style={{ alignItems: 'center' }}>
-                                        <h3 style={{ fontFamily: "arial", fontWeight: "bold" }}>{percentOrdersSended}</h3><p className="card-text ps-2 mb-2"> envios no prazo</p>
-                                    </div>
-                                </div>
-                            </div> */}
-                            {/* <div className="card m-4" style={{ borderRadius: "15px", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", width: "50%", height: "27.5vh" }}>
-                                <div className="" style={{ width: "50%" }}>
-                                    <div className="mt-5">
-                                        <h5 className="text-muted ms-5 mt-2" style={{ position: "absolute", textAlign: "center" }}>Pedidos em aberto</h5>
-                                        <Chart
-                                            chartType="PieChart"
-                                            data={dataOpenPie}
-                                            options={optionsOpenPie}
-                                            allowHtml='true'
-                                        />
-                                    </div>
-                                </div>
-                                <div className="card ps-3 pt-3 me-3 mb-3 mt-3" style={{ width: "50%", borderRadius: "15px", backgroundColor: "#F2F2F2", height: "85%" }}>
-                                    <p className="card-text" >Total - {totalOrdersOpen}</p>
-                                    <p className="card-text" >No prazo - {ordersOpenOnTime}</p>
-                                    <p className="card-text" >Em atraso - {ordersOpenOutOfTime}</p>
-                                    <div id="total" className="d-flex" style={{ alignItems: 'center' }}>
-                                        <h3 style={{ fontFamily: "arial", fontWeight: "bold" }} >{percentOrdersOpen}</h3><p className="card-text ps-2 mb-2"> pedidos no prazo</p>
-                                    </div>
-                                </div>
-                            </div> */}
                             <PieOrder orders={listAtendidos} title={"Pedidos enviados"} desc={"envios no prazo"} />
                             <PieOrder orders={listAbertos} title={"Pedidos em aberto"} desc={"pedidos no prazo"} />
                         </div>
@@ -353,13 +267,12 @@ function Dash() {
                             <h5 className="text-muted  mt-3" style={{ textAlign: "center" }}>Lista pedidos em aberto</h5>
                             <Chart
                                 chartType="Table"
-                                data={dataTable}
+                                data={dataTableOpen}
                                 options={optionsTable}
                                 formatters={formattersTable}
                             />
                         </div>
                     </div>
-                    {/* <CSVLink data={currentOrders} >Download me</CSVLink> */}
                 </div>
             </div>
         </div>

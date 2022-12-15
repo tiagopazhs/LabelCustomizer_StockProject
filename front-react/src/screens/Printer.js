@@ -1,7 +1,3 @@
-import printer from "../assets/computer-printer.png";
-import settings from "../assets/gear.png";
-import signIn from "../assets/signIn.png";
-import sino from "../assets/sino.png";
 import logoIs from "../assets/LogoIS.png";
 import logoMRV from "../assets/logo-mrv.png";
 import search from "../assets/search.png";
@@ -17,6 +13,7 @@ import barCodeHistory from "../assets/barcodeWhite.png";
 import React,{useState, useRef} from 'react';
 import '../styles.css';
 import Select from 'react-select';
+import NavBar from "../components/NavBar";
 const url = "http://localhost:8500";
 let date = new Date();
 let day = ("00" + date.getDate()).slice(-2);
@@ -243,22 +240,7 @@ function Printer() {
 
     return(
         <div className="printerPage">
-            <div className="navBar" style={{boxShadow: '1px 1px 9px #CCCDCD'}}>
-                <span className="divPrinterIcon">
-                    <img id="printerIcon" src={printer} alt="icone de impressora" />
-                </span>
-                <span className="divMidNavBar">
-                    <p title="home">Home</p>
-                    <p title="servicos">Serviços</p>
-                    <p title="relatorios">Relatórios</p>
-                    <p title="github">Github</p>
-                </span>
-                <span className="divRigthNavBar">
-                    <img className="navBarIcons" id="sinoIcon" src={sino} alt="desc"/>
-                    <img className="navBarIcons" id="settingsIcon" src={settings} alt="botão de configurações" />
-                    <img className="navBarIcons" id="signInIcon" src={signIn} alt="desc" />
-                </span>
-            </div>
+            <NavBar />
 
             <div className="body">
                 <div className="mainPrinter" style={{boxShadow: '1px 1px 9px #CCCDCD'}}>

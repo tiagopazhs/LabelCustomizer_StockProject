@@ -1,15 +1,24 @@
 import React from "react";
-import Printer from './screens/Printer';
-import Dash from './screens/Dash';
-import Reader from "./screens/Reader";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-export default function App() {
- 
+import Home from './screens/Home';
+import Printer from './screens/Printer';
+import Reader from './screens/Reader';
+import ThreeRopes from './screens/ThreeRopes';
+import Dash from './screens/Dash';
+
+function App () {
   return (
-    <>
-      <Dash />
-      {/* <Printer /> */}
-      {/* <Reader /> */}
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />}  />
+        <Route path="/Printer-Customizer" element={<Printer />}/>
+        <Route path="/Validation-Order" element={<Reader />}/>
+        <Route path="/Three-Ropes" element={<ThreeRopes />}/>
+        <Route path="/Orders-Dashboard" element={<Dash />}/>
+      </Routes>
+    </BrowserRouter>
   )
 }
+
+export default App;

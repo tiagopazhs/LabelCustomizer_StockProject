@@ -1,6 +1,4 @@
 // Variables to use in order requisition
-
-
 const https = require('https')
 const axios = require('axios');
 const { Console } = require('console');
