@@ -13,8 +13,8 @@ function App () {
       <Routes>
         <Route path="/" element={<Home />}  />
         <Route path="/Printer-Customizer" element={<Printer />}/>
-        <Route path="/Validation-Order" element={<Reader />}/>
         <Route path="/Three-Ropes" element={<ThreeRopes />}/>
+        <Route path="/Validation-Order" element={<Reader />}/>
         <Route path="/Orders-Dashboard" element={<Dash />}/>
       </Routes>
     </BrowserRouter>

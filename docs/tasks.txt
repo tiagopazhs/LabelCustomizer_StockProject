@@ -1,6 +1,28 @@
 DASHBOARD
 
+Three ThreeRopes
+
+Verificador
+
 Fazer carregamento na tela até a primeira requisição
+
+Ex:
+{inStage === landscape &&
+                                                <img id="landscapeIcon"
+                                                    src={inStage}
+                                                    alt="visualização de paisagem simbolizando campo vazio."
+                                                    onChange={setInStage}
+                                                />
+                                            }
+                                            {inStage === barCode &&
+                                                <img id="barcodeIcon"
+                                                    src={inStage}
+                                                    alt="visualização de paisagem simbolizando campo vazio."
+                                                    onChange={setInStage}
+                                                />
+                                            }
+
+
 
 corrigir erros
 
@@ -8,8 +30,15 @@ corrigir erros
 
 simple login: https://github.com/ilyaszm/react-login-register-page/blob/master/src/components/pages/LoginPage.js
 
-
-
+Postman:
+AVMB
+https://www.getpostman.com/collections/8001e0ee85ce33cd8e1d
+Bling
+https://www.getpostman.com/collections/8001e0ee85ce33cd8e1d
+Etiqueta
+https://www.getpostman.com/collections/8001e0ee85ce33cd8e1d
+ThreeRopes
+https://www.getpostman.com/collections/4818f372440af4a5fba7
 
 PRINTER
 

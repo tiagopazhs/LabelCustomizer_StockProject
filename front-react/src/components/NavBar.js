@@ -15,8 +15,8 @@ export default function NavBar() {
             <span className="midNavBar mt-3" >
                 <Link style={{textDecoration: "none"}} to="/" ><p title="home">Home</p></Link>
                 <Link style={{textDecoration: "none"}} to="/Printer-Customizer" ><p title="servicos">Impressora</p></Link>
-                <Link style={{textDecoration: "none"}} to="/Validation-Order" ><p title="Reader">Ordens Verificação</p></Link>
                 <Link style={{textDecoration: "none"}} to="/Three-Ropes" ><p title="ThreeRopes">Leitura Nº Serie</p></Link>
+                <Link style={{textDecoration: "none"}} to="/Validation-Order" ><p title="Reader">Validação BarCode</p></Link>
                 <Link style={{textDecoration: "none"}} to="/Orders-Dashboard" ><p title="Dashboard">Dashboard</p></Link>
             </span>
             <span className="divRigthNavBar">

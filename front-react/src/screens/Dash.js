@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Chart } from "react-google-charts";
 import NavBar from "../components/NavBar";
 import StoreCard from "../components/StoreCard";
@@ -9,7 +9,7 @@ import logoLojaGalo from "../assets/LogoLojaDoGalo4.png";
 import logoInterStore from "../assets/logoInterStore.png";
 import logoMRV from "../assets/logoMRVClollection2.png";
 import logoInterPass from "../assets/logoInterPass.png";
-import { optionsColumn, optionsTable, formattersTable} from "../constants/dashContants";
+import { optionsColumn, optionsTable, formattersTable } from "../constants/dashContants";
 import { findMax, removeListItem } from "../utils";
 
 const moment = require('moment')
@@ -52,7 +52,7 @@ function Dash() {
     // variable to update the updated time 
     const [updatedTime, setUpdatedTime] = useState("00:01")
 
-   //update modal data chart
+    //update modal data chart
     let dataColumn = [
         ["Element", "Density", { role: "style" }, { role: "annotation" }],
         ["Interlog", transpInterlog, "#F07839", transpInterlog],
@@ -215,66 +215,80 @@ function Dash() {
     }, [currentOrders]);
 
     return (
+
         <div className="Dashboard" style={{ backgroundColor: "#F5F6FC" }}>
             <NavBar />
-            <div id="body" className="" style={{ height: '44.5vw', backgroundColor: "#F5F6FC" }}>{/* "#F5F6FC" F07939*/}
-                <div id="visaoGeral" className="d-flex" style={{ marginTop: "15px", marginBottom: "15px", }}>
-                    <span className="d-flex" style={{ width: "70%" }}>
-                        <div className="card-text ms-5"><h5 className="text-muted">Visão geral</h5></div>
-                    </span>
-                    <span className="d-flex" style={{ width: "15%" }}>
-                        <p className="card-text"><small className="text-muted" onClick={() => { refreshValues(); getPedido() }} >Atualizado: </small></p>
-                        <p className="card-text"><small className="text-muted ms-1" >{updatedTime}</small></p>
-                    </span>
-                    <span className="d-flex" style={{ width: "15%" }}>
-                        <p className="card-text"><small className="text-muted" onClick={() => { getProduto() }} >Período:</small></p>
-                        <p className="card-text"><small className="text-muted ms-1">Mes Atual</small></p>
-                    </span>
+            {dataTableOpen.length === 2 &&
+                <div className="d-flex" style={{ backgroundColor: 'orange', width: '100%', height: '44.5vw', alignItems: "center", justifyContent: "center" }} >
+                    <div className="d-grid" >
+                    <h2> Carregando dashboard...</h2>
+                    <h7> Você sabia que o bling tem um limite de requisições de 300 pedidos/produtos por segundo?</h7>
+                    <h7> Isso faz com que o primeiro carregamento do dashboard demore entre 40 segundos e 1 minuto e 40 segundos.</h7>
                 </div>
-                <div id="lojas" className="" >
-                    <div className="d-flex mb-4" style={{ display: 'flex', alignItems: "center", justifyContent: "center" }} >
-                        <p style={{ marginLeft: '4%' }}></p>
-                        <StoreCard logo={logoLojaGalo} backLogoColor={"#303030"} atualizarPedidos={ldgList} />
-                        <StoreCard logo={logoInterStore} backLogoColor={"#F5F6FA"} atualizarPedidos={isList} />
-                        <StoreCard logo={logoMRV} backLogoColor={"#4FB385"} atualizarPedidos={mrvList} />
-                        <StoreCard logo={logoInterPass} backLogoColor={"#F5F6FA"} atualizarPedidos={tagList} />
-                    </div>
                 </div>
-                <div id="bodyDown" className="d-flex ps-4 pe-4" style={{ height: '72%', width: "100%" }}>
-                    <div className="pedidos" style={{ width: "66%" }}>
-                        <div id="pedidosUp" className="" style={{ display: 'flex' }}>
-                            <PieOrder orders={listAtendidos} title={"Pedidos enviados"} desc={"envios no prazo"} />
-                            <PieOrder orders={listAbertos} title={"Pedidos em aberto"} desc={"pedidos no prazo"} />
+            }
+            {dataTableOpen.length > 2 &&
+                <div>
+                    <div id="body" className="" style={{ height: '44.5vw', backgroundColor: "#F5F6FC" }}>{/* "#F5F6FC" F07939*/}
+                        <div id="visaoGeral" className="d-flex" style={{ marginTop: "15px", marginBottom: "15px", }}>
+                            <span className="d-flex" style={{ width: "70%" }}>
+                                <div className="card-text ms-5"><h5 className="text-muted">Visão geral</h5></div>
+                            </span>
+                            <span className="d-flex" style={{ width: "15%" }}>
+                                <p className="card-text"><small className="text-muted" onClick={() => { refreshValues(); getPedido() }} >Atualizado: </small></p>
+                                <p className="card-text"><small className="text-muted ms-1" >{updatedTime}</small></p>
+                            </span>
+                            <span className="d-flex" style={{ width: "15%" }}>
+                                <p className="card-text"><small className="text-muted" onClick={() => { getProduto() }} >Período:</small></p>
+                                <p className="card-text"><small className="text-muted ms-1">Mes Atual</small></p>
+                            </span>
                         </div>
-                        <div id="pedidosDown" className="" style={{ display: 'flex' }}>
-                            <div className="card m-4" style={{ borderRadius: "15px", width: "50%", height: "27.5vh" }}>
-                                <h5 className="text-muted mt-3 mb-0 pb-0" style={{ textAlign: "center" }}>Modais de envio</h5>
-                                <div className="mt-0 pt-0">
-                                    <Chart chartType="ColumnChart" height="395px" data={dataColumn} options={optionsColumn} />
+                        <div id="lojas" className="" >
+                            <div className="d-flex mb-4" style={{ display: 'flex', alignItems: "center", justifyContent: "center" }} >
+                                <p style={{ marginLeft: '4%' }}></p>
+                                <StoreCard logo={logoLojaGalo} backLogoColor={"#303030"} atualizarPedidos={ldgList} />
+                                <StoreCard logo={logoInterStore} backLogoColor={"#F5F6FA"} atualizarPedidos={isList} />
+                                <StoreCard logo={logoMRV} backLogoColor={"#4FB385"} atualizarPedidos={mrvList} />
+                                <StoreCard logo={logoInterPass} backLogoColor={"#F5F6FA"} atualizarPedidos={tagList} />
+                            </div>
+                        </div>
+                        <div id="bodyDown" className="d-flex ps-4 pe-4" style={{ height: '72%', width: "100%" }}>
+                            <div className="pedidos" style={{ width: "66%" }}>
+                                <div id="pedidosUp" className="" style={{ display: 'flex' }}>
+                                    <PieOrder orders={listAtendidos} title={"Pedidos enviados"} desc={"envios no prazo"} />
+                                    <PieOrder orders={listAbertos} title={"Pedidos em aberto"} desc={"pedidos no prazo"} />
+                                </div>
+                                <div id="pedidosDown" className="" style={{ display: 'flex' }}>
+                                    <div className="card m-4" style={{ borderRadius: "15px", width: "50%", height: "27.5vh" }}>
+                                        <h5 className="text-muted mt-3 mb-0 pb-0" style={{ textAlign: "center" }}>Modais de envio</h5>
+                                        <div className="mt-0 pt-0">
+                                            <Chart chartType="ColumnChart" height="395px" data={dataColumn} options={optionsColumn} />
+                                        </div>
+                                    </div>
+                                    <div className="card m-4" style={{ borderRadius: "15px", width: "50%", height: "27.5vh" }}>
+                                        <h5 className="text-muted mt-3 mb-0 pb-0" style={{ textAlign: "center" }}>Produtos com maior saída</h5>
+                                        <TopProducts details={bigger1} qty={biggerQty1} />
+                                        <TopProducts details={bigger2} qty={biggerQty2} />
+                                        <TopProducts details={bigger3} qty={biggerQty3} />
+                                        <TopProducts details={bigger4} qty={biggerQty4} />
+                                    </div>
                                 </div>
                             </div>
-                            <div className="card m-4" style={{ borderRadius: "15px", width: "50%", height: "27.5vh" }}>
-                                <h5 className="text-muted mt-3 mb-0 pb-0" style={{ textAlign: "center" }}>Produtos com maior saída</h5>
-                                <TopProducts details={bigger1} qty={biggerQty1} />
-                                <TopProducts details={bigger2} qty={biggerQty2} />
-                                <TopProducts details={bigger3} qty={biggerQty3} />
-                                <TopProducts details={bigger4} qty={biggerQty4} />
+                            <div id="listaPedidos" className="" style={{ width: "33%" }}>
+                                <div className="card m-4" style={{ borderRadius: "15px", height: "60.3vh" }}>
+                                    <h5 className="text-muted  mt-3" style={{ textAlign: "center" }}>Lista pedidos em aberto</h5>
+                                    <Chart
+                                        chartType="Table"
+                                        data={dataTableOpen}
+                                        options={optionsTable}
+                                        formatters={formattersTable}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div id="listaPedidos" className="" style={{ width: "33%" }}>
-                        <div className="card m-4" style={{ borderRadius: "15px", height: "60.3vh" }}>
-                            <h5 className="text-muted  mt-3" style={{ textAlign: "center" }}>Lista pedidos em aberto</h5>
-                            <Chart
-                                chartType="Table"
-                                data={dataTableOpen}
-                                options={optionsTable}
-                                formatters={formattersTable}
-                            />
-                        </div>
-                    </div>
                 </div>
-            </div>
+            }
         </div>
     )
 };
