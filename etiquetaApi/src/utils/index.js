@@ -93,6 +93,7 @@ function workDays(dInitital, dEnd) {
 }
 
 function specialDeadLine(items) {
+  
   let special = false
   let whAux = 0
   let itemCode = ""

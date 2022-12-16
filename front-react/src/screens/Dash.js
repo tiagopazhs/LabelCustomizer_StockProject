@@ -9,6 +9,7 @@ import logoLojaGalo from "../assets/LogoLojaDoGalo4.png";
 import logoInterStore from "../assets/logoInterStore.png";
 import logoMRV from "../assets/logoMRVClollection2.png";
 import logoInterPass from "../assets/logoInterPass.png";
+import loading from "../assets/loading.gif";
 import { optionsColumn, optionsTable, formattersTable } from "../constants/dashContants";
 import { findMax, removeListItem } from "../utils";
 
@@ -214,17 +215,21 @@ function Dash() {
         refreshValues();
     }, [currentOrders]);
 
+    console.log('oi', dataTableOpen)
     return (
 
         <div className="Dashboard" style={{ backgroundColor: "#F5F6FC" }}>
             <NavBar />
             {dataTableOpen.length === 2 &&
                 <div className="d-flex" style={{ backgroundColor: 'orange', width: '100%', height: '44.5vw', alignItems: "center", justifyContent: "center" }} >
-                    <div className="d-grid" >
-                    <h2> Carregando dashboard...</h2>
-                    <h7> Você sabia que o bling tem um limite de requisições de 300 pedidos/produtos por segundo?</h7>
-                    <h7> Isso faz com que o primeiro carregamento do dashboard demore entre 40 segundos e 1 minuto e 40 segundos.</h7>
-                </div>
+                    <div className="d-grid"  >
+                        <div className="d-flex" style={{justifyContent: "center" }}>
+                            <h2 className="me-5"> Carregando dashboard </h2>
+                            <img src={loading} style={{ width: "30px", height: "30px" }} />
+                        </div>
+                        <h7> Você sabia que o bling tem um limite de requisições de 300 pedidos/produtos por segundo?</h7>
+                        <h7> Isso faz com que o primeiro carregamento do dashboard demore entre 40 segundos e 1 minuto e 40 segundos.</h7>
+                    </div>
                 </div>
             }
             {dataTableOpen.length > 2 &&
