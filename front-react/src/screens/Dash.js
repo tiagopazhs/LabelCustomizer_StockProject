@@ -228,7 +228,7 @@ function Dash() {
                             <img src={loading} style={{ width: "30px", height: "30px" }} />
                         </div>
                         <h7> Você sabia que o bling tem um limite de requisições de 300 pedidos/produtos por segundo?</h7>
-                        <h7> Isso faz com que o primeiro carregamento do dashboard demore entre 40 segundos e 1 minuto e 40 segundos.</h7>
+                        <h7> Isso faz com que o primeiro carregamento do dashboard possa demorar até 2 minutos. Caso o carregamento falhe, atualizará na próxima atualização que é após 5 minutos.</h7>
                     </div>
                 </div>
             }
