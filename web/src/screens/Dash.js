@@ -12,11 +12,15 @@ import logoInterPass from "../assets/logoInterPass.png";
 import loading from "../assets/loading.gif";
 import { optionsColumn, optionsTable, formattersTable } from "../constants/dashContants";
 import { findMax, removeListItem } from "../utils";
+import defaultOrdersRequest from '../constants/defaultOrdersRequest.json';
+import defaultProductsRequest from '../constants/defaultProductsRequest.json';
+
 
 const moment = require('moment')
 moment.locale('pt-br');
 
 const url = "http://localhost:8500";
+const token = "unavailable"
 
 function Dash() {
 
@@ -65,20 +69,22 @@ function Dash() {
 
     //Requisition to get products
     async function getProduto() {
-        console.log('doing request...')
-        let responseProdGet = await fetch(`${url}/produtos`);
-        let products = await responseProdGet.json();
-        setCurrentProducts(products)
-        console.log('Completo! products:', products)
+        if(token !== "unavailable"){
+            let responseProdGet = await fetch(`${url}/produtos`);
+            let products = await responseProdGet.json();
+            setCurrentProducts(products)
+        }
+        else setCurrentOrders(defaultOrdersRequest)
     }
 
     //Requisition to get orders
     async function getPedido() {
-        console.log('doing request...')
-        let responseGet = await fetch(`${url}/pedidos`);
-        let orders = await responseGet.json();
-        setCurrentOrders(orders?.sort((a, b) => (a.pTempoAtraso < b.pTempoAtraso) ? 1 : ((b.pTempoAtraso < a.pTempoAtraso) ? -1 : 0)))
-        console.log('Completo! orders:', orders)
+        if(token !== "unavailable"){
+            let responseGet = await fetch(`${url}/pedidos`);
+            let orders = await responseGet.json();
+            setCurrentOrders(orders?.sort((a, b) => (a.pTempoAtraso < b.pTempoAtraso) ? 1 : ((b.pTempoAtraso < a.pTempoAtraso) ? -1 : 0)))  
+        }
+        else setCurrentOrders(defaultProductsRequest)
     }
 
     //Refresh values on the dashboard
@@ -197,27 +203,27 @@ function Dash() {
     //***IT'S NO REFRESH VALUES, BECAUSE TOKEN IS REQUIRED.
     
     // function that to get orders scheduled
-    // useEffect(() => {
-    //     const myInterval = window.setInterval(function () {
-    //         getPedido();
-    //     }, 1500000); // repeat every 15 minutes
-    //     return () => clearInterval(myInterval);
-    // }, []);
+    useEffect(() => {
+        const myInterval = window.setInterval(function () {
+            getPedido();
+        }, 6000000); // repeat every 1 hour
+        return () => clearInterval(myInterval);
+    }, []);
 
     // get products descriptions before to get started
-    // useEffect(() => {
-    //     getProduto();
-    // }, []);
+    useEffect(() => {
+        getProduto();
+    }, []);
 
-    // refresh orders values after the get order requisition
-    // useEffect(() => {
-    //     getPedido();
-    // }, [currentProducts]);
+    // refresh orders values after getOrder requisition
+    useEffect(() => {
+        getPedido();
+    }, [currentProducts]);
 
-    // refresh values when there are something new in the get order requisition
-    // useEffect(() => {
-    //     refreshValues();
-    // }, [currentOrders]);
+    // refresh values when there are something new in the getOrder requisition
+    useEffect(() => {
+        refreshValues();
+    }, [currentOrders]);
 
     return (
 
