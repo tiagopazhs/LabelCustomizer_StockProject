@@ -22,42 +22,41 @@ export default function StoreCard(props) {
         setMediaSpecial(averageLoja(Loja.filter(Loja => { return (Loja.pPrazoEspecial) })).toFixed(2))
     }
 
-
     //function to refresh values
     useEffect(() => {
-        refreshFieldsValues();
+        if(props.atualizarPedidos.length > 0) refreshFieldsValues();
     }, [props.atualizarPedidos]);
 
     return (
-        <div class="" style={{ height: "15%", width: "20%", marginRight: '4%' }}>
-            <div class="card" style={{ borderRadius: "15px" }}>
-                <div class="d-flex">
-                    <div id="cardComALogo" class="card ms-3 me-5" style={{ backgroundColor: props.backLogoColor, width: "20%", height: "3.2vw", alignItems: "center", justifyContent: "center", marginTop: "-0.5vw", borderRadius: "15px" }}>
-                        <img id="isIcon" class="img img-responsive full-width" src={props.logo} alt="icone da empresa pesquisada" style={{ width: "80%", height: "auto" }} />
+        <div className="" style={{ height: "15%", width: "20%", marginRight: '4%' }}>
+            <div className="card" style={{ borderRadius: "15px" }}>
+                <div className="d-flex">
+                    <div id="cardComALogo" className="card ms-3 me-5" style={{ backgroundColor: props.backLogoColor, width: "20%", height: "3.2vw", alignItems: "center", justifyContent: "center", marginTop: "-0.5vw", borderRadius: "15px" }}>
+                        <img id="isIcon" className="img img-responsive full-width" src={props.logo} alt="icone da empresa pesquisada" style={{ width: "80%", height: "auto" }} />
                     </div>
-                    <div class="me-0 pe-0" style={{ width: "60%" }}>
-                        <h7 class="card-text d-flex justify-content-end align-items-center me-3 pt-2">Pedidos enviados no mês</h7>
-                        <h4 class="card-text d-flex justify-content-end align-items-center me-3 pt-2" style={{ fontWeight: "bold" }} >{atendidosLoja}</h4>
+                    <div className="me-0 pe-0" style={{ width: "60%" }}>
+                        <h6 className="card-text d-flex justify-content-end align-items-center me-3 pt-2">Pedidos enviados no mês</h6>
+                        <h4 className="card-text d-flex justify-content-end align-items-center me-3 pt-2" style={{ fontWeight: "bold" }} >{atendidosLoja}</h4>
                     </div>
                 </div>
-                <div class="card-body">
+                <div className="card-body">
                     <div className="d-flex" style={{ borderStyle: "solid", borderTopColor: "#F1F5FF", borderWidth: "1px", borderLeftColor: "transparent", borderRightColor: "transparent", borderBottomColor: "transparent" }}>
-                        <small class="text-muted mt-2" style={{ fontWeight: "bold" }}>{prazoLoja}</small>
-                        <small class="text-muted mt-2 ms-1">no prazo</small>
+                        <small className="text-muted mt-2" style={{ fontWeight: "bold" }}>{prazoLoja}</small>
+                        <small className="text-muted mt-2 ms-1">no prazo</small>
                     </div>
                     <div>
                         {props.backLogoColor != "#303030" &&
                             <div className="d-flex">
-                                <small class="text-muted" style={{ fontWeight: "bold" }} >{mediaDefault}</small>
-                                <small class="text-muted ms-1">dias em média para envio</small>
+                                <small className="text-muted" style={{ fontWeight: "bold" }} >{mediaDefault}</small>
+                                <small className="text-muted ms-1">dias em média para envio</small>
                             </div>
                         }
                         {props.backLogoColor === "#303030" &&
                             <div className="d-flex">
-                                <small class="text-muted" style={{ fontWeight: "bold" }} >{mediaDefault}</small>
-                                <small class="text-muted ms-1">dias em média e </small>
-                                <small class="text-muted ms-1" style={{ fontWeight: "bold" }} >{mediaSpecial}</small>
-                                <small class="text-muted ms-1">para personalização</small>
+                                <small className="text-muted" style={{ fontWeight: "bold" }} >{mediaDefault}</small>
+                                <small className="text-muted ms-1">dias em média e </small>
+                                <small className="text-muted ms-1" style={{ fontWeight: "bold" }} >{mediaSpecial}</small>
+                                <small className="text-muted ms-1">para personalização</small>
                             </div>
                         }
                     </div>

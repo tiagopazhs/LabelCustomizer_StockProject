@@ -15,6 +15,13 @@ import { findMax, removeListItem } from "../utils";
 import defaultOrdersRequest from '../constants/defaultOrdersRequest.json';
 import defaultProductsRequest from '../constants/defaultProductsRequest.json';
 
+//Ignore react gogle chart warms
+const originalWarn = console.warn;
+console.warn = function (...args) {
+    const arg = args && args[0];
+    if (arg && arg.includes('Attempting to load version \'51\' of Google Charts')) return;
+    originalWarn(...args);
+};
 
 const moment = require('moment')
 moment.locale('pt-br');
@@ -24,7 +31,7 @@ const token = "unavailable"
 
 function Dash() {
 
-    // Set variable that will be used to receive  the get orders data.
+    // Set variable that will be used to receive the get orders data.
     const [currentProducts, setCurrentProducts] = useState([]);
 
     // Set variable that will be used to receive  the get orders data.
@@ -69,28 +76,28 @@ function Dash() {
 
     //Requisition to get products
     async function getProduto() {
-        if(token !== "unavailable"){
+        if (token !== "unavailable") {
             let responseProdGet = await fetch(`${url}/produtos`);
             let products = await responseProdGet.json();
             setCurrentProducts(products)
         }
-        else setCurrentOrders(defaultOrdersRequest)
+        else setCurrentProducts(defaultProductsRequest);
     }
 
     //Requisition to get orders
     async function getPedido() {
-        if(token !== "unavailable"){
+        if (token !== "unavailable") {
             let responseGet = await fetch(`${url}/pedidos`);
             let orders = await responseGet.json();
-            setCurrentOrders(orders?.sort((a, b) => (a.pTempoAtraso < b.pTempoAtraso) ? 1 : ((b.pTempoAtraso < a.pTempoAtraso) ? -1 : 0)))  
+            setCurrentOrders(orders?.sort((a, b) => (a.pTempoAtraso < b.pTempoAtraso) ? 1 : ((b.pTempoAtraso < a.pTempoAtraso) ? -1 : 0)))
         }
-        else setCurrentOrders(defaultProductsRequest)
+        else setCurrentOrders(defaultOrdersRequest);
     }
 
     //Refresh values on the dashboard
     function refreshValues() {
 
-        //filter orders that are not open 
+        //filter orders that are not open
         const notOpen = ['Atendido', 'Devolvido', 'Cancelado']
         setListAtendidos(Array.isArray(currentOrders) ? currentOrders.filter(currentOrders => { return currentOrders.pStatus === 'Atendido' }) : [])
         setListAbertos(Array.isArray(currentOrders) ? currentOrders.filter(currentOrders => { return notOpen.indexOf(currentOrders.pStatus) === -1 }) : [])
@@ -197,12 +204,9 @@ function Dash() {
 
         // last update time
         setUpdatedTime(moment().format('hh:mm'))
-
     }
 
-    //***IT'S NO REFRESH VALUES, BECAUSE TOKEN IS REQUIRED.
-    
-    // function that to get orders scheduled
+    // function to get orders scheduled
     useEffect(() => {
         const myInterval = window.setInterval(function () {
             getPedido();
@@ -210,20 +214,17 @@ function Dash() {
         return () => clearInterval(myInterval);
     }, []);
 
-    // get products descriptions before to get started
+    // check if the values are updated
+    useEffect(() => {
+        if (tagList.length === 0) refreshValues();
+    }, [tagList]);
+
+    // get data before to get started
     useEffect(() => {
         getProduto();
-    }, []);
-
-    // refresh orders values after getOrder requisition
-    useEffect(() => {
         getPedido();
-    }, [currentProducts]);
-
-    // refresh values when there are something new in the getOrder requisition
-    useEffect(() => {
-        refreshValues();
-    }, [currentOrders]);
+        setTimeout(() => {refreshValues()}, 800);
+    }, []);
 
     return (
 
