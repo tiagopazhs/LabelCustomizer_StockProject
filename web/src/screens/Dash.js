@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Chart } from "react-google-charts";
 import NavBar from "../components/NavBar";
 import StoreCard from "../components/StoreCard";
+import Cardbasic from "../components/Cardbasic";
 import TopProducts from "../components/TopProduct";
 import PieOrder from "../components/PieOrder";
 import '../styles.css';
@@ -260,6 +261,10 @@ function Dash() {
                         </div>
                         <div id="lojas" className="" >
                             <div className="d-flex mb-4" style={{ display: 'flex', alignItems: "center", justifyContent: "center" }} >
+                                <Cardbasic />
+                                <Cardbasic />
+                                <Cardbasic />
+                                <Cardbasic />
                                 <p style={{ marginLeft: '4%' }}></p>
                                 <StoreCard logo={logoLojaGalo} backLogoColor={"#303030"} atualizarPedidos={ldgList} />
                                 <StoreCard logo={logoInterStore} backLogoColor={"#F5F6FA"} atualizarPedidos={isList} />
