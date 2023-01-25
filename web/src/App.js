@@ -11,7 +11,7 @@ function App () {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />}  />
+        <Route path="/" element={<Dash />}  />
         <Route path="/Printer-Customizer" element={<Printer />}/>
         <Route path="/Three-Ropes" element={<ThreeRopes />}/>
         <Route path="/Validation-Order" element={<Reader />}/>

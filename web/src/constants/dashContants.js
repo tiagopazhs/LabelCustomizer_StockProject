@@ -1,13 +1,18 @@
 //format column chart
 export const optionsColumn = {
     legend: "none",
-    chartArea: { left: "10%", top: "7%", width: "80%", height: "35%" },
+    chartArea: {
+        left: 10,
+        top: 0,
+        right: 10,
+        bottom: 0
+      },
     backgroundColor: "none",
     annotations: {
         textStyle: {
             fontSize: 15,
             bold: true,
-            color: "#495769",
+            color: "#495769"
         },
         alwaysOutside: true,
         highContrast: false,
@@ -34,7 +39,6 @@ export const optionsTable = {
     allowHtml: true,
     showRowNumber: true,
     height: "53vh",
-    hAxis: { textPosition: 'none' },
     cssClassNames: {
         tableCell: 'tableOrder'
     }

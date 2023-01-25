@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Chart } from "react-google-charts";
 import NavBar from "../components/NavBar";
 import StoreCard from "../components/StoreCard";
-import Cardbasic from "../components/Cardbasic";
+import SubNavBar from "../components/SubNavBar";
 import TopProducts from "../components/TopProduct";
 import PieOrder from "../components/PieOrder";
 import '../styles.css';
@@ -15,6 +15,10 @@ import { optionsColumn, optionsTable, formattersTable } from "../constants/dashC
 import { findMax, removeListItem } from "../utils";
 import defaultOrdersRequest from '../constants/defaultOrdersRequest.json';
 import defaultProductsRequest from '../constants/defaultProductsRequest.json';
+// @mui material components
+import Grid from "@mui/material/Grid";
+import { Box, Card, Typography } from "@mui/material";
+import { Container } from "@mui/system";
 
 //Ignore react gogle chart warms
 const originalWarn = console.warn;
@@ -57,10 +61,12 @@ function Dash() {
     const [bigger2, setBigger2] = useState("");
     const [bigger3, setBigger3] = useState("");
     const [bigger4, setBigger4] = useState("");
+    const [bigger5, setBigger5] = useState("");
     const [biggerQty1, setBiggerQty1] = useState("");
     const [biggerQty2, setBiggerQty2] = useState("");
     const [biggerQty3, setBiggerQty3] = useState("");
     const [biggerQty4, setBiggerQty4] = useState("");
+    const [biggerQty5, setBiggerQty5] = useState("");
 
     // variable to update the updated time 
     const [updatedTime, setUpdatedTime] = useState("00:01")
@@ -174,6 +180,11 @@ function Dash() {
             let max4 = findMax(listOfProducts)
             setBigger4(currentProducts.filter(x => x.pCode === max4.item))
             setBiggerQty4(max4.qty)
+            
+            listOfProducts = removeListItem(listOfProducts, max4.item) // remove before item to find de for max
+            let max5 = findMax(listOfProducts)
+            setBigger5(currentProducts.filter(x => x.pCode === max5.item))
+            setBiggerQty5(max5.qty)
         }
 
         // table of open orders
@@ -224,7 +235,7 @@ function Dash() {
     useEffect(() => {
         getProduto();
         getPedido();
-        setTimeout(() => {refreshValues()}, 800);
+        setTimeout(() => { refreshValues() }, 800);
     }, []);
 
     return (
@@ -244,72 +255,68 @@ function Dash() {
                 </div>
             } */}
             {3 > 2 &&
-                <div>
-                    <div id="body" className="" style={{ height: '44.5vw', backgroundColor: "#F5F6FC" }}>{/* "#F5F6FC" F07939*/}
-                        <div id="visaoGeral" className="d-flex" style={{ marginTop: "15px", marginBottom: "15px", }}>
-                            <span className="d-flex" style={{ width: "70%" }}>
-                                <div className="card-text ms-5"><h5 className="text-muted">Visão geral</h5></div>
-                            </span>
-                            <span className="d-flex" style={{ width: "15%" }}>
-                                <p className="card-text"><small className="text-muted" onClick={() => { refreshValues(); getPedido() }} >Atualizado: </small></p>
-                                <p className="card-text"><small className="text-muted ms-1" >{updatedTime}</small></p>
-                            </span>
-                            <span className="d-flex" style={{ width: "15%" }}>
-                                <p className="card-text"><small className="text-muted" onClick={() => { getProduto() }} >Período:</small></p>
-                                <p className="card-text"><small className="text-muted ms-1">Mes Atual</small></p>
-                            </span>
-                        </div>
-                        <div id="lojas" className="" >
-                            <div className="d-flex mb-4" style={{ display: 'flex', alignItems: "center", justifyContent: "center" }} >
-                                <Cardbasic />
-                                <Cardbasic />
-                                <Cardbasic />
-                                <Cardbasic />
-                                <p style={{ marginLeft: '4%' }}></p>
+                <div id="body" className="" style={{ backgroundColor: "#F5F6FC" }}>{/* "#F5F6FC" F07939*/}
+                    <SubNavBar updatedTime={updatedTime} />
+                    <Box id="lojas" sx={{ p: 4, pt: 2 }}>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} md={6} lg={3}>
                                 <StoreCard logo={logoLojaGalo} backLogoColor={"#303030"} atualizarPedidos={ldgList} />
+                            </Grid>
+                            <Grid item xs={12} md={6} lg={3}>
                                 <StoreCard logo={logoInterStore} backLogoColor={"#F5F6FA"} atualizarPedidos={isList} />
+                            </Grid>
+                            <Grid item xs={12} md={6} lg={3}>
                                 <StoreCard logo={logoMRV} backLogoColor={"#4FB385"} atualizarPedidos={mrvList} />
+                            </Grid>
+                            <Grid item xs={12} md={6} lg={3}>
                                 <StoreCard logo={logoInterPass} backLogoColor={"#F5F6FA"} atualizarPedidos={tagList} />
-                            </div>
-                        </div>
-                        <div id="bodyDown" className="d-flex ps-4 pe-4" style={{ height: '72%', width: "100%" }}>
-                            <div className="pedidos" style={{ width: "66%" }}>
-                                <div id="pedidosUp" className="" style={{ display: 'flex' }}>
-                                    <PieOrder orders={listAtendidos} title={"Pedidos enviados"} desc={"envios no prazo"} />
-                                    <PieOrder orders={listAbertos} title={"Pedidos em aberto"} desc={"pedidos no prazo"} />
-                                </div>
-                                <div id="pedidosDown" className="" style={{ display: 'flex' }}>
-                                    <div className="card m-4" style={{ borderRadius: "15px", width: "50%", height: "27.5vh" }}>
-                                        <h5 className="text-muted mt-3 mb-0 pb-0" style={{ textAlign: "center" }}>Modais de envio</h5>
-                                        <div className="mt-0 pt-0">
-                                            <Chart chartType="ColumnChart" height="395px" data={dataColumn} options={optionsColumn} />
-                                        </div>
-                                    </div>
-                                    <div className="card m-4" style={{ borderRadius: "15px", width: "50%", height: "27.5vh" }}>
-                                        <h5 className="text-muted mt-3 mb-0 pb-0" style={{ textAlign: "center" }}>Produtos com maior saída</h5>
-                                        <TopProducts details={bigger1} qty={biggerQty1} />
-                                        <TopProducts details={bigger2} qty={biggerQty2} />
-                                        <TopProducts details={bigger3} qty={biggerQty3} />
-                                        <TopProducts details={bigger4} qty={biggerQty4} />
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="listaPedidos" className="" style={{ width: "33%" }}>
-                                <div className="card m-4" style={{ borderRadius: "15px", height: "60.3vh" }}>
-                                    <h5 className="text-muted  mt-3" style={{ textAlign: "center" }}>Lista pedidos em aberto</h5>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                    <Box id="bodyCharts" sx={{ p: 4, pt: 0 }}>
+                        <Grid container spacing={4} >
+                            <Grid id="leftCharts" item xs={12} md={12} lg={8} >
+                                <Grid container spacing={4}>
+                                    <Grid item xs={12} md={6} lg={6} >
+                                        <PieOrder orders={listAtendidos} title={"Pedidos enviados"} desc={"envios no prazo"} />
+                                    </Grid>
+                                    <Grid item xs={12} md={6} lg={6}>
+                                        <PieOrder orders={listAbertos} title={"Pedidos em aberto"} desc={"pedidos no prazo"} />
+                                    </Grid>
+                                    <Grid item xs={12} md={6} lg={6}>
+                                        <Box style={{ backgroundColor: 'white' }} height={300} >
+                                            <Typography className="card-text pt-2" variant="h6" color="" align="center">Modais de envio</Typography>
+                                            <Chart className="m-4" chartType="ColumnChart" data={dataColumn} options={optionsColumn} />
+                                        </Box>
+                                    </Grid>
+                                    <Grid item xs={12} md={6} lg={6}>
+                                        <Box style={{ backgroundColor: 'white' }} height={300} >
+                                            <Typography className="card-text pt-2" variant="h6" color="" align="center">Produtos com maior saída</Typography>
+                                            <TopProducts details={bigger1} qty={biggerQty1} />
+                                            <TopProducts details={bigger2} qty={biggerQty2} />
+                                            <TopProducts details={bigger3} qty={biggerQty3} />
+                                            <TopProducts details={bigger4} qty={biggerQty4} />
+                                            <TopProducts details={bigger5} qty={biggerQty5} />
+                                        </Box>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            <Grid id="rigthCharts" item xs={12} md={6} lg={4}>
+                                <Box style={{ backgroundColor: 'white' }} height={600} >
+                                    <Typography className="card-text pt-2 " variant="h6" color="" align="center">Lista pedidos em aberto</Typography>
                                     <Chart
                                         chartType="Table"
                                         data={dataTableOpen}
                                         options={optionsTable}
                                         formatters={formattersTable}
                                     />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                </Box>
+                            </Grid>
+                        </Grid>
+                    </Box>
                 </div>
             }
-        </div>
+        </div >
     )
 };
 

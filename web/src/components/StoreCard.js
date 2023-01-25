@@ -1,3 +1,4 @@
+import { Box, Card, Divider, Icon } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { averageLoja } from "../utils/index.js";
 
@@ -24,44 +25,51 @@ export default function StoreCard(props) {
 
     //function to refresh values
     useEffect(() => {
-        if(props.atualizarPedidos.length > 0) refreshFieldsValues();
+        if (props.atualizarPedidos.length > 0) refreshFieldsValues();
     }, [props.atualizarPedidos]);
 
     return (
-        <div className="" style={{ height: "15%", width: "20%", marginRight: '4%' }}>
-            <div className="card" style={{ borderRadius: "15px" }}>
-                <div className="d-flex">
-                    <div id="cardComALogo" className="card ms-3 me-5" style={{ backgroundColor: props.backLogoColor, width: "20%", height: "3.2vw", alignItems: "center", justifyContent: "center", marginTop: "-0.5vw", borderRadius: "15px" }}>
-                        <img id="isIcon" className="img img-responsive full-width" src={props.logo} alt="icone da empresa pesquisada" style={{ width: "80%", height: "auto" }} />
-                    </div>
-                    <div className="me-0 pe-0" style={{ width: "60%" }}>
-                        <h6 className="card-text d-flex justify-content-end align-items-center me-3 pt-2">Pedidos enviados no mês</h6>
-                        <h4 className="card-text d-flex justify-content-end align-items-center me-3 pt-2" style={{ fontWeight: "bold" }} >{atendidosLoja}</h4>
-                    </div>
-                </div>
-                <div className="card-body">
-                    <div className="d-flex" style={{ borderStyle: "solid", borderTopColor: "#F1F5FF", borderWidth: "1px", borderLeftColor: "transparent", borderRightColor: "transparent", borderBottomColor: "transparent" }}>
-                        <small className="text-muted mt-2" style={{ fontWeight: "bold" }}>{prazoLoja}</small>
-                        <small className="text-muted mt-2 ms-1">no prazo</small>
-                    </div>
-                    <div>
-                        {props.backLogoColor != "#303030" &&
-                            <div className="d-flex">
-                                <small className="text-muted" style={{ fontWeight: "bold" }} >{mediaDefault}</small>
-                                <small className="text-muted ms-1">dias em média para envio</small>
-                            </div>
-                        }
-                        {props.backLogoColor === "#303030" &&
-                            <div className="d-flex">
-                                <small className="text-muted" style={{ fontWeight: "bold" }} >{mediaDefault}</small>
-                                <small className="text-muted ms-1">dias em média e </small>
-                                <small className="text-muted ms-1" style={{ fontWeight: "bold" }} >{mediaSpecial}</small>
-                                <small className="text-muted ms-1">para personalização</small>
-                            </div>
-                        }
-                    </div>
+        <Box className="ps-3" style={{ backgroundColor: 'white', borderRadius: "3%"}}>
+            <div className="d-flex ps-1" style={{ justifyContent: "space-between" }}>
+                <Box id="cardComALogo"
+                    borderRadius="10%"
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    width="4rem"
+                    height="4rem"
+                    mt={-3}
+                    backgroundColor={props.backLogoColor}>
+                    <img id="isIcon" className="" src={props.logo} alt="icone da empresa pesquisada" style={{ width: "80%", height: "auto" }} />
+                </Box>
+                <div className="me-0 pe-0" style={{ width: "60%" }}>
+                    <h6 className="card-text d-flex justify-content-end align-items-center me-3 pt-2">Pedidos enviados no mês</h6>
+                    <h4 className="card-text d-flex justify-content-end align-items-center me-3 pt-2" style={{ fontWeight: "bold" }} >{atendidosLoja}</h4>
                 </div>
             </div>
-        </div >
+            <Divider />
+            <div className="card-body">
+                <div className="d-flex">
+                    <small className="text-muted mt-2" style={{ fontWeight: "bold" }}>{prazoLoja}</small>
+                    <small className="text-muted mt-2 ms-1">no prazo</small>
+                </div>
+                <div>
+                    {props.backLogoColor != "#303030" &&
+                        <div className="d-flex">
+                            <small className="text-muted" style={{ fontWeight: "bold" }} >{mediaDefault}</small>
+                            <small className="text-muted ms-1">dias em média para envio</small>
+                        </div>
+                    }
+                    {props.backLogoColor === "#303030" &&
+                        <div className="d-flex">
+                            <small className="text-muted" style={{ fontWeight: "bold" }} >{mediaDefault}</small>
+                            <small className="text-muted ms-1">dias em média e </small>
+                            <small className="text-muted ms-1" style={{ fontWeight: "bold" }} >{mediaSpecial}</small>
+                            <small className="text-muted ms-1">para personalização</small>
+                        </div>
+                    }
+                </div>
+            </div>
+        </Box>
     )
 }

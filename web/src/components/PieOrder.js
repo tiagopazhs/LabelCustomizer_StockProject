@@ -1,3 +1,4 @@
+import { Box, Grid, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Chart } from "react-google-charts";
 
@@ -34,10 +35,12 @@ export default function PieOrder(props) {
             1: { color: "transparent" },
             2: { color: "#4EB9C4" },
         },
-        width: "30vh",
-        height: "30vh",
-        paddingTop: "150vh",
-        backgroundColor: "none",
+        chartArea: {
+            left: 0,
+            top: 9,
+            right: 0,
+            bottom: 0
+        },
     };
 
     //Refresh values of the chart
@@ -64,28 +67,29 @@ export default function PieOrder(props) {
     }, [props.orders]);
 
     return (
-        <>
-            <div className="card m-4" style={{ borderRadius: "15px", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", width: "50%", height: "27.5vh" }}>
-                <div className="" style={{ width: "50%" }}>
-                    <div className="mt-5">
-                        <h5 className="text-muted ms-5 mt-2" style={{ position: "absolute", textAlign: "center" }}>{props.title}</h5>
-                        <Chart
-                            chartType="PieChart"
-                            data={data}
-                            options={options}
-                            allowHtml='true'
-                        />
+        <Box style={{ backgroundColor: 'white', borderRadius: "3%" }}>
+            <Typography className="card-text pt-2" variant="h6" color="" align="center">{props.title}</Typography>
+            <Grid container>
+                <Grid item xs={6}>
+                    <Chart
+                        className="pt-2" 
+                        chartType="PieChart"
+                        data={data}
+                        options={options}
+                        allowHtml='true'
+                    />
+                </Grid>
+                <Grid item xs={6}>
+                    <div className="card ps-4 pt-3 me-4 mb-4 mt-3" style={{ borderRadius: "15px", backgroundColor: "#F2F2F2" }}>
+                        <p className="card-text" >Total - {totalOrders}</p>
+                        <p className="card-text" >No prazo - {ordersOnTime}</p>
+                        <p className="card-text" >Em atraso - {ordersOutOfTime}</p>
+                        <div id="total" className="d-flex" style={{ alignItems: 'center' }}>
+                            <h3 style={{ fontFamily: "arial", fontWeight: "bold" }} >{percentOrders}</h3><p className="card-text ps-2 mb-2">{props.desc}</p>
+                        </div>
                     </div>
-                </div>
-                <div className="card ps-3 pt-3 me-3 mb-3 mt-3" style={{ width: "50%", borderRadius: "15px", backgroundColor: "#F2F2F2", height: "85%" }}>
-                    <p className="card-text" >Total - {totalOrders}</p>
-                    <p className="card-text" >No prazo - {ordersOnTime}</p>
-                    <p className="card-text" >Em atraso - {ordersOutOfTime}</p>
-                    <div id="total" className="d-flex" style={{ alignItems: 'center' }}>
-                        <h3 style={{ fontFamily: "arial", fontWeight: "bold" }} >{percentOrders}</h3><p className="card-text ps-2 mb-2">{props.desc}</p>
-                    </div>
-                </div>
-            </div>
-        </>
+                </Grid>
+            </Grid>
+        </Box>
     )
 }
