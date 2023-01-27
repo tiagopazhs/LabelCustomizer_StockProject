@@ -67,10 +67,10 @@ export default function PieOrder(props) {
     }, [props.orders]);
 
     return (
-        <Box style={{ backgroundColor: 'white', borderRadius: "3%" }}>
+        <Box style={{ backgroundColor: 'white'}} sx={{ borderRadius: '10px', boxShadow: 2}}>
             <Typography className="card-text pt-2" variant="h6" color="" align="center">{props.title}</Typography>
             <Grid container>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                     <Chart
                         className="pt-2" 
                         chartType="PieChart"
@@ -79,11 +79,11 @@ export default function PieOrder(props) {
                         allowHtml='true'
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                     <div className="card ps-4 pt-3 me-4 mb-4 mt-3" style={{ borderRadius: "15px", backgroundColor: "#F2F2F2" }}>
                         <p className="card-text" >Total - {totalOrders}</p>
-                        <p className="card-text" >No prazo - {ordersOnTime}</p>
-                        <p className="card-text" >Em atraso - {ordersOutOfTime}</p>
+                        <p className="card-text" >On time - {ordersOnTime}</p>
+                        <p className="card-text" >Overdue - {ordersOutOfTime}</p>
                         <div id="total" className="d-flex" style={{ alignItems: 'center' }}>
                             <h3 style={{ fontFamily: "arial", fontWeight: "bold" }} >{percentOrders}</h3><p className="card-text ps-2 mb-2">{props.desc}</p>
                         </div>

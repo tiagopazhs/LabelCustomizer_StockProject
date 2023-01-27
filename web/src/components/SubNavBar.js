@@ -1,17 +1,21 @@
+import { Box, Grid } from "@mui/material";
+
 export default function SubNavBar(props) {
     return (
-        <div id="visaoGeral" className="d-flex" style={{ marginTop: "15px", marginBottom: "15px", }}>
-            <span className="d-flex" style={{ width: "70%" }}>
-                <div className="card-text ms-5"><h5 className="text-muted">Visão geral</h5></div>
-            </span>
-            <span className="d-flex" style={{ width: "15%" }}>
-                <p className="card-text"><small className="text-muted" >Atualizado: </small></p>
-                <p className="card-text"><small className="text-muted ms-1" >{props.updatedTime}</small></p>
-            </span>
-            <span className="d-flex" style={{ width: "15%" }}>
-                <p className="card-text"><small className="text-muted" >Período:</small></p>
-                <p className="card-text"><small className="text-muted ms-1">Mes Atual</small></p>
-            </span>
-        </div>
+        <Grid container>
+            <Grid item xs={6}>
+                <h5 className="ms-4 mt-2 mb-3 text-muted">Overview</h5>
+            </Grid>
+            <Grid item xs={6}>
+                <Grid container className="m-0 p-0 mt-2 mb-3" spacing={0}>
+                    <Grid item xs={12} md={6}>
+                        <body style={{ backgroundColor: "#F5F6FC", display: 'flex', justifyContent: "flex-end", alignItems: "center" }} className="text-muted pe-4">  Last update: {props.updatedTime}</body>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <body style={{ backgroundColor: "#F5F6FC", display: 'flex', justifyContent: "flex-end", alignItems: "center" }} className="text-muted pe-4">Period: Current month</body>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
     )
 }

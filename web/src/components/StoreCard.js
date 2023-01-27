@@ -29,21 +29,21 @@ export default function StoreCard(props) {
     }, [props.atualizarPedidos]);
 
     return (
-        <Box className="ps-3" style={{ backgroundColor: 'white', borderRadius: "3%"}}>
+        <Box className="ps-3" mt={1} sx={{ borderRadius: '10px', boxShadow: 3}} style={{ backgroundColor: 'white'}}>
             <div className="d-flex ps-1" style={{ justifyContent: "space-between" }}>
                 <Box id="cardComALogo"
-                    borderRadius="10%"
                     display="flex"
                     justifyContent="center"
                     alignItems="center"
-                    width="4rem"
-                    height="4rem"
+                    width="5rem"
+                    height="5rem"
                     mt={-3}
+                    sx={{ borderRadius: '10px', boxShadow: 3}}
                     backgroundColor={props.backLogoColor}>
                     <img id="isIcon" className="" src={props.logo} alt="icone da empresa pesquisada" style={{ width: "80%", height: "auto" }} />
                 </Box>
                 <div className="me-0 pe-0" style={{ width: "60%" }}>
-                    <h6 className="card-text d-flex justify-content-end align-items-center me-3 pt-2">Pedidos enviados no mês</h6>
+                    <h6 className="card-text d-flex justify-content-end align-items-center me-3 pt-2">Orders shipped</h6>
                     <h4 className="card-text d-flex justify-content-end align-items-center me-3 pt-2" style={{ fontWeight: "bold" }} >{atendidosLoja}</h4>
                 </div>
             </div>
@@ -51,13 +51,13 @@ export default function StoreCard(props) {
             <div className="card-body">
                 <div className="d-flex">
                     <small className="text-muted mt-2" style={{ fontWeight: "bold" }}>{prazoLoja}</small>
-                    <small className="text-muted mt-2 ms-1">no prazo</small>
+                    <small className="text-muted mt-2 ms-1">on time</small>
                 </div>
                 <div>
                     {props.backLogoColor != "#303030" &&
                         <div className="d-flex">
                             <small className="text-muted" style={{ fontWeight: "bold" }} >{mediaDefault}</small>
-                            <small className="text-muted ms-1">dias em média para envio</small>
+                            <small className="text-muted ms-1">days average to ship</small>
                         </div>
                     }
                     {props.backLogoColor === "#303030" &&

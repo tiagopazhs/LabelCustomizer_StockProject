@@ -1,18 +1,20 @@
 //format column chart
 export const optionsColumn = {
-    legend: "none",
+    height: 230,
     chartArea: {
-        left: 10,
+        left: 11,
         top: 0,
-        right: 10,
-        bottom: 0
+        right: 11,
+        bottom: 30,
+        width: "80%",
+        height: "100%"
       },
     backgroundColor: "none",
     annotations: {
         textStyle: {
             fontSize: 15,
             bold: true,
-            color: "#495769"
+            color: "#495769",
         },
         alwaysOutside: true,
         highContrast: false,
@@ -20,25 +22,22 @@ export const optionsColumn = {
     vAxis: {
         baselineColor: "#B8B7BB",
         textStyle: {
-            fontSize: 10,
-            color: "transparent",
+            fontSize: 10
         },
         gridlines: {
             count: 0,
         },     
-    },
-    hAxis: {
-        showEveryText: 7,
-        gridlines: { count: 0 },
-    },
+    }
 
 };
 
 //format table chart
 export const optionsTable = {
     allowHtml: true,
+    'width':'100%',
+    'height':550,
+    chartArea:{left:0,top:0, bottom:0},
     showRowNumber: true,
-    height: "53vh",
     cssClassNames: {
         tableCell: 'tableOrder'
     }

@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Chart } from "react-google-charts";
-import NavBar from "../components/NavBar";
+import NavBarSimple from "../components/NavBarSimple";
 import StoreCard from "../components/StoreCard";
 import SubNavBar from "../components/SubNavBar";
 import TopProducts from "../components/TopProduct";
 import PieOrder from "../components/PieOrder";
 import '../styles.css';
-import logoLojaGalo from "../assets/LogoLojaDoGalo4.png";
-import logoInterStore from "../assets/logoInterStore.png";
-import logoMRV from "../assets/logoMRVClollection2.png";
-import logoInterPass from "../assets/logoInterPass.png";
+import storeLogo1 from "../assets/chicago.png";
+import storeLogo2 from "../assets/lakers.png";
+import storeLogo3 from "../assets/boston.png";
+import storeLogo4 from "../assets/NewYork.png";
 import loading from "../assets/loading.gif";
 import { optionsColumn, optionsTable, formattersTable } from "../constants/dashContants";
 import { findMax, removeListItem } from "../utils";
@@ -17,7 +17,7 @@ import defaultOrdersRequest from '../constants/defaultOrdersRequest.json';
 import defaultProductsRequest from '../constants/defaultProductsRequest.json';
 // @mui material components
 import Grid from "@mui/material/Grid";
-import { Box, Card, Typography } from "@mui/material";
+import { Alert, Box, Button, Card, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 
 //Ignore react gogle chart warms
@@ -36,8 +36,9 @@ const token = "unavailable"
 
 function Dash() {
 
-    // Set variable that will be used to receive the get orders data.
+    // Set variable that will be used to receive the get orders data and handle with alerts.
     const [currentProducts, setCurrentProducts] = useState([]);
+    const [showAlert, setShowAlert] = useState(true);
 
     // Set variable that will be used to receive  the get orders data.
     const [currentOrders, setCurrentOrders] = useState([]);
@@ -54,7 +55,7 @@ function Dash() {
     const [transpCorreios, setTranspCorreios] = useState(0);
     const [transpBike, setTranspBike] = useState(0);
     const [transpLocker, setTranspLocker] = useState(0);
-    const [dataTableOpen, setDataTableOpen] = useState([["Pedido", "Loja", "Cliente", "Data", "dias atraso"], ["", "", "", "", ""]]);
+    const [dataTableOpen, setDataTableOpen] = useState([["N order", "Store", "Customer", "Date", "overdue days"], ["", "", "", "", ""]]);
 
     // Variables to use in the bigest selers items
     const [bigger1, setBigger1] = useState("");
@@ -74,11 +75,11 @@ function Dash() {
     //update modal data chart
     let dataColumn = [
         ["Element", "Density", { role: "style" }, { role: "annotation" }],
-        ["Interlog", transpInterlog, "#F07839", transpInterlog],
-        ["Mercado livre", transpMeLi, "#F07839", transpMeLi],
-        ["Correios", transpCorreios, "#F07839", transpCorreios],
-        ["Bike", transpBike, "#F07839", transpBike],
-        ["Locker", transpLocker, "#F07839", transpLocker],
+        ["air", transpInterlog, "44bb83", transpInterlog],
+        ["road", transpMeLi, "ececec", transpMeLi],
+        ["maritime", transpCorreios, "344c5c", transpCorreios],
+        ["rail", transpBike, "9cd4bc", transpBike],
+        ["express", transpLocker, "bce4f0", transpLocker],
     ];
 
     //Requisition to get products
@@ -180,7 +181,7 @@ function Dash() {
             let max4 = findMax(listOfProducts)
             setBigger4(currentProducts.filter(x => x.pCode === max4.item))
             setBiggerQty4(max4.qty)
-            
+
             listOfProducts = removeListItem(listOfProducts, max4.item) // remove before item to find de for max
             let max5 = findMax(listOfProducts)
             setBigger5(currentProducts.filter(x => x.pCode === max5.item))
@@ -189,8 +190,8 @@ function Dash() {
 
         // table of open orders
         const storesNumbers = ["203619239", "203370950", "203994140", "203619241"]
-        const storesName = ["Loja do Galo", "InterStore", "Loja MRV", "Intertag"]
-        let dataTable = [["Pedido", "Loja", "Cliente", "Data", "dias atraso"]]
+        const storesName = ["Shop Bulls", "Leakers Store", "Celtics Store", "Shop MSG"]
+        let dataTable = [["N order", "Store", "Customer", "Date", "overdue days"]]
         let dataTableResult = []
         let storeIndice = -1
         let aux = 0
@@ -212,11 +213,14 @@ function Dash() {
             aux++
         }
 
-        setDataTableOpen(dataTable.length > 3 ? dataTable.sort((a, b) => b.last_nom - a.last_nom) : [["Pedido", "Loja", "Cliente", "Data", "dias atraso"], ["", "", "", "", ""]])
+        setDataTableOpen(dataTable.length > 3 ? dataTable.sort((a, b) => b.last_nom - a.last_nom) : [["N order", "Store", "Customer", "Date", "overdue days"], ["", "", "", "", ""]])
 
         // last update time
-        setUpdatedTime(moment().format('hh:mm'))
+        setUpdatedTime(moment().format('h:mm a'))
     }
+
+    // Handle the alert
+    
 
     // function to get orders scheduled
     useEffect(() => {
@@ -236,86 +240,75 @@ function Dash() {
         getProduto();
         getPedido();
         setTimeout(() => { refreshValues() }, 800);
+        setTimeout(() => {setShowAlert(false)}, 1000);
     }, []);
 
     return (
-
         <div className="Dashboard" style={{ backgroundColor: "#F5F6FC" }}>
-            <NavBar />
-            {/* {dataTableOpen.length === 2 &&
-                <div className="d-flex" style={{ backgroundColor: 'orange', width: '100%', height: '44.5vw', alignItems: "center", justifyContent: "center" }} >
-                    <div className="d-grid"  >
-                        <div className="d-flex" style={{justifyContent: "center" }}>
-                            <h2 className="me-5"> Carregando dashboard </h2>
-                            <img src={loading} style={{ width: "30px", height: "30px" }} />
-                        </div>
-                        <h7> Você sabia que o bling tem um limite de requisições de 300 pedidos/produtos por segundo?</h7>
-                        <h7> Isso faz com que o primeiro carregamento do dashboard possa demorar até 2 minutos. Caso o carregamento falhe, atualizará na próxima atualização que é após 5 minutos.</h7>
-                    </div>
-                </div>
-            } */}
-            {3 > 2 &&
-                <div id="body" className="" style={{ backgroundColor: "#F5F6FC" }}>{/* "#F5F6FC" F07939*/}
-                    <SubNavBar updatedTime={updatedTime} />
-                    <Box id="lojas" sx={{ p: 4, pt: 2 }}>
-                        <Grid container spacing={3}>
-                            <Grid item xs={12} md={6} lg={3}>
-                                <StoreCard logo={logoLojaGalo} backLogoColor={"#303030"} atualizarPedidos={ldgList} />
-                            </Grid>
-                            <Grid item xs={12} md={6} lg={3}>
-                                <StoreCard logo={logoInterStore} backLogoColor={"#F5F6FA"} atualizarPedidos={isList} />
-                            </Grid>
-                            <Grid item xs={12} md={6} lg={3}>
-                                <StoreCard logo={logoMRV} backLogoColor={"#4FB385"} atualizarPedidos={mrvList} />
-                            </Grid>
-                            <Grid item xs={12} md={6} lg={3}>
-                                <StoreCard logo={logoInterPass} backLogoColor={"#F5F6FA"} atualizarPedidos={tagList} />
-                            </Grid>
+            <NavBarSimple />
+            <Alert variant="outlined" severity="info" onClose={() => setShowAlert(false)}>
+                Provide a token to refresh data!
+            </Alert>
+            <div id="body" className="" style={{ backgroundColor: "#F5F6FC" }}>{/* "#F5F6FC" F07939*/}
+                <SubNavBar updatedTime={updatedTime} />
+                <Box id="lojas" sx={{ p: 4, pt: 2 }}>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12} md={6} lg={3}>
+                            <StoreCard logo={storeLogo1} backLogoColor={"#0f0909"} atualizarPedidos={ldgList} />
                         </Grid>
-                    </Box>
-                    <Box id="bodyCharts" sx={{ p: 4, pt: 0 }}>
-                        <Grid container spacing={4} >
-                            <Grid id="leftCharts" item xs={12} md={12} lg={8} >
-                                <Grid container spacing={4}>
-                                    <Grid item xs={12} md={6} lg={6} >
-                                        <PieOrder orders={listAtendidos} title={"Pedidos enviados"} desc={"envios no prazo"} />
-                                    </Grid>
-                                    <Grid item xs={12} md={6} lg={6}>
-                                        <PieOrder orders={listAbertos} title={"Pedidos em aberto"} desc={"pedidos no prazo"} />
-                                    </Grid>
-                                    <Grid item xs={12} md={6} lg={6}>
-                                        <Box style={{ backgroundColor: 'white' }} height={300} >
-                                            <Typography className="card-text pt-2" variant="h6" color="" align="center">Modais de envio</Typography>
-                                            <Chart className="m-4" chartType="ColumnChart" data={dataColumn} options={optionsColumn} />
-                                        </Box>
-                                    </Grid>
-                                    <Grid item xs={12} md={6} lg={6}>
-                                        <Box style={{ backgroundColor: 'white' }} height={300} >
-                                            <Typography className="card-text pt-2" variant="h6" color="" align="center">Produtos com maior saída</Typography>
-                                            <TopProducts details={bigger1} qty={biggerQty1} />
-                                            <TopProducts details={bigger2} qty={biggerQty2} />
-                                            <TopProducts details={bigger3} qty={biggerQty3} />
-                                            <TopProducts details={bigger4} qty={biggerQty4} />
-                                            <TopProducts details={bigger5} qty={biggerQty5} />
-                                        </Box>
-                                    </Grid>
+                        <Grid item xs={12} md={6} lg={3}>
+                            <StoreCard logo={storeLogo2} backLogoColor={"#fbbb24"} atualizarPedidos={isList} />
+                        </Grid>
+                        <Grid item xs={12} md={6} lg={3}>
+                            <StoreCard logo={storeLogo3} backLogoColor={"#67b494"} atualizarPedidos={mrvList} />
+                        </Grid>
+                        <Grid item xs={12} md={6} lg={3}>
+                            <StoreCard logo={storeLogo4} backLogoColor={"#0b6bb2"} atualizarPedidos={tagList} />
+                        </Grid>
+                    </Grid>
+                </Box>
+                <Box id="bodyCharts" sx={{ p: 4, pt: 0 }}>
+                    <Grid container spacing={4} >
+                        <Grid id="leftCharts" item xs={12} md={12} lg={8} >
+                            <Grid container spacing={4}>
+                                <Grid item xs={12} md={6} lg={6} >
+                                    <PieOrder orders={listAtendidos} title={"Shipped orders"} desc={"pack on time"} />
+                                </Grid>
+                                <Grid item xs={12} md={6} lg={6}>
+                                    <PieOrder orders={listAbertos} title={"Open orders"} desc={"orders on time"} />
+                                </Grid>
+                                <Grid item xs={12} md={6} lg={6}>
+                                    <Box style={{ backgroundColor: 'white' }} height={300} sx={{ borderRadius: '10px', boxShadow: 2 }}>
+                                        <Typography className="card-text pt-2" variant="h6" color="" align="center">Shipping modes</Typography>
+                                        <Chart className="ms-4 me-4 mt-0" chartType="ColumnChart" data={dataColumn} options={optionsColumn} />
+                                    </Box>
+                                </Grid>
+                                <Grid item xs={12} md={6} lg={6}>
+                                    <Box style={{ backgroundColor: 'white' }} height={300} sx={{ borderRadius: '10px', boxShadow: 2 }}>
+                                        <Typography className="card-text pt-2" variant="h6" color="" align="center">Top selling products</Typography>
+                                        <TopProducts details={bigger1} qty={biggerQty1} />
+                                        <TopProducts details={bigger2} qty={biggerQty2} />
+                                        <TopProducts details={bigger3} qty={biggerQty3} />
+                                        <TopProducts details={bigger4} qty={biggerQty4} />
+                                        <TopProducts details={bigger5} qty={biggerQty5} />
+                                    </Box>
                                 </Grid>
                             </Grid>
-                            <Grid id="rigthCharts" item xs={12} md={6} lg={4}>
-                                <Box style={{ backgroundColor: 'white' }} height={600} >
-                                    <Typography className="card-text pt-2 " variant="h6" color="" align="center">Lista pedidos em aberto</Typography>
-                                    <Chart
-                                        chartType="Table"
-                                        data={dataTableOpen}
-                                        options={optionsTable}
-                                        formatters={formattersTable}
-                                    />
-                                </Box>
-                            </Grid>
                         </Grid>
-                    </Box>
-                </div>
-            }
+                        <Grid id="rigthCharts" item xs={12} md={12} lg={4}>
+                            <Box style={{ backgroundColor: 'white' }} height={590} sx={{ borderRadius: '10px', boxShadow: 2 }}>
+                                <Typography className="card-text pt-2 " variant="h6" color="" align="center">Open orders list</Typography>
+                                <Chart
+                                    chartType="Table"
+                                    data={dataTableOpen}
+                                    options={optionsTable}
+                                    formatters={formattersTable}
+                                />
+                            </Box>
+                        </Grid>
+                    </Grid>
+                </Box>
+            </div>
         </div >
     )
 };

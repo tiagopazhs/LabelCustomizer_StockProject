@@ -59,7 +59,7 @@ async function getPedido(id) {
                     console.log('oi', ordersToVerify[aux])
                 }
                 console.log('dataTable', dataTable)
-                setDataTableOpen(dataTable.length > 2 ? dataTable : [["Pedido", "Loja", "Cliente", "Data", "dias atraso"], ["", "", "", "", ""]])
+                setDataTableOpen(dataTable.length > 2 ? dataTable : [["N order", "Store", "Customer", "Date", "overdue days"], ["", "", "", "", ""]])
             }
     
         // Data that will be used in dropdown list.

@@ -1,4 +1,39 @@
-[
+[    
+    {
+        "pCode": "intertag01",
+        "pId": "15339318633",
+        "pDesc": "Chicago Bulls Michael Jordan",
+        "pProdPai": "intertag01_ProdPai",
+        "pImg": "https://fanatics.frgimages.com/chicago-bulls/mens-mitchell-and-ness-michael-jordan-black-chicago-bulls-1997-98-hardwood-classics-authentic-player-jersey_pi3633000_altimages_ff_3633455-e3f695e928db3549d71dalt1_full.jpg?_hv=2&w=900"
+    },
+    {
+        "pCode": "GB3495-G",
+        "pId": "15891691142",
+        "pDesc": "Boston Celtics Classics Split Pullover Hoodie",
+        "pProdPai": "GB3495-P_ProdPai2",
+        "pImg": "https://fanatics.frgimages.com/boston-celtics/mens-mitchell-and-ness-kelly-green/black-boston-celtics-hardwood-classics-split-pullover-hoodie_pi5176000_ff_5176736-0f1798626208b4a7823c_full.jpg?_hv=2&w=340"
+    },
+    {
+        "pCode": "GB3495-M",
+        "pId": "15891691124",
+        "pDesc": "Youth Los Angeles Lakers LeBron James Fanatics",
+        "pProdPai": "GB3495-P_ProdPai2",
+        "pImg": "https://fanatics.frgimages.com/los-angeles-lakers/youth-fanatics-branded-lebron-james-purple-los-angeles-lakers-2022/23-fast-break-player-jersey-statement-edition_pi4791000_ff_4791594-bf3324b0fe3faab03868_full.jpg?_hv=2&w=340"
+    },
+    {
+        "pCode": "Personalização - Patchs",
+        "pId": "15666984040",
+        "pDesc": "Chicago Bulls New Era Snapback Hat",
+        "pProdPai": "",
+        "pImg": "https://fanatics.frgimages.com/chicago-bulls/mens-new-era-white/black-chicago-bulls-back-half-9fifty-snapback-hat_ss5_p-4990030+pv-1+u-ztcqdlzywlnynnnlnggw+v-hiztrulqyae1zilfxuw0.jpg?_hv=2&w=900"
+    },
+    {
+        "pCode": "CAM6201",
+        "pId": "15551260589",
+        "pDesc": "New York Knicks Performance Shorts",
+        "pProdPai": "CAM6201",
+        "pImg": "https://fanatics.frgimages.com/new-york-knicks/mens-fanatics-branded-blue-new-york-knicks-champion-rush-colorblock-performance-shorts_pi4643000_ff_4643973-dd4ea0d612b7f62f4faf_full.jpg?_hv=2&w=340"
+    },
     {
         "pCode": "JD2XK6EYS",
         "pId": "15995610811",
@@ -33,6 +68,13 @@
         "pDesc": "Microlote Café 785 em grãos – Edição limitada",
         "pProdPai": "COFFEESP-GRAO-EDL_ProdPai",
         "pImg": "http://orgbling.s3.amazonaws.com/e40a80504d1f38c025cc83561637ed26/t/f2d3c15913d2e011d872b58ac1e7a600?AWSAccessKeyId=AKIATCLMSGFX4J7TU445&Expires=1673917849&Signature=hoNaO4z1COQLinj2sL%2FY7%2FXEsb8%3D"
+    },
+    {
+        "pCode": "",
+        "pId": "15988498158",
+        "pDesc": "4",
+        "pProdPai": "",
+        "pImg": "http://orgbling.s3.amazonaws.com/e40a80504d1f38c025cc83561637ed26/t/86ed62b912be64348949304622442aaf?AWSAccessKeyId=AKIATCLMSGFX4J7TU445&Expires=1673917850&Signature=aJvhuomyhmOqF12lv4MP5fO3E4w%3D"
     },
     {
         "pCode": "CFIB-PRTGG",
@@ -1076,13 +1118,6 @@
         "pDesc": "Camiseta Masculina Atlético Galo Forte - Preta",
         "pProdPai": "",
         "pImg": "http://orgbling.s3.amazonaws.com/e40a80504d1f38c025cc83561637ed26/t/b45ea703dd68ce8c1bf43e163cf5c473?AWSAccessKeyId=AKIATCLMSGFX4J7TU445&Expires=1673917850&Signature=WxbGeiGt2NApukrUFRVabtkPubI%3D"
-    },
-    {
-        "pCode": "",
-        "pId": "15988498158",
-        "pDesc": "Personalização",
-        "pProdPai": "",
-        "pImg": "http://orgbling.s3.amazonaws.com/e40a80504d1f38c025cc83561637ed26/t/86ed62b912be64348949304622442aaf?AWSAccessKeyId=AKIATCLMSGFX4J7TU445&Expires=1673917850&Signature=aJvhuomyhmOqF12lv4MP5fO3E4w%3D"
     },
     {
         "pCode": "",
@@ -7352,7 +7387,7 @@
     {
         "pCode": "",
         "pId": "15949304904",
-        "pDesc": "Personalização",
+        "pDesc": "48",
         "pProdPai": "",
         "pImg": "http://orgbling.s3.amazonaws.com/e40a80504d1f38c025cc83561637ed26/t/86ed62b912be64348949304622442aaf?AWSAccessKeyId=AKIATCLMSGFX4J7TU445&Expires=1673917859&Signature=%2FtY37WVMKy5zjlEUQGkHR5N1geY%3D"
     },
@@ -16268,20 +16303,6 @@
         "pImg": "http://orgbling.s3.amazonaws.com/e40a80504d1f38c025cc83561637ed26/t/70abe1dbf11eca5d5f25e59d217f563d?AWSAccessKeyId=AKIATCLMSGFX4J7TU445&Expires=1673917872&Signature=OgX99q5nkxlYy78zj7ceMKbYTDo%3D"
     },
     {
-        "pCode": "GB3495-G",
-        "pId": "15891691142",
-        "pDesc": "Camisa Masculina Adidas Atlético Mineiro III  2022 Tamanho:G",
-        "pProdPai": "GB3495-P_ProdPai2",
-        "pImg": "http://orgbling.s3.amazonaws.com/e40a80504d1f38c025cc83561637ed26/t/70abe1dbf11eca5d5f25e59d217f563d?AWSAccessKeyId=AKIATCLMSGFX4J7TU445&Expires=1673917872&Signature=OgX99q5nkxlYy78zj7ceMKbYTDo%3D"
-    },
-    {
-        "pCode": "GB3495-M",
-        "pId": "15891691124",
-        "pDesc": "Camisa Masculina Adidas Atlético Mineiro III  2022 Tamanho:M",
-        "pProdPai": "GB3495-P_ProdPai2",
-        "pImg": "http://orgbling.s3.amazonaws.com/e40a80504d1f38c025cc83561637ed26/t/70abe1dbf11eca5d5f25e59d217f563d?AWSAccessKeyId=AKIATCLMSGFX4J7TU445&Expires=1673917872&Signature=OgX99q5nkxlYy78zj7ceMKbYTDo%3D"
-    },
-    {
         "pCode": "GB3495-P",
         "pId": "15891691105",
         "pDesc": "Camisa Masculina Adidas Atlético Mineiro III  2022 Tamanho:P",
@@ -23219,13 +23240,6 @@
         "pImg": "http://orgbling.s3.amazonaws.com/e40a80504d1f38c025cc83561637ed26/t/7a7983e991f6811364895f63f99cbc23?AWSAccessKeyId=AKIATCLMSGFX4J7TU445&Expires=1673917882&Signature=X6H%2FOVR9Rr8ehrPCsUlUOhbahD4%3D"
     },
     {
-        "pCode": "Personalização - Patchs",
-        "pId": "15666984040",
-        "pDesc": "Personalização ",
-        "pProdPai": "",
-        "pImg": "http://orgbling.s3.amazonaws.com/e40a80504d1f38c025cc83561637ed26/t/86ed62b912be64348949304622442aaf?AWSAccessKeyId=AKIATCLMSGFX4J7TU445&Expires=1673917882&Signature=wsjmaKbQS%2BtZT65h9krvNWUgQKs%3D"
-    },
-    {
         "pCode": "Temp_04",
         "pId": "15658441888",
         "pDesc": "CI - Lego Brindes",
@@ -23602,13 +23616,6 @@
         "pDesc": "Cachecol Bicampeão Brasileiro - Branco",
         "pProdPai": "CAM6202_ProdPai",
         "pImg": "http://orgbling.s3.amazonaws.com/e40a80504d1f38c025cc83561637ed26/t/a34f57069d68fc451c553e7574b0736a?AWSAccessKeyId=AKIATCLMSGFX4J7TU445&Expires=1673917882&Signature=k%2Bd%2FdYyo4RSdtlXgiKhpTJ%2FGaYY%3D"
-    },
-    {
-        "pCode": "CAM6201",
-        "pId": "15551260589",
-        "pDesc": "Cachecol  Bicampeão Brasileiro - Preto",
-        "pProdPai": "CAM6201",
-        "pImg": "http://orgbling.s3.amazonaws.com/e40a80504d1f38c025cc83561637ed26/t/aca1cfa4c61fc8c04eae20cdce0afa98?AWSAccessKeyId=AKIATCLMSGFX4J7TU445&Expires=1673917882&Signature=Y6q3k0%2FOtgSb0OHgeY5xe%2Bofg0U%3D"
     },
     {
         "pCode": "CAM6201_ProdPai",
@@ -24659,13 +24666,6 @@
         "pDesc": "Kit Starter - 2 amigos",
         "pProdPai": "Kit-2amigos",
         "pImg": "http://orgbling.s3.amazonaws.com/e40a80504d1f38c025cc83561637ed26/t/bbba23bea027d90390c086e8a8c10987?AWSAccessKeyId=AKIATCLMSGFX4J7TU445&Expires=1673917884&Signature=hs4aa5gDz62UwXut5EIhdd1bMaM%3D"
-    },
-    {
-        "pCode": "intertag01",
-        "pId": "15339318633",
-        "pDesc": "Inter Tag Especificação:Único",
-        "pProdPai": "intertag01_ProdPai",
-        "pImg": "https://images-americanas.b2w.io/produtos/5977441299/imagens/chicago-bulls-23-michael-jordan-jersey-de-basquete-masculino-camisetas-com-mangas-de-camisa-sem-mangas/5977441299_2_xlarge.jpg"
     },
     {
         "pCode": "intertag01_ProdPai",
@@ -28807,14 +28807,14 @@
     {
         "pCode": "Personalização - Número",
         "pId": "14518100301",
-        "pDesc": "Personalização Tamanho:P",
+        "pDesc": "4",
         "pProdPai": "",
         "pImg": "http://orgbling.s3.amazonaws.com/e40a80504d1f38c025cc83561637ed26/t/86ed62b912be64348949304622442aaf?AWSAccessKeyId=AKIATCLMSGFX4J7TU445&Expires=1673917890&Signature=tZ4ZPOtRaa%2FD6KA4D25vn90TZ4w%3D"
     },
     {
         "pCode": "Personalização - Nome e Número",
         "pId": "14517855178",
-        "pDesc": "Personalização ",
+        "pDesc": "4o ",
         "pProdPai": "",
         "pImg": "http://orgbling.s3.amazonaws.com/e40a80504d1f38c025cc83561637ed26/t/86ed62b912be64348949304622442aaf?AWSAccessKeyId=AKIATCLMSGFX4J7TU445&Expires=1673917890&Signature=tZ4ZPOtRaa%2FD6KA4D25vn90TZ4w%3D"
     },
