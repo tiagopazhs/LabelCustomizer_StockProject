@@ -38,7 +38,7 @@ function Dash() {
 
     // Set variable that will be used to receive the get orders data and handle with alerts.
     const [currentProducts, setCurrentProducts] = useState([]);
-    const [showAlert, setShowAlert] = useState(true);
+    const [showAlert, setShowAlert] = useState(false);
 
     // Set variable that will be used to receive  the get orders data.
     const [currentOrders, setCurrentOrders] = useState([]);
@@ -55,7 +55,7 @@ function Dash() {
     const [transpCorreios, setTranspCorreios] = useState(0);
     const [transpBike, setTranspBike] = useState(0);
     const [transpLocker, setTranspLocker] = useState(0);
-    const [dataTableOpen, setDataTableOpen] = useState([["N order", "Store", "Customer", "Date", "overdue days"], ["", "", "", "", ""]]);
+    const [dataTableOpen, setDataTableOpen] = useState([["N order", "Store", "Customer", "Date", "Overdue days"], ["", "", "", "", ""]]);
 
     // Variables to use in the bigest selers items
     const [bigger1, setBigger1] = useState("");
@@ -191,7 +191,7 @@ function Dash() {
         // table of open orders
         const storesNumbers = ["203619239", "203370950", "203994140", "203619241"]
         const storesName = ["Shop Bulls", "Leakers Store", "Celtics Store", "Shop MSG"]
-        let dataTable = [["N order", "Store", "Customer", "Date", "overdue days"]]
+        let dataTable = [["N order", "Store", "Customer", "Date", "Overdue days"]]
         let dataTableResult = []
         let storeIndice = -1
         let aux = 0
@@ -213,7 +213,7 @@ function Dash() {
             aux++
         }
 
-        setDataTableOpen(dataTable.length > 3 ? dataTable.sort((a, b) => b.last_nom - a.last_nom) : [["N order", "Store", "Customer", "Date", "overdue days"], ["", "", "", "", ""]])
+        setDataTableOpen(dataTable.length > 3 ? dataTable.sort((a, b) => b.last_nom - a.last_nom) : [["N order", "Store", "Customer", "Date", "Overdue days"], ["", "", "", "", ""]])
 
         // last update time
         setUpdatedTime(moment().format('h:mm a'))
@@ -240,13 +240,18 @@ function Dash() {
         getProduto();
         getPedido();
         setTimeout(() => { refreshValues() }, 800);
-        setTimeout(() => {setShowAlert(false)}, 1000);
+        setTimeout(() => { setShowAlert(true) }, 7000);
     }, []);
 
     return (
         <div className="Dashboard" style={{ backgroundColor: "#F5F6FC" }}>
             <NavBarSimple />
-            <Alert variant="outlined" severity="info" onClose={() => setShowAlert(false)}>
+            <Alert variant="outlined" severity="info" hidden={showAlert}
+                action={
+                    <Button color="inherit" size="small" onClick={() => setShowAlert(true)}>
+                        UNDO
+                    </Button>
+                }>
                 Provide a token to refresh data!
             </Alert>
             <div id="body" className="" style={{ backgroundColor: "#F5F6FC" }}>{/* "#F5F6FC" F07939*/}
