@@ -59,7 +59,7 @@ function Reader() {
             console.log('oi', ordersToVerify[aux])
         }
         console.log('dataTable', dataTable)
-        setDataTableOpen(dataTable.length > 2 ? dataTable : [["N order", "Store", "Customer", "Date", "overdue days"], ["", "", "", "", ""]])
+        setDataTableOpen(dataTable.length > 2 ? dataTable : [["N order", "Store", "Customer", "Date", "Overdue days"], ["", "", "", "", ""]])
     }
 
     // Data that will be used in dropdown list.
