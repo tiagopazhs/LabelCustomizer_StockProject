@@ -15,7 +15,7 @@ function App () {
         <Route path="/Printer-Customizer" element={<Printer />}/>
         <Route path="/Three-Ropes" element={<ThreeRopes />}/>
         <Route path="/Validation-Order" element={<Reader />}/>
-        <Route path="/Orders-Dashboard" element={<Dash />}/>
+        <Route path="/home" element={<Home />}/>
       </Routes>
     </BrowserRouter>
   )
