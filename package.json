@@ -13,11 +13,5 @@
   },
   "keywords": [],
   "author": "Tiago Paz",
-  "license": "PRIVATE",
-  "dependencies": {
-    "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
-    "@mui/icons-material": "^5.11.0",
-    "@mui/material": "^5.11.5"
-  }
+  "license": "PRIVATE"
 }
