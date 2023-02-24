@@ -3,18 +3,12 @@ const app = express();
 
 const router = require("express").Router();
 
-
-
-
 const moment = require('moment');
 moment.locale('pt-br');
 
 const { workDays, specialDeadLine, getRequest } = require('../utils');
 
-//stores id: Loja do galo, Inter Store, MRV and Intertag.
 const storeFilter = ["203619239", "203370950", "203994140", "203619241"]
-
-
 
 //Get requisiton, of all orders.
 router.get('/', async (req, res) => {
@@ -100,7 +94,7 @@ router.get('/', async (req, res) => {
     // filter orders by stores
     while (k < ordersList.length) {
       if (storeFilter.includes(ordersList[k].pedido.loja))
-        //remove itens for VtexCafe store that are not the interpass
+        //remove itens for VtexCafe store that are not special
         if (ordersList[k].pedido.loja === "203619241" && ordersList[k].pedido.itens[0].item.codigo === "intertag01") ordersListFilter = ordersListFilter.concat(ordersList[k])
         //keep items diferent of the intercafe store
         else if (ordersList[k].pedido.loja != "203619241") {
