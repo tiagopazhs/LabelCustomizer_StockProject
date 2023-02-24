@@ -1,5 +1,5 @@
-import logoIs from "../assets/LogoIS.png";
-import logoMRV from "../assets/logo-mrv.png";
+import logo1 from "../assets/guitar1.png";
+import logo2 from "../assets/guitar2.png";
 import search from "../assets/search.png";
 import option from "../assets/option.png";
 import landscape from "../assets/landscape.png";
@@ -31,13 +31,13 @@ function Printer() {
     const data = [
         {
             value: 1,
-            text: <p className="companyName">MRV STORE</p>,
-            icon: <div className="logoCompany"><img id="isIcon" src={logoMRV} alt="icone da empresa pesquisada" /></div>,
+            text: <p className="companyName">Drums Store</p>,
+            icon: <div className="logoCompany"><img id="isIcon" src={logo2} alt="icone da empresa pesquisada" /></div>,
         },
         {
             value: 2,
-            text: <p className="companyName">INTER STORE</p>,
-            icon: <div className="logoCompany"><img id="isIcon" src={logoIs} alt="icone da empresa pesquisada" /></div>,
+            text: <p className="companyName">Guitar Store</p>,
+            icon: <div className="logoCompany"><img id="isIcon" src={logo1} alt="icone da empresa pesquisada" /></div>,
         },
     ];
         
