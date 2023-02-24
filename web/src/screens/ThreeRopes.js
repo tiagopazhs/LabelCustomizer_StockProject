@@ -20,7 +20,7 @@ let currentTime = `${hour}:${minute}:${second}`;
 
 function ThreeRopes() {
 
-    const [dataTableOpen] = useState([["Pedido", "Produto", "Código de barras", "Número de série"], ["100001", "interpig laranja especificação: único", "7891000789456", "67464168464646"], ["100002", "interpig laranja especificação: único", "7891000789456", "D243534df3434"], ["100003", "interpig laranja especificação: único", "", ""], ["100004", "interpig laranja especificação: único", "", ""], ["100005", "Garrafa témica inter gray especificação: único", "", ""], ["100006", "Garrafa témica inter gray especificação: único", "", ""]]);
+    const [dataTableOpen] = useState([["Pedido", "Produto", "Código de barras", "Número de série"], ["100001", "Ibanez TOD10 Electric Guitar - Classic", "7891000789456", "67464168464646"], ["100002", "Gibson Les Paul Standard '50s Electric Guitar - Tobacco Burst", "7891000789456", "D243534df3434"], ["100003", "Fender Gold Foil Telecaster Electric Guitar - White Blonde", "", ""], ["100004", "PRS Silver Sky Electric Guitar - Roxy Fingerboard", "", ""], ["100005", "Epiphone Limited Edition 1959 Electric Guitar - Aged Dark Burst", "", ""], ["100006", "Ernie Ball 7-String Electric Guitar - Majora Purple", "", ""], ["100007", "Gibson Les Paul Modern - Graphite Top", "", ""], ["100008", "Fender Special Edition Custom Telecaster FMT HH - Amber", "", ""], ["100009", "PRS SE Custom 24-08 Electric Guitar - Eriza Verde", "", ""]]);
     const [currentOrders, setCurrentOrders] = useState([]);
 
     // Requisição get

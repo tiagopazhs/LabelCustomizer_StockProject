@@ -10,7 +10,7 @@ const url = "http://localhost:8501";
 
 function Reader() {
 
-    const [dataTableOpen, setDataTableOpen] = useState([["Código produto", "Descrição", "Quantidade"], ["020076-2", "Tshirt Feminina Verão Fazer Diferente Branca M", "1"]   ,["020077-2", "Tshirt Feminina Verão Fazer Diferente Preta M", "1"]   ,["CHVIB03", "Chinelo Havaianas Verão 2022 - Ícones Branco 37/38", "2"]   ,["020111-8", "Pantufa InterPig G", "1"]   ,["71179000", "Chaveiro Inter + Interpig", "1"]   ,["30015", "Caderno Interpig Executivo Preto", "5"]   ,["30012", "Kit Bloquinhos #Sanguelaranja - 4 unidades Kit 4 Bloquinhos #Sanguelaranja", "1"], ["020076-2", "Tshirt Feminina Verão Fazer Diferente Branca GG", "1"] , ["020076-2", "Tshirt Feminina Verão Fazer Diferente preta M", "1"]     ]);
+    const [dataTableOpen, setDataTableOpen] = useState([["Código produto", "Descrição", "Quantidade"], ["100001", "Ibanez TOD10 Electric Guitar - Classic", "2"], ["100002", "Gibson Les Paul Standard '50s Electric Guitar - Tobacco Burst", "5"], ["100003", "Fender Gold Foil Telecaster Electric Guitar - White Blonde", "9"], ["100004", "PRS Silver Sky Electric Guitar - Roxy Fingerboard", "5"], ["100005", "Epiphone Limited Edition 1959 Electric Guitar - Aged Dark Burst", "1"], ["100006", "Ernie Ball 7-String Electric Guitar - Majora Purple", "1"], ["100007", "Gibson Les Paul Modern - Graphite Top", "2"], ["100008", "Fender Special Edition Custom Telecaster FMT HH - Amber", "1"], ["100009", "PRS SE Custom 24-08 Electric Guitar - Eriza Verde", "3"]]);
     const [currentOrders, setCurrentOrders] = useState([]);
 
     // Requisição get
@@ -68,7 +68,7 @@ function Reader() {
                 <div className="mainPrinter" style={{ boxShadow: '1px 1px 9px #CCCDCD', width: "100%" }}>
 
                     <div className="navBarPrinter" >
-                        <h2 className="ps-5 pt-2" style={{ fontStyle: 'sora', width: "50%", color: '#f3f3f3' }} >Ordem de validação por código de barras</h2>
+                        <h3 className="ps-5 pt-2" style={{ fontStyle: 'sora', width: "50%", color: '#f3f3f3' }} >Ordem de validação por código de barras</h3>
                         <div className="navBarActions" >
                             <input id="searchLabels" defaultValue={'Buscar no histórico de leitura'}></input>
                             <div className="divSearchIcon">
