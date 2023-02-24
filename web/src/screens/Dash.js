@@ -31,7 +31,7 @@ console.warn = function (...args) {
 const moment = require('moment')
 moment.locale('pt-br');
 
-const url = "http://localhost:8500";
+const url = "http://localhost:8501";
 const token = "unavailable"
 
 function Dash() {

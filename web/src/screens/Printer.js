@@ -14,7 +14,7 @@ import React,{useState, useRef} from 'react';
 import '../styles.css';
 import Select from 'react-select';
 import NavBar from "../components/NavBar";
-const url = "http://localhost:8500";
+const url = "http://localhost:8501";
 let date = new Date();
 let day = ("00" + date.getDate()).slice(-2);
 let month = ("00" + (date.getMonth()+1)).slice(-2);
@@ -146,7 +146,7 @@ function Printer() {
         if (type === "POST") {
             return (
                 //save data in the historic of label
-                fetch(`http://localhost:8500/historic`, {
+                fetch(`http://localhost:8501/historic`, {
                 method: "POST",
                 headers: {'Content-type': 'application/json'},
                 body: JSON.stringify({
@@ -186,7 +186,7 @@ function Printer() {
         if (type === "PUT") {
             return (
                 //save data in the historic of label
-                fetch(`http://localhost:8500/historic`, {
+                fetch(`http://localhost:8501/historic`, {
                     method: "POST",
                     headers: {'Content-type': 'application/json'},
                     body: JSON.stringify({

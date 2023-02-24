@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const HTTP_PORT = 8500;
+const HTTP_PORT = 8501;
 const mongoose = require('mongoose');
 
 require('dotenv').config();
