@@ -8,7 +8,7 @@ import ThreeRopes from './screens/ThreeRopes';
 
 function App () {
   return (
-    <HashRouter basename='/'>
+    <HashRouter basename='/ct-stock'>
       <Routes>
         <Route path="/" element={<Home />}  />
         <Route path="/Printer-Customizer" element={<Printer />}/>
