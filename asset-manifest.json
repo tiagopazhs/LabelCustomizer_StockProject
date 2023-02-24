@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/ct-stock/static/css/main.412e09aa.css",
-    "main.js": "/ct-stock/static/js/main.eacddec2.js",
+    "main.js": "/ct-stock/static/js/main.4274ee1d.js",
     "static/js/787.ab45fe3e.chunk.js": "/ct-stock/static/js/787.ab45fe3e.chunk.js",
     "static/media/search.png": "/ct-stock/static/media/search.3adad73c605a6db2f2e0.png",
     "static/media/guitar1.png": "/ct-stock/static/media/guitar1.1c36a577f32120c0dd24.png",
@@ -14,11 +14,11 @@
     "static/media/gear.png": "/ct-stock/static/media/gear.b64eb08cdd3d8434f83b.png",
     "index.html": "/ct-stock/index.html",
     "main.412e09aa.css.map": "/ct-stock/static/css/main.412e09aa.css.map",
-    "main.eacddec2.js.map": "/ct-stock/static/js/main.eacddec2.js.map",
+    "main.4274ee1d.js.map": "/ct-stock/static/js/main.4274ee1d.js.map",
     "787.ab45fe3e.chunk.js.map": "/ct-stock/static/js/787.ab45fe3e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.412e09aa.css",
-    "static/js/main.eacddec2.js"
+    "static/js/main.4274ee1d.js"
   ]
 }
