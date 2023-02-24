@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, HashRouter } from "react-router-dom";
 
 import Home from './screens/Home';
 import Printer from './screens/Printer';
@@ -8,14 +8,14 @@ import ThreeRopes from './screens/ThreeRopes';
 
 function App () {
   return (
-    <BrowserRouter>
+    <HashRouter basename='/'>
       <Routes>
         <Route path="/" element={<Home />}  />
         <Route path="/Printer-Customizer" element={<Printer />}/>
         <Route path="/Three-Ropes" element={<ThreeRopes />}/>
         <Route path="/Validation-Order" element={<Reader />}/>
       </Routes>
-    </BrowserRouter>
+      </HashRouter>
   )
 }
 
