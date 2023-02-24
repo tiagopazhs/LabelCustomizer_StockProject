@@ -35,8 +35,8 @@ export const optionsColumn = {
 export const optionsTable = {
     allowHtml: true,
     'width':'100%',
-    'height':550,
-    chartArea:{left:0,top:0, bottom:0},
+    'height':250,
+    chartArea:{left:0, top:0, bottom:0},
     showRowNumber: true,
     cssClassNames: {
         tableCell: 'tableOrder'
