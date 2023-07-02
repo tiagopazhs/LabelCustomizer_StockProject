@@ -5,3 +5,4 @@ This is a project to stock and whouse management.
 <p align="center">
     <img src="https://skillicons.dev/icons?i=js,react,html,css,materialui,bootstrap,nodejs,express,postman,git" />
 </p>
+edites
