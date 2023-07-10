@@ -6,6 +6,7 @@ require('dotenv').config();
 const apiKey = process.env.API_KEY
 const url = "https://bling.com.br/b"
 
+
 const moment = require('moment');
 moment.locale('pt-br');
 
@@ -54,7 +55,7 @@ async function getRequest(page, startF, endF, openSituationF, productsF) {
     filterFinal = "situacao[A]"
   }
 
-  const { data } = await axios.get(`${url}/Api/v2/${type}/page=${page}/json?apikey=${apiKey}&filters=${filterFinal}`)
+  const { data } = await axios.get(`${url}/Api/v2/${type}/page=${page}/json?apikey=${apiKey}&filters=${filterFinal}&imagem=S`)
 
   return data.retorno;
 
